@@ -1,0 +1,6 @@
+@WMS.Practice.APIs_HostAddress = http://localhost:5037
+
+GET {{WMS.Practice.APIs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
