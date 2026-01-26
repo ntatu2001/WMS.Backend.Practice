@@ -1,4 +1,4 @@
-﻿namespace WMS.Practice.Domain.AggregateModels.IssueReceiptAggregate
+﻿namespace WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate
 {
     public class InventoryReceiptEntry : Entity, IAggregateModel
     {

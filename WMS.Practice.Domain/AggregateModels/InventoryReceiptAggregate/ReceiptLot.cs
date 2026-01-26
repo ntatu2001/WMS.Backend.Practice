@@ -1,4 +1,4 @@
-﻿namespace WMS.Practice.Domain.AggregateModels.IssueReceiptAggregate
+﻿namespace WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate
 {
     public class ReceiptLot : Entity, IAggregateModel
     {
@@ -8,6 +8,7 @@
         public Material Material { get; private set; }
         public string InventoryReceiptEntryId { get; private set; }
         public InventoryReceiptEntry InventoryReceiptEntry { get; private set; }
+        public List<ReceiptSubLot> ReceiptSubLots { get; private set; } 
         public ReceiptLot(string receiptLotId, LotStatus lotStatus, double importedQuantity, string inventoryReceiptEntryId)
         {
             ReceiptLotId = receiptLotId;

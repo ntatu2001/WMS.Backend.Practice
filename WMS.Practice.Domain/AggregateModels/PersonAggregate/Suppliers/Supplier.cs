@@ -6,6 +6,7 @@
         public string SupplierName { get; private set; }
         public string Address { get; private set; }
         public string ContactDetails { get; private set; }
+        public List<InventoryReceipt> InventoryReceipts { get; private set; }
         public Supplier(string supplierId, string supplierName, string address, string contactDetails)
         {
             SupplierId = supplierId;

@@ -8,7 +8,8 @@
         public string WarehouseId { get; private set; }
         public Warehouse Warehouse { get; private set; }
         public List<MaterialSubLot> MaterialSubLots { get; private set; }
-
+        public List<ReceiptSubLot> ReceiptSubLots { get; private set; }
+        public List<IssueSubLot> IssueSubLots { get; private set; }
         public Location(string locationCode, string locationName, string warehouseId)
         {
             LocationCode = locationCode;

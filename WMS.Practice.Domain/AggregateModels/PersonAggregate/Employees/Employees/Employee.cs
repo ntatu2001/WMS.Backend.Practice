@@ -7,7 +7,9 @@
         public string EmployeeClassId { get; private set; }
         public EmployeeClass EmployeeClass { get; private set; }
         public List<EmployeeProperty> Properties { get; private set; }
-        
+        public List<InventoryReceipt> InventoryReceipts { get; private set; }
+
+
         public Employee(string employeeId, string employeeName, string employeeClassId)
         {
             EmployeeId = employeeId;

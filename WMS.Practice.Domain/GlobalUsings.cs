@@ -5,5 +5,5 @@ global using WMS.Practice.Domain.Enum;
 global using WMS.Practice.Domain.SeedWork;
 global using WMS.Practice.Domain.AggregateModels.MaterialAggregate;
 global using WMS.Practice.Domain.AggregateModels.InventoryIssueAggregate;
-global using WMS.Practice.Domain.AggregateModels.IssueReceiptAggregate;
+global using WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate;
 

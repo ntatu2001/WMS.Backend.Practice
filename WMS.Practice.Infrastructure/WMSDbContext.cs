@@ -1,6 +1,6 @@
 ﻿using WMS.Practice.Domain.AggregateModels.InventoryIssueAggregate;
 using WMS.Practice.Domain.AggregateModels.InventoryLogAggregate;
-using WMS.Practice.Domain.AggregateModels.IssueReceiptAggregate;
+using WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate;
 using WMS.Practice.Domain.AggregateModels.MaterialAggregate;
 using WMS.Practice.Domain.AggregateModels.PersonAggregate;
 using WMS.Practice.Domain.AggregateModels.StockTakeAggregate;
