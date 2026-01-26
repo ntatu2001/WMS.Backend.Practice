@@ -1,16 +1,14 @@
-﻿namespace WMS.Practice.Infrastructure.EFConfigurations.StorageConfiguration
+﻿namespace WMS.Practice.Infrastructure.EFConfigurations.MaterialConfiguration
 {
-    public class WarehousePropertyEntityTypeConfiguration : IEntityTypeConfiguration<WarehouseProperty>
+    public class MaterialPropertyEntityTypeConfiguration : IEntityTypeConfiguration<MaterialProperty>
     {
-        public void Configure(EntityTypeBuilder<WarehouseProperty> builder)
+        public void Configure(EntityTypeBuilder<MaterialProperty> builder)
         {
-            // Map to the "WarehouseProperties" table
-            builder.ToTable("WarehouseProperties");
+            builder.ToTable("MaterialProperties");
 
-            // Configure primary key
             builder.HasKey(x => x.PropertyId);
 
-            builder.Property(e => e.PropertyName)
+            builder.Property(x => x.PropertyName)
                    .IsRequired()
                    .HasMaxLength(200);
 
@@ -24,10 +22,9 @@
                    .IsRequired()
                    .HasMaxLength(50);
 
-            // Configure relationship with Warehouse
-            builder.HasOne(x => x.Warehouse)
+            builder.HasOne(x => x.Material)
                    .WithMany(x => x.Properties)
-                   .HasForeignKey(x => x.WarehouseId)
+                   .HasForeignKey(x => x.MaterialId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

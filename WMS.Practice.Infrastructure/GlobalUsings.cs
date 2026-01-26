@@ -10,3 +10,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using WMS.Practice.Domain.AggregateModels.StorageAggregate;
 global using WMS.Practice.Domain.AggregateModels.PersonAggregate;
+global using WMS.Practice.Domain.AggregateModels.MaterialAggregate;

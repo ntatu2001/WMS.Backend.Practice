@@ -18,10 +18,14 @@
                    .IsRequired()
                    .HasMaxLength(200);
 
+            builder.Property(e => e.PropertyValue)
+                   .IsRequired()
+                   .HasMaxLength(200);
+
             builder.HasOne(e => e.EmployeeClass)
                    .WithMany(e => e.Properties)
                    .HasForeignKey(e => e.EmployeeClassId)
-                   .IsRequired();
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

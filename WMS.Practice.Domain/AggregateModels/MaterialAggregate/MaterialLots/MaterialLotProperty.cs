@@ -4,16 +4,18 @@
     {
         public string PropertyId { get; set; }
         public string PropertyName { get; set; }
+        public string PropertyValue { get; set; }
         public UnitOfMeasure UnitOfMeasure { get; set; }
         public string MaterialLotId { get; set; }
         public MaterialLot MaterialLot { get; set; }
 
-        public MaterialLotProperty(string propertyId, string propertyName, UnitOfMeasure unitOfMeasure, string materialLotId)
+        public MaterialLotProperty(string propertyId, string propertyName, string propertyValue, UnitOfMeasure unitOfMeasure, string materialLotId)
         {
             PropertyId = propertyId;
             PropertyName = propertyName;
             UnitOfMeasure = unitOfMeasure;
             MaterialLotId = materialLotId;
+            PropertyValue = propertyValue;
         }
     }
 }

@@ -7,6 +7,7 @@
         public List<LocationProperty> Properties { get; private set; }
         public string WarehouseId { get; private set; }
         public Warehouse Warehouse { get; private set; }
+        public List<MaterialSubLot> MaterialSubLots { get; private set; }
 
         public Location(string locationCode, string locationName, string warehouseId)
         {

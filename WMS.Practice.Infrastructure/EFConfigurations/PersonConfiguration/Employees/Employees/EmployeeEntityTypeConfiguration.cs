@@ -15,7 +15,8 @@
             builder.HasOne(e => e.EmployeeClass)
                    .WithMany(e => e.Employees)
                    .HasForeignKey(e => e.EmployeeClassId)
-                   .IsRequired();
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade); ;
         }
     }
 }

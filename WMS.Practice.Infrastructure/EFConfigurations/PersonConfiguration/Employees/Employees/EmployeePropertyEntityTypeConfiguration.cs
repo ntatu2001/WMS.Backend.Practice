@@ -12,6 +12,10 @@
                    .IsRequired()
                    .HasMaxLength(200);
 
+            builder.Property(e => e.PropertyValue)
+                   .IsRequired()
+                   .HasMaxLength(200);
+
             builder.HasOne(x => x.Employee)
                    .WithMany(e => e.Properties)
                    .HasForeignKey(x => x.EmployeeId)
