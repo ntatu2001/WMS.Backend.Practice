@@ -6,6 +6,7 @@
         public string CustomerName { get; private set; }
         public string Address { get; private set; }
         public string ContactDetails { get; private set; }
+        public List<InventoryIssue> InventoryIssues { get; private set; }
 
         public Customer(string customerId, string customerName, string address, string contactDetails)
         {

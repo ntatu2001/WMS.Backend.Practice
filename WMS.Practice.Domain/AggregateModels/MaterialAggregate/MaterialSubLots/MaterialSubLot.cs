@@ -9,6 +9,7 @@
         public Location Location { get; private set; }
         public string MaterialLotId { get; private set; }
         public MaterialLot MaterialLot { get; private set; }
+        public List<IssueSubLot> IssueSubLots { get; private set; }
 
         public MaterialSubLot(string materialSubLotId, LotStatus subLotStatus, double existingQuantity, string locationId, string materialLotId)
         {
