@@ -4,6 +4,7 @@
     {
         public string InventoryReceiptId { get; private set; }
         public DateTime ReceiptDate { get; private set; }
+        public ReceiptStatus ReceiptStatus { get; private set; }
         public string SupplierId { get; private set; }
         public Supplier Supplier { get; private set; }
         public string EmployeeId { get; private set; }

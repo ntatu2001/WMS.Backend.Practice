@@ -2,16 +2,16 @@
 {
     public class MaterialLot : Entity, IAggregateModel
     {
-        public string MaterialLotId { get; private set; }
+        public string LotNumber { get; private set; }
         public LotStatus LotStatus { get; private set; }
         public double ExistingQuantity { get; private set; }
         public string MaterialId { get; private set; }
         public Material Material { get; private set; }
         public List<MaterialLotProperty> Properties { get; private set; }
         public List<MaterialSubLot> SubLots { get; private set; }
-        public MaterialLot(string materialLotId, LotStatus lotStatus, double existingQuantity, string materialId)
+        public MaterialLot(string lotNumber, LotStatus lotStatus, double existingQuantity, string materialId)
         {
-            MaterialLotId = materialLotId;
+            LotNumber = lotNumber;
             LotStatus = lotStatus;
             ExistingQuantity = existingQuantity;
             MaterialId = materialId;
