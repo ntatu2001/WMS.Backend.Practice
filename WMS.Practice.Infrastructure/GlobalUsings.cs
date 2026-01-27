@@ -11,6 +11,13 @@ global using WMS.Practice.Domain.AggregateModels.MaterialAggregate;
 global using WMS.Practice.Domain.AggregateModels.PersonAggregate;
 global using WMS.Practice.Domain.AggregateModels.StockTakeAggregate;
 global using WMS.Practice.Domain.AggregateModels.StorageAggregate;
+global using WMS.Practice.Infrastructure.EFConfigurations.MaterialConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.PersonConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.StorageConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.InventoryReceiptConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.InventoryIssueConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.StockTakeConfiguration;
+global using WMS.Practice.Infrastructure.EFConfigurations.InventoryLogConfiguration;
 global using WMS.Practice.Domain.Enum;
 global using WMS.Practice.Domain.SeedWork;
 
