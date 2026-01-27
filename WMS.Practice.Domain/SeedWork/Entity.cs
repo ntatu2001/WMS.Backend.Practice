@@ -1,5 +1,12 @@
 ﻿namespace WMS.Practice.Domain.SeedWork
 {
+    /// <summary>
+    /// Represents the base class for domain entities, providing identity management and support for domain events.
+    /// </summary>
+    /// <remarks>This abstract class defines a unique identifier for each entity and manages domain events
+    /// that occur within the entity's lifecycle. It includes methods for adding, removing, and clearing domain events,
+    /// as well as logic for determining entity equality and transience. Derived classes should inherit from this type
+    /// to ensure consistent identity and event handling across the domain model.</remarks>
     public abstract class Entity
     {
         int? _requestedHashCode;
