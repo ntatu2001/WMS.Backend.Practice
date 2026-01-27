@@ -18,6 +18,13 @@ global using WMS.Practice.Infrastructure.EFConfigurations.InventoryReceiptConfig
 global using WMS.Practice.Infrastructure.EFConfigurations.InventoryIssueConfiguration;
 global using WMS.Practice.Infrastructure.EFConfigurations.StockTakeConfiguration;
 global using WMS.Practice.Infrastructure.EFConfigurations.InventoryLogConfiguration;
+global using WMS.Practice.Domain.InterfaceRepositories.IStorage;
+global using WMS.Practice.Domain.InterfaceRepositories.IPerson;
+global using WMS.Practice.Domain.InterfaceRepositories.IMaterial;
+global using WMS.Practice.Domain.InterfaceRepositories.IInventoryReceipt;
+global using WMS.Practice.Domain.InterfaceRepositories.IInventoryIssue;
+global using WMS.Practice.Domain.InterfaceRepositories.IStockTake;
+global using WMS.Practice.Domain.InterfaceRepositories.IInventoryLog;
 global using WMS.Practice.Domain.Enum;
 global using WMS.Practice.Domain.SeedWork;
 

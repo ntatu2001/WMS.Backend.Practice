@@ -3,46 +3,46 @@
     public class WMSDbContext : DbContext, IUnitOfWork
     {
         // Aggregate Models - Person Aggregate
-        DbSet<Customer> Customers { get; set; }
-        DbSet<Supplier> Suppliers { get; set; }
-        DbSet<EmployeeClass> EmployeeClasses { get; set; }
-        DbSet<EmployeeClassProperty> EmployeeClassProperties { get; set; }
-        DbSet<Employee> Employees { get; set; }
-        DbSet<EmployeeProperty> EmployeeProperties { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<EmployeeClass> EmployeeClasses { get; set; }
+        public DbSet<EmployeeClassProperty> EmployeeClassProperties { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeProperty> EmployeeProperties { get; set; }
 
         // Aggregate Models - Storage Aggregate
-        DbSet<Location> Locations { get; set; }
-        DbSet<LocationProperty> LocationsProperties { get; set; }
-        DbSet<Warehouse> Warehouses { get; set; }
-        DbSet<WarehouseProperty> WarehouseProperties { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<LocationProperty> LocationsProperties { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<WarehouseProperty> WarehouseProperties { get; set; }
 
         // Aggregate Models - Material Aggregate
-        DbSet<Material> Materials { get; set; }
-        DbSet<MaterialProperty> MaterialProperties { get; set; }
-        DbSet<MaterialClass> MaterialClasses { get; set; }
-        DbSet<MaterialClassProperty> MaterialClassProperties { get; set; }
-        DbSet<MaterialLot> MaterialLots { get; set; }
-        DbSet<MaterialLotProperty> MaterialLotProperties { get; set; }
-        DbSet<MaterialSubLot> MaterialSubLots { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialProperty> MaterialProperties { get; set; }
+        public DbSet<MaterialClass> MaterialClasses { get; set; }
+        public DbSet<MaterialClassProperty> MaterialClassProperties { get; set; }
+        public DbSet<MaterialLot> MaterialLots { get; set; }
+        public DbSet<MaterialLotProperty> MaterialLotProperties { get; set; }
+        public DbSet<MaterialSubLot> MaterialSubLots { get; set; }
 
         // Aggregate Models - Inventory Receipt Aggregate
-        DbSet<InventoryReceipt> InventoryReceipts { get; set; }
-        DbSet<InventoryReceiptEntry> InventoryReceiptEntries { get; set; }
-        DbSet<ReceiptLot> ReceiptLots { get; set; }
-        DbSet<ReceiptSubLot> ReceiptSubLots { get; set; }
+        public DbSet<InventoryReceipt> InventoryReceipts { get; set; }
+        public DbSet<InventoryReceiptEntry> InventoryReceiptEntries { get; set; }
+        public DbSet<ReceiptLot> ReceiptLots { get; set; }
+        public DbSet<ReceiptSubLot> ReceiptSubLots { get; set; }
 
         // Aggregate Models - Inventory Issue Aggregate
-        DbSet<InventoryIssue> InventoryIssues { get; set; }
-        DbSet<InventoryIssueEntry> InventoryIssueEntries { get; set; }
-        DbSet<IssueLot> IssueLots { get; set; }
-        DbSet<IssueSubLot> IssueSubLots { get; set; }
+        public DbSet<InventoryIssue> InventoryIssues { get; set; }
+        public DbSet<InventoryIssueEntry> InventoryIssueEntries { get; set; }
+        public DbSet<IssueLot> IssueLots { get; set; }
+        public DbSet<IssueSubLot> IssueSubLots { get; set; }
 
         // Aggregate Models - Stock Take Aggregate
-        DbSet<StockTake> StockTakes { get; set; }
-        DbSet<StockTakeSubLot> StockTakeSubLots { get; set; }
+        public DbSet<StockTake> StockTakes { get; set; }
+        public DbSet<StockTakeSubLot> StockTakeSubLots { get; set; }
 
         // Aggregate Models - Inventory Log Aggregate
-        DbSet<InventoryLog> InventoryLogs { get; set; }
+        public DbSet<InventoryLog> InventoryLogs { get; set; }
 
         private readonly IMediator _mediator;
         public WMSDbContext(DbContextOptions options, IMediator mediator) : base(options)
