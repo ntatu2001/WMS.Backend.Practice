@@ -9,6 +9,7 @@
         public List<EmployeeProperty> Properties { get; private set; }
         public List<InventoryReceipt> InventoryReceipts { get; private set; }
         public List<InventoryIssue> InventoryIssues { get; private set; }
+        public List<StockTake> StockTakes { get; private set; }
 
         public Employee(string employeeId, string employeeName, string employeeClassId)
         {

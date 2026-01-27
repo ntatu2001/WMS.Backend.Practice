@@ -8,6 +8,8 @@
         public List<WarehouseProperty> Properties { get; set; }
         public List<InventoryReceipt> InventoryReceipts { get; set; }
         public List<InventoryIssue> InventoryIssues { get; set; }
+        public List<StockTake> StockTakes { get; set; }
+        public List<InventoryLog> InventoryLogs { get; set; }
         public Warehouse(string warehouseId, string warehouseName)
         {
             WarehouseId = warehouseId;

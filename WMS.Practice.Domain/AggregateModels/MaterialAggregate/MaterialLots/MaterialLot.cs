@@ -10,6 +10,8 @@
         public List<MaterialLotProperty> Properties { get; private set; }
         public List<MaterialSubLot> SubLots { get; private set; }
         public List<IssueLot> IssueLots { get; private set; }
+        public List<StockTake> StockTakes { get; private set; }
+        public List<InventoryLog> InventoryLogs { get; private set; }
         public MaterialLot(string lotNumber, LotStatus lotStatus, double existingQuantity, string materialId)
         {
             LotNumber = lotNumber;

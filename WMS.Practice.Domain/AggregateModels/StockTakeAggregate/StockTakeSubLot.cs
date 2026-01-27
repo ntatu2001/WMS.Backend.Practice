@@ -7,8 +7,7 @@
         public string MaterialSubLotId { get; private set; }
         public double PreviousQuantity { get; set; }
         public double AdjustedQuantity { get; set; }
-        public double QuantityDifference => AdjustedQuantity - PreviousQuantity;
-        
+        public double QuantityDifference {  get; set; }
         public string StockTakeId { get; private set; }
         public StockTake StockTake { get; private set; }
 

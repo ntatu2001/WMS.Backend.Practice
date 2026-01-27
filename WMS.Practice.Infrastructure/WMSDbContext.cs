@@ -1,12 +1,4 @@
-﻿using WMS.Practice.Domain.AggregateModels.InventoryIssueAggregate;
-using WMS.Practice.Domain.AggregateModels.InventoryLogAggregate;
-using WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate;
-using WMS.Practice.Domain.AggregateModels.MaterialAggregate;
-using WMS.Practice.Domain.AggregateModels.PersonAggregate;
-using WMS.Practice.Domain.AggregateModels.StockTakeAggregate;
-using WMS.Practice.Domain.AggregateModels.StorageAggregate;
-
-namespace WMS.Practice.Infrastructure
+﻿namespace WMS.Practice.Infrastructure
 {
     public class WMSDbContext : DbContext, IUnitOfWork
     {
