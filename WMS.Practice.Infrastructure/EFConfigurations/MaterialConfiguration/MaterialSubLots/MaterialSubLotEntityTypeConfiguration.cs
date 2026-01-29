@@ -19,7 +19,7 @@
 
             builder.HasOne(x => x.MaterialLot)
                    .WithMany(ml => ml.SubLots)
-                   .HasForeignKey(ml => ml.MaterialLotId)
+                   .HasForeignKey(ml => ml.LotNumber)
                    .IsRequired()
                    .OnDelete(DeleteBehavior.Cascade);
         }

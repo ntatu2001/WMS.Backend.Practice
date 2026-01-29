@@ -11,9 +11,9 @@
             _context.WarehouseProperties.Add(warehouseProperty);
         }
 
-        public async Task<WarehouseProperty?> GetById(string Id)
+        public async Task<WarehouseProperty?> GetById(string propertyId)
         {
-            return await _context.WarehouseProperties.FirstOrDefaultAsync(wp => wp.PropertyId.Equals(Id, StringComparison.OrdinalIgnoreCase));
+            return await _context.WarehouseProperties.FirstOrDefaultAsync(wp => wp.PropertyId.Equals(propertyId, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IWarehousePropertyRepository : IRepository<WarehouseProperty>
     {
-        Task<WarehouseProperty?> GetById(string Id);
+        Task<WarehouseProperty?> GetById(string propertyId);
         void Create(WarehouseProperty warehouseProperty);
     }
 }
