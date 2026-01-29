@@ -3,7 +3,7 @@
     public interface IReceiptLotRepository : IRepository<ReceiptLot>
     {
         Task<List<ReceiptLot>> GetAllAsync();
-        Task<List<ReceiptLot>> GetReceiptLotsByStatus();
+        Task<List<ReceiptLot>> GetReceiptLotsAsPending();
         Task<ReceiptLot?> GetById(string Id);
         Task<ReceiptLot?> GetReceiptByLotId(string Id);
         Task<ReceiptLot?> GetByIdAsync(string Id);
