@@ -2,9 +2,9 @@
 {
     public interface IInventoryLogRepository : IRepository<InventoryLog>
     {
-        Task<List<InventoryLog>> GetInventoryLogByLotNumberAndStatus(string lotNumber, string status);
-        Task<List<InventoryLog>> GetAllInventoryLogs(string transactionType);
-        Task<List<InventoryLog>> GetAllInventoryLogsByTime(string transactionType, DateTime dateTime);
+        Task<List<InventoryLog>> GetInventoryLogByLotNumberAndStatus(string lotNumber, LotStatus status);
+        Task<List<InventoryLog>> GetAllInventoryLogs(TransactionType transactionType);
+        Task<List<InventoryLog>> GetAllInventoryLogsByTime(TransactionType transactionType, DateTime dateTime);
         void Create(InventoryLog inventoryLog);
     }
 }
