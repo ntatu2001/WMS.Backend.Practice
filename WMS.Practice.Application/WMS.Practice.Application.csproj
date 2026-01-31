@@ -11,4 +11,17 @@
     <ProjectReference Include="..\WMS.Practice.Infrastructure\WMS.Practice.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="ErrorNotifications\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Services\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+  </ItemGroup>
+
 </Project>

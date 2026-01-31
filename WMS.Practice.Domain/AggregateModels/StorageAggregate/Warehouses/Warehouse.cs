@@ -16,5 +16,11 @@
             WarehouseName = warehouseName;
             Properties = new List<WarehouseProperty>();
         }
+
+        public void UpdateWarehouse(string warehouseId, string warehouseName)
+        {
+            WarehouseId = warehouseId;
+            WarehouseName = warehouseName;
+        }
     }
 }

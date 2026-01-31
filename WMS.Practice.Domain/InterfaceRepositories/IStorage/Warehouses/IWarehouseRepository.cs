@@ -2,6 +2,7 @@
 {
     public interface IWarehouseRepository : IRepository<Warehouse>
     {
+        Task<bool> ExistsAsync(string warehouseId);
         Task<List<Warehouse>> GetAllWarehouses();
         Task<Warehouse?> GetWarehouseByIdAsync(string id);
         Task<List<string>> GetWarehouseIdByWarehouseNameAsync(string warehouseName);

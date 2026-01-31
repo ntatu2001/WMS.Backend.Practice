@@ -44,5 +44,10 @@
         {
             _context.Warehouses.Update(warehouse);
         }
+
+        public async Task<bool> ExistsAsync(string warehouseId)
+        {
+            return await _context.Warehouses.AnyAsync(x => x.WarehouseId.Equals(warehouseId, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

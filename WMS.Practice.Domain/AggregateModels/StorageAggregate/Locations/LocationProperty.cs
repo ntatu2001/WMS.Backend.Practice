@@ -17,5 +17,12 @@
             UnitOfMeasure = unitOfMeasure;
             LocationId = locationId;
         }
+
+        public void UpdateLocationProperty(string propertyName, string propertyValue, UnitOfMeasure unitOfMeasure)
+        {
+            PropertyName = propertyName;
+            PropertyValue = propertyValue;
+            UnitOfMeasure = unitOfMeasure;
+        }
     }
 }

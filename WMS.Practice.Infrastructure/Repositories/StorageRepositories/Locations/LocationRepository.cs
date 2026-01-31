@@ -6,6 +6,12 @@
         {
         }
 
+        public async Task<bool> ExistsAsync(string locationId)
+        {
+            return await _context.Locations
+                                 .AnyAsync(x => x.LocationId.Equals(locationId, StringComparison.OrdinalIgnoreCase));
+        }
+
         public async Task<List<Location>> GetAllLocations()
         {
             return await _context.Locations
@@ -19,7 +25,7 @@
             return await _context.Locations
                                  .Include(l => l.Properties)
                                  .Include(l => l.MaterialSubLots)
-                                 .FirstOrDefaultAsync(x => x.LocationCode.Equals(locationId, StringComparison.OrdinalIgnoreCase));
+                                 .FirstOrDefaultAsync(x => x.LocationId.Equals(locationId, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<List<Location>> GetLocationsByWarehouseId(string warehouseId)

@@ -2,7 +2,8 @@
 {
     public interface ILocationRepository : IRepository<Location>
     {
-        Task<List<Location>> GetAllLocations();
+        Task<bool> ExistsAsync(string locationId);
+        Task <List<Location>> GetAllLocations();
         Task<Location?> GetLocationByIdAsync(string locationId);
         Task<List<Location>> GetLocationsByWarehouseId(string warehouseId);
         void Create(Location location);

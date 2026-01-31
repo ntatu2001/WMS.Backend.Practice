@@ -4,8 +4,9 @@
     {
         void Create(LocationProperty locationProperty);
         void Remove(LocationProperty locationProperty);
+        Task<bool> ExistsAsync(string propertyId);
         Task<List<LocationProperty>> GetAllLocationProperties();
-        Task<LocationProperty?> GetLocationPropertyById(string propertyId);
+        Task<LocationProperty?> GetLocationPropertyByIdAsync(string propertyId);
         Task<List<LocationProperty>> GetLocationPropertiesByLocationId(string locationId);
     }
 }

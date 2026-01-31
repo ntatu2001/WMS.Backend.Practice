@@ -18,7 +18,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<LocationProperty?> GetLocationPropertyById(string propertyId)
+        public async Task<LocationProperty?> GetLocationPropertyByIdAsync(string propertyId)
         {
             return await _context.LocationsProperties
                                  .FirstOrDefaultAsync(lp => lp.PropertyId == propertyId);
@@ -32,6 +32,12 @@
         public void Remove(LocationProperty locationProperty)
         {
             _context.LocationsProperties.Remove(locationProperty);
+        }
+
+        public async Task<bool> ExistsAsync(string propertyId)
+        {
+            return await _context.LocationsProperties
+                                 .AnyAsync(lp => lp.PropertyId == propertyId);
         }
     }
 }

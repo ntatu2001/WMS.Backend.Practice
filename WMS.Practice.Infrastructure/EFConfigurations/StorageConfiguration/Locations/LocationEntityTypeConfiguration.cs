@@ -8,7 +8,7 @@
             builder.ToTable("Locations");
 
             // Configure the primary key
-            builder.HasKey(x => x.LocationCode);
+            builder.HasKey(x => x.LocationId);
 
             // Configure properties with constraints and column mappings
             builder.HasOne(x => x.Warehouse)
