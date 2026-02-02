@@ -2,10 +2,11 @@
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
+        Task<bool> ExistsAsync(string customerId);
         Task<List<Customer>> GetAllAsync();
-        Task<Customer?> GetCustomerById(string Id);
+        Task<Customer?> GetCustomerByCustomerIdAsync(string Id);
         void Create(Customer customer);
         void Update(Customer customer);
-        void Delete(Customer customer);
+        void Remove(Customer customer);
     }
 }

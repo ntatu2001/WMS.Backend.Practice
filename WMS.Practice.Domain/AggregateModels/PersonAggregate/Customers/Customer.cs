@@ -15,5 +15,12 @@
             Address = address;
             ContactDetails = contactDetails;
         }
+
+        public void UpdateCustomerInfo(string? customerName, string? address, string? contactDetails)
+        {
+            CustomerName = customerName ?? CustomerName;
+            Address = address ?? Address;
+            ContactDetails = contactDetails ?? ContactDetails;
+        }
     }
 }

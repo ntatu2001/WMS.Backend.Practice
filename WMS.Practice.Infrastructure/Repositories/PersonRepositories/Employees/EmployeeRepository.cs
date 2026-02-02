@@ -15,6 +15,11 @@
             _context.Employees.Remove(employee);
         }
 
+        public async Task<bool> ExistAsync(string employeeId)
+        {
+            return await _context.Employees.AnyAsync(x => x.EmployeeId == employeeId);
+        }
+
         public async Task<List<Employee>> GetAllAsync()
         {
             return await _context.Employees

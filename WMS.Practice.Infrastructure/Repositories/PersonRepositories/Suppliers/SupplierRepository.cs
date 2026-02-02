@@ -11,9 +11,14 @@
             _context.Suppliers.Add(supplier);
         }
 
-        public void Delete(Supplier supplier)
+        public void Remove(Supplier supplier)
         {
             _context.Suppliers.Remove(supplier);
+        }
+
+        public async Task<bool> ExistsAsync(string supplierId)
+        {
+            return await _context.Suppliers.AnyAsync(x => x.SupplierId == supplierId);
         }
 
         public async Task<List<Supplier>> GetAllAsync()

@@ -26,5 +26,10 @@
             return await _context.EmployeeProperties
                                  .FirstOrDefaultAsync(pp => pp.PropertyId == propertyId);
         }
+
+        public void Update(EmployeeProperty employeeProperty)
+        {
+            _context.EmployeeProperties.Update(employeeProperty);
+        }
     }
 }

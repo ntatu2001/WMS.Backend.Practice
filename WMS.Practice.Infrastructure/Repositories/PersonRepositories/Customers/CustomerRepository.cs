@@ -11,9 +11,14 @@
             _context.Customers.Add(customer);
         }
 
-        public void Delete(Customer customer)
+        public void Remove(Customer customer)
         {
             _context.Customers.Remove(customer);
+        }
+
+        public async Task<bool> ExistsAsync(string customerId)
+        {
+            return await _context.Customers.AnyAsync(x => x.CustomerId == customerId);
         }
 
         public async Task<List<Customer>> GetAllAsync()
@@ -21,7 +26,7 @@
             return await _context.Customers.ToListAsync();
         }
 
-        public async Task<Customer?> GetCustomerById(string Id)
+        public async Task<Customer?> GetCustomerByCustomerIdAsync(string Id)
         {
             return await _context.Customers
                                  .FirstOrDefaultAsync(c => c.CustomerId == Id);

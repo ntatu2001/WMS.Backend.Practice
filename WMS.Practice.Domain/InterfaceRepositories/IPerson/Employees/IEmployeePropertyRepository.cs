@@ -4,7 +4,8 @@
     {
         Task<EmployeeProperty?> GetByIdAsync(string propertyId);
         Task<List<EmployeeProperty>> GetAllEmployeeProperties();
-        void Create(EmployeeProperty personProperty);
-        void Delete(EmployeeProperty personProperty);
+        void Create(EmployeeProperty employeeProperty);
+        void Delete(EmployeeProperty employeeProperty);
+        void Update(EmployeeProperty employeeProperty);
     }
 }

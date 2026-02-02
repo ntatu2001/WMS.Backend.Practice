@@ -14,5 +14,12 @@
             Address = address;
             ContactDetails = contactDetails;
         }
+
+        public void UpdateSupplierInfos(string? supplierName, string? address, string? contactDetails)
+        {
+            SupplierName = supplierName ?? SupplierName;
+            Address = address ?? Address;
+            ContactDetails = contactDetails ?? ContactDetails;
+        }
     }
 }
