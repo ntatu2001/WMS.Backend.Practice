@@ -7,5 +7,6 @@
         void Create(MaterialProperty materialProperty);
         void Delete(MaterialProperty materialProperty);
         void Update(MaterialProperty materialProperty);
+        Task<bool> ExistAsync(string propertyId);
     }
 }

@@ -16,6 +16,11 @@
             _context.MaterialClasses.Remove(materialClass);
         }
 
+        public async Task<bool> ExistsAsync(string classId)
+        {
+            return await _context.MaterialClasses.AnyAsync(x => x.MaterialClassId == classId);
+        }
+
         public async Task<List<MaterialClass>> GetAllAsync()
         {
             return await _context.MaterialClasses

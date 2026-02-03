@@ -24,7 +24,7 @@
             return await _employeeRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
 
-        private static IEnumerable<EmployeeProperty> GetEmployeeProperties(IList<EmployeePropertyCommand> commandProperties, string employeeId)
+        private static IEnumerable<EmployeeProperty> GetEmployeeProperties(IList<CreateEmployeePropertyCommand> commandProperties, string employeeId)
         {
             foreach (var commandProperty in commandProperties)
             {

@@ -27,7 +27,7 @@
             return await _locationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
 
-        private static LocationProperty CreateLocationProperty(LocationPropertyCommand property, 
+        private static LocationProperty CreateLocationProperty(CreateLocationPropertyCommand property, 
                                                                string locationId) => new(propertyId: Guid.NewGuid().ToString(),
                                                                                          propertyName: property.PropertyName,
                                                                                          propertyValue: property.PropertyValue,

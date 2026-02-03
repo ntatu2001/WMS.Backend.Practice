@@ -29,11 +29,11 @@
             if (string.IsNullOrEmpty(propertyName)) 
                 return false;
 
-            var employeeProperty = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
-            if (employeeProperty is null)
+            var property = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (property is null)
                 return false;
 
-            employeeProperty.UpdatePropertyValue(propertyValue);
+            property.UpdatePropertyValue(propertyValue);
             return true;
         }
     }

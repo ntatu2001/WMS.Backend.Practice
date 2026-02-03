@@ -17,5 +17,24 @@
             MaterialClassId = materialClassId;
             Properties = new List<MaterialProperty>();
         }
+
+        public void UpdateMaterialInfo(string? materialName, string? materialClassId)
+        {
+            MaterialName = materialName ?? MaterialName;
+            MaterialClassId = materialClassId ?? MaterialClassId;
+        }
+
+        public bool TryUpdateProperty(string? propertyName, string? propertyValue)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+                return false;
+
+            var property = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (property is null)
+                return false;
+
+            property.UpdatePropertyValue(propertyValue);
+            return true;
+        }
     }
 }

@@ -16,5 +16,17 @@
             UnitOfMeasure = unitOfMeasure;
             MaterialClassId = materialClassId;
         }
+
+        public void UpdatePropertyValue(string? propertyValue)
+        {
+            PropertyValue = propertyValue ?? PropertyValue;
+        }
+
+        public void Update(string? propertyName, string? propertyValue, UnitOfMeasure? unitOfMeasure)
+        {
+            PropertyName = propertyName ?? PropertyName;
+            PropertyValue = propertyValue ?? PropertyValue;
+            UnitOfMeasure = unitOfMeasure ?? UnitOfMeasure;
+        }
     }
 }
