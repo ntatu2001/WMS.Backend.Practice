@@ -11,6 +11,9 @@
             builder.Property(e => e.SubLotStatus)
                    .HasConversion(x => x.ToString(), x => (LotStatus)Enum.Parse(typeof(LotStatus), x));
 
+            builder.Property(e => e.UnitOfMeasure)
+                   .HasConversion(x => x.ToString(), x => (UnitOfMeasure)Enum.Parse(typeof(UnitOfMeasure), x));
+
             builder.HasOne(msl => msl.Location)
                    .WithMany(x => x.MaterialSubLots)
                    .HasForeignKey(x => x.LocationId)

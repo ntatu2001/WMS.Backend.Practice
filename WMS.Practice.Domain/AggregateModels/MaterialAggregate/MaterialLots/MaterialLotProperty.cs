@@ -17,5 +17,12 @@
             MaterialLotId = materialLotId;
             PropertyValue = propertyValue;
         }
+
+        public void Update(string? propertyName, string? propertyValue, UnitOfMeasure? unitOfMeasure)
+        {
+            PropertyName = propertyName ?? PropertyName;
+            PropertyValue = propertyValue ?? PropertyValue;
+            UnitOfMeasure = unitOfMeasure ?? UnitOfMeasure;
+        }
     }
 }

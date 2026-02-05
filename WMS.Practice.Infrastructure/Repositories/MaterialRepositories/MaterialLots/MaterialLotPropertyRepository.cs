@@ -16,6 +16,11 @@
             _context.MaterialLotProperties.Remove(materialLotProperty);
         }
 
+        public async Task<bool> ExistAsync(string propertyId)
+        {
+            return await _context.MaterialLotProperties.AnyAsync(x => x.PropertyId == propertyId);
+        }
+
         public async Task<List<MaterialLotProperty>> GetAllAsync()
         {
             return await _context.MaterialLotProperties.ToListAsync();
@@ -25,6 +30,11 @@
         {
             return await _context.MaterialLotProperties
                                  .FirstOrDefaultAsync(mlp => mlp.PropertyId == propertyId);
+        }
+
+        public void Update(MaterialLotProperty materialLotProperty)
+        {
+            _context.MaterialLotProperties.Update(materialLotProperty);
         }
     }
 }

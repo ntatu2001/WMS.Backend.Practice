@@ -2,6 +2,7 @@
 {
     public interface IMaterialLotRepository : IRepository<MaterialLot>
     {
+        Task<bool> ExistAsync(string lotNumber);
         Task<List<MaterialLot>> GetAllAsync();
         Task<MaterialLot?> GetMaterialLotByIdAsync(string lotNumber);
         Task<MaterialLot?> GetMaterialLotWithIssuesByIdAsync(string lotNumber);
@@ -9,5 +10,6 @@
         Task<List<MaterialLot>> GetMaterialLotsByStatus(LotStatus status);
         void Create(MaterialLot materialLot);
         void Delete(MaterialLot materialLot);
+        void Update(MaterialLot materialLot);
     }
 }

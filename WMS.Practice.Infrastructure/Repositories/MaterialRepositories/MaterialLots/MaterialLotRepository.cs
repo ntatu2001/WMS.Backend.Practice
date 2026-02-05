@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-
-namespace WMS.Practice.Infrastructure.Repositories.MaterialRepositories
+﻿namespace WMS.Practice.Infrastructure.Repositories.MaterialRepositories
 {
     public class MaterialLotRepository : BaseRepository, IMaterialLotRepository
     {
@@ -58,6 +56,16 @@ namespace WMS.Practice.Infrastructure.Repositories.MaterialRepositories
                                  .Include(e => e.Properties)
                                  .Include(e => e.SubLots)
                                  .ToListAsync();
+        }
+
+        public async Task<bool> ExistAsync(string lotNumber)
+        {
+            return await _context.MaterialLots.AnyAsync(x => x.LotNumber == lotNumber);
+        }
+
+        public void Update(MaterialLot materialLot)
+        {
+           _context.MaterialLots.Update(materialLot);
         }
     }
 }
