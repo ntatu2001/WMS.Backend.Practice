@@ -2,10 +2,11 @@
 {
     public interface IReceiptLotRepository : IRepository<ReceiptLot>
     {
+        Task<bool> ExistAsync(string receiptLotId);
         Task<List<ReceiptLot>> GetAllAsync();
         Task<List<ReceiptLot>> GetReceiptLotsAsPending();
-        Task<ReceiptLot?> GetById(string Id);
-        Task<ReceiptLot?> GetReceiptByLotId(string Id);
-        Task<ReceiptLot?> GetByIdAsync(string Id);
+        Task<ReceiptLot?> GetById(string receiptLotId);
+        Task<ReceiptLot?> GetReceiptByLotId(string receiptLotId);
+        Task<ReceiptLot?> GetByIdAsync(string receiptLotId);
     }
 }

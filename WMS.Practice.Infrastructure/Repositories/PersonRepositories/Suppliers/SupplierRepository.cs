@@ -26,7 +26,7 @@
             return await _context.Suppliers.ToListAsync();
         }
 
-        public Task<Supplier?> GetByIdAsync(string supplierId)
+        public Task<Supplier?> GetSupplierByIdAsync(string supplierId)
         {
             return _context.Suppliers
                            .FirstOrDefaultAsync(s => s.SupplierId == supplierId);

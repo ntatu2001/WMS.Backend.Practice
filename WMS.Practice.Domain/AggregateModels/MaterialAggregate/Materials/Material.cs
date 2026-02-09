@@ -24,6 +24,8 @@
             MaterialClassId = materialClassId ?? MaterialClassId;
         }
 
+        public bool HasProperties() => Properties?.Count > 0;
+
         public bool TryUpdateProperty(string? propertyName, string? propertyValue)
         {
             if (string.IsNullOrEmpty(propertyName))
@@ -34,6 +36,20 @@
                 return false;
 
             property.UpdatePropertyValue(propertyValue);
+            return true;
+        }
+
+        public bool TryGetPropertyValue(string propertyName, out string propertyValue)
+        {
+            propertyValue = string.Empty;
+            if (HasProperties() is false)
+                return false;
+
+            var property = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (property is null)
+                return false;
+
+            propertyValue = property.PropertyValue;
             return true;
         }
     }

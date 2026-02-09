@@ -12,11 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DomainEventHandlers\" />
     <Folder Include="DTOs\" />
     <Folder Include="ErrorNotifications\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Services\" />
     <Folder Include="Queries\" />
   </ItemGroup>
 

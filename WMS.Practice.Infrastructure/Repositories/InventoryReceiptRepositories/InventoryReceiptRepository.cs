@@ -25,7 +25,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<InventoryReceipt?> GetByIdAsync(string inventoryReceiptId)
+        public async Task<InventoryReceipt?> GetByReceiptIdAsync(string inventoryReceiptId)
         {
             return await _context.InventoryReceipts
                                  .Include(e => e.Entries)

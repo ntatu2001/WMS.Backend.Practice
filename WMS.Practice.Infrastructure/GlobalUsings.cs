@@ -25,6 +25,6 @@ global using WMS.Practice.Domain.InterfaceRepositories.IInventoryReceipt;
 global using WMS.Practice.Domain.InterfaceRepositories.IInventoryIssue;
 global using WMS.Practice.Domain.InterfaceRepositories.IStockTake;
 global using WMS.Practice.Domain.InterfaceRepositories.IInventoryLog;
-global using WMS.Practice.Domain.Enum;
+global using WMS.Practice.Domain.Enums;
 global using WMS.Practice.Domain.SeedWork;
 

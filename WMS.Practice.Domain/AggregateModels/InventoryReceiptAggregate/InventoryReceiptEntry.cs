@@ -24,5 +24,36 @@
             LotNumber = lotNumber;
             InventoryReceiptId = inventoryReceiptId;
         }
+
+        public void UpdateReceiptLot(ReceiptLot receiptLot)
+        {
+            ReceiptLot = receiptLot;
+        }
+
+        public void Update(string? purchaseOrderNumber = null, string? materialId = null, string? materialName = null, string? note = null, 
+                           double? importedQuantity = null, string? lotNumber = null, LotStatus? status = null)
+        {
+            UpdateIfNotNull(purchaseOrderNumber, e => PurchaseOrderNumber = e);
+            UpdateIfNotNull(materialId, e => MaterialId = e);
+            UpdateIfNotNull(materialName, e => MaterialName = e);
+            UpdateIfNotNull(note, e => Note = e);
+            UpdateIfNotNull(importedQuantity, e => ImportedQuantity = e);
+            UpdateIfNotNull(lotNumber, e => LotNumber = e);
+
+            ReceiptLot?.Update(importedQuantity: importedQuantity,
+                               lotStatus: status);
+        }
+
+        public static void UpdateIfNotNull<T>(T? updateValue, Action<T> updateAction) where T : struct
+        {
+            if (updateValue.HasValue)
+                updateAction(updateValue.Value);
+        }
+
+        public static void UpdateIfNotNull<T>(T? updateValue, Action<T> updateAction) where T : class
+        {
+            if (updateValue is not null)
+                updateAction(updateValue);
+        }
     }
 }

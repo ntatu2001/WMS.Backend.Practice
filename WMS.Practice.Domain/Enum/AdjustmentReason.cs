@@ -1,4 +1,4 @@
-﻿namespace WMS.Practice.Domain.Enum
+﻿namespace WMS.Practice.Domain.Enums
 {
     public enum AdjustmentReason
     {

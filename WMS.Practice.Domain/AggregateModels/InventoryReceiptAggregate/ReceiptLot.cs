@@ -16,5 +16,34 @@
             ImportedQuantity = importedQuantity;
             InventoryReceiptEntryId = inventoryReceiptEntryId;
         }
+
+        public bool IsDone() => LotStatus is LotStatus.Done;
+        public bool IsNotDone() => LotStatus is not LotStatus.Done;
+        public bool IsPending() => LotStatus is LotStatus.Pending;
+
+        public void Update(double? importedQuantity = null, LotStatus? lotStatus = null, string? inventoryReceiptEntryId = null)
+        {
+            UpdateIfNotNull(importedQuantity, e => ImportedQuantity = e);
+            UpdateIfNotNull(lotStatus, e => LotStatus = e);
+            UpdateIfNotNull(inventoryReceiptEntryId, e => InventoryReceiptEntryId = e);
+        }
+
+        public static void UpdateIfNotNull<T>(T? updateValue, Action<T> updateAction) where T : struct
+        {
+            if (updateValue.HasValue)
+                updateAction(updateValue.Value);
+        }
+
+        public static void UpdateIfNotNull<T>(T? updateValue, Action<T> updateAction) where T : class
+        {
+            if (updateValue is not null)
+                updateAction(updateValue);
+        }
+
+        public void AddSublot(ReceiptSubLot receiptSubLot)
+        {
+            ReceiptSubLots ??= new List<ReceiptSubLot>();
+            ReceiptSubLots.Add(receiptSubLot);
+        }
     }
 }

@@ -20,7 +20,7 @@
                 query = query.Where(x => x.TransactionType == transactionType);
             }
 
-            if (transactionType == TransactionType.Issue)
+            if (transactionType is TransactionType.Issue)
             {
                 query = query.Include(x => x.MaterialLot);
             }

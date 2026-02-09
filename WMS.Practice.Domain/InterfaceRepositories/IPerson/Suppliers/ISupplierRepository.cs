@@ -4,7 +4,7 @@
     {
         Task<bool> ExistsAsync(string supplierId);
         Task<List<Supplier>> GetAllAsync();
-        Task<Supplier?> GetByIdAsync(string id);
+        Task<Supplier?> GetSupplierByIdAsync(string id);
         void Create(Supplier supplier);
         void Remove(Supplier supplier);
         void Update(Supplier supplier);

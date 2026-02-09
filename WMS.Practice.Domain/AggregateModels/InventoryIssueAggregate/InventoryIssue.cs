@@ -22,5 +22,35 @@
             EmployeeId = employeeId;
             WarehouseId = warehouseId;
         }
+
+        public void RaiseInventoryLog(List<MaterialLot> materialLots, InventoryIssue inventoryIssue)
+        {
+            if (materialLots is null || materialLots.Count == 0)
+                throw new Exception("MaterialLots is empty, cannot confirm issue.");
+
+            foreach (var materialLot in materialLots)
+            {
+                double exisitingQuantity = materialLot.ExistingQuantity;
+                foreach (var entry in inventoryIssue.Entries)
+                {
+                    if (entry.IssueLot.MaterialLotId == materialLot.LotNumber)
+                    {
+                        var changedQuantity = entry.IssueLot.RequestedQuantity;
+
+                        AddDomainEvent(new InventoryLogAddedDomainEvent(transactionType: TransactionType.Issue,
+                                                                        transactionDate: DateTime.Now.ToVietNamTime(),
+                                                                        previousQuantity: exisitingQuantity,
+                                                                        changedQuantity: changedQuantity,
+                                                                        afterQuantity: exisitingQuantity - changedQuantity,
+                                                                        note: "",
+                                                                        lotNumber: materialLot.LotNumber,
+                                                                        warehouseId: inventoryIssue.WarehouseId));
+
+                        exisitingQuantity = exisitingQuantity - changedQuantity;
+
+                    }
+                }
+            }
+        }
     }
 }

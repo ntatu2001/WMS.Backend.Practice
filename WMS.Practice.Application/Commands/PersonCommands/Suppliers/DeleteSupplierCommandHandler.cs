@@ -10,7 +10,7 @@
 
         public async Task<bool> Handle(DeleteSupplierCommand request, CancellationToken cancellationToken)
         {
-            var existingSupplier = await _supplierRepository.GetByIdAsync(request.SupplierId)
+            var existingSupplier = await _supplierRepository.GetSupplierByIdAsync(request.SupplierId)
                                 ?? throw new EntityNotFoundException("Supplier could not be found", nameof(request.SupplierId));
 
             _supplierRepository.Remove(existingSupplier);

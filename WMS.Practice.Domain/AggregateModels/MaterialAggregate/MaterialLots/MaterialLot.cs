@@ -59,5 +59,11 @@
         {
             ExistingQuantity = totalQuantity;
         }
+
+        public void AddSubLot(MaterialSubLot newSubLot)
+        {
+            SubLots ??= new List<MaterialSubLot>();
+            SubLots.Add(newSubLot);
+        }
     }
 }
