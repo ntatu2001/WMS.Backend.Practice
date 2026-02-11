@@ -16,7 +16,12 @@
             _context.MaterialSubLots.Remove(materialSubLot);
         }
 
-        public async Task<bool> ExistAsync(string materialSubLotId)
+        public async Task<bool> ExistMaterialSubLotsByLotNumber(string lotNumber)
+        {
+            return await _context.MaterialSubLots.AnyAsync(x => x.LotNumber == lotNumber);
+        }
+
+        public async Task<bool> ExistsAsync(string materialSubLotId)
         {
             return await _context.MaterialSubLots.AnyAsync(x => x.MaterialSubLotId == materialSubLotId);
         }

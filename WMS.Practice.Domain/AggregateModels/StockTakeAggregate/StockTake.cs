@@ -23,14 +23,50 @@
 
         public List<StockTakeSubLot> SubLots { get; set; }
         
-        public StockTake(string stockTakeId, DateTime adjustmentDate, string lotNumber, string employeeId, string warehouseId)
+        public StockTake(string stockTakeId, double previousQuantity, double adjustedQuantity, AdjustmentReason reason, AdjustmentStatus status, AdjustmentType type, 
+                         DateTime adjustmentDate, string lotNumber, string employeeId, string warehouseId, string note)
         {
             StockTakeId = stockTakeId;
             AdjustmentDate = adjustmentDate;
             LotNumber = lotNumber;
             EmployeeId = employeeId;
             WarehouseId = warehouseId;
+            PreviousQuantity = previousQuantity;
+            AdjustedQuantity = adjustedQuantity;
+            Reason = reason;
+            Status = status;
+            Type = type;
+            Note = note;
             SubLots = new List<StockTakeSubLot>();
+        }
+
+        public void AddSubLot(StockTakeSubLot stockTakeSubLot)
+        {
+            SubLots ??= new List<StockTakeSubLot>();
+            SubLots.Add(stockTakeSubLot);
+        }
+
+        public double GetAdjustedQuantity() => SubLots?.Count > 0 ? SubLots.Sum(x => x.AdjustedQuantity) : 0.0;
+
+        public void Update(AdjustmentStatus? status = null, double? previousQuantity = null, double? adjustedQuantity = null)
+        {
+            Status = status ?? Status;
+            PreviousQuantity = previousQuantity ?? PreviousQuantity;
+            AdjustedQuantity = adjustedQuantity ?? AdjustedQuantity;
+        }
+
+        public void Confirm(StockTake stockTake)
+        {
+
+            AddDomainEvent(new InventoryLogAddedDomainEvent(transactionType: TransactionType.Adjustment,
+                                                            transactionDate: GetVietnamTime(),
+                                                            previousQuantity: stockTake.previousQuantity,
+                                                            changedQuantity: stockTake.adjustedQuantity - stockTake.previousQuantity,
+                                                            afterQuantity: stockTake.adjustedQuantity,
+                                                            note: "",
+                                                            lotNumber: materialLot.lotNumber,
+                                                            warehouseId: stockTake.warehouseId));
+
         }
     }
 }

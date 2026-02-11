@@ -45,5 +45,10 @@
                                  .OrderByDescending(x => x.AdjustmentDate)
                                  .ToListAsync();
         }
+
+        public async Task<bool> ExistsAsync(string stockTakeId)
+        {
+            return await _context.StockTakes.AnyAsync(x => x.StockTakeId == stockTakeId);
+        }
     }
 }

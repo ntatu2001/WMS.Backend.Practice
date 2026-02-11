@@ -2,7 +2,8 @@
 {
     public interface IMaterialSubLotRepository : IRepository<MaterialSubLot>
     {
-        Task<bool> ExistAsync(string materialSubLotId);
+        Task<bool> ExistsAsync(string materialSubLotId);
+        Task<bool> ExistMaterialSubLotsByLotNumber(string lotNumber);
         Task<List<MaterialSubLot>> GetAllAsync();
         Task<List<MaterialSubLot>> GetMaterialSubLotsByLocationId(string locationId);
         Task<MaterialSubLot?> GetByIdAsync(string Id);

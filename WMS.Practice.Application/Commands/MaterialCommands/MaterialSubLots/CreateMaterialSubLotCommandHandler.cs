@@ -11,7 +11,7 @@
 
         public async Task<bool> Handle(CreateMaterialSubLotCommand request, CancellationToken cancellationToken)
         {
-            if (await _materialSubLotRepository.ExistAsync(request.SubLotId))
+            if (await _materialSubLotRepository.ExistsAsync(request.SubLotId))
             {
                 throw new DuplicateRecordException(nameof(MaterialSubLot), request.SubLotId);
             }

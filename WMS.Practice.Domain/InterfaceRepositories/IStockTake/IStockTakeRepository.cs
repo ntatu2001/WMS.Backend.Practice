@@ -7,5 +7,6 @@
         Task<List<StockTake>> GetStockTakesWithTracking();
         Task<List<StockTake>> GetStockTakesByTimeRangeOption(DateTime start, DateTime end);
         void Create(StockTake materialLotAdjustment);
+        Task<bool> ExistsAsync(string stockTakeId);
     }
 }

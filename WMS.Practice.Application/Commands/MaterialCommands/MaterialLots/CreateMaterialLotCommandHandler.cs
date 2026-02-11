@@ -20,7 +20,7 @@
             var materialSubLots = new List<MaterialSubLot>();
             foreach (var subLot in request.SubLots)
             {
-                if (await _subLotRepository.ExistAsync(subLot.SubLotId) is true)
+                if (await _subLotRepository.ExistsAsync(subLot.SubLotId) is true)
                 {
                     throw new DuplicateRecordException("SubLot is duplicated", nameof(subLot.SubLotId));
                 }

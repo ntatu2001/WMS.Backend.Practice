@@ -57,7 +57,7 @@
 
             foreach (var sublot in receiptLot.ReceiptSubLots)
             {
-                if (await _materialSubLotRepository.ExistAsync(sublot.ReceiptSubLotId) is true)
+                if (await _materialSubLotRepository.ExistsAsync(sublot.ReceiptSubLotId) is true)
                     throw new DuplicateRecordException(nameof(MaterialSubLot), sublot.ReceiptSubLotId);
 
                 var newSubLot = new MaterialSubLot(materialSubLotId: sublot.ReceiptSubLotId,
