@@ -34,5 +34,13 @@
         {
             ExistingQuantity = existingQuantity;
         }
+
+        public void Export(double requestedQuantity)
+        {
+            if (ExistingQuantity < requestedQuantity)
+                throw new ArgumentOutOfRangeException($"Request Quantity is over Existing Quantity of SubLot {MaterialSubLotId}");
+
+            ExistingQuantity -= requestedQuantity;
+        }
     }
 }

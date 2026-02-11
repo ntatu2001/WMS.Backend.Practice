@@ -3,7 +3,7 @@
     public interface IMaterialLotRepository : IRepository<MaterialLot>
     {
         Task<bool> ExistAsync(string lotNumber);
-        Task<List<MaterialLot>> GetAllAsync();
+        Task<List<MaterialLot>> GetAllMaterialLotsAsync();
         Task<MaterialLot?> GetMaterialLotByIdAsync(string lotNumber);
         Task<MaterialLot?> GetMaterialLotWithIssuesByIdAsync(string lotNumber);
         Task<List<MaterialLot>> GetMaterialLotsByMaterialId(string materialId);

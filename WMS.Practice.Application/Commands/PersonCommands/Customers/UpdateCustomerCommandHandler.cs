@@ -10,7 +10,7 @@
 
         public async Task<bool> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var existingCustomer = await _customerRepository.GetCustomerByCustomerIdAsync(request.CustomerId)
+            var existingCustomer = await _customerRepository.GetCustomerByIdAsync(request.CustomerId)
                                 ?? throw new EntityNotFoundException("Customer could not found", nameof(request.CustomerId));
 
             existingCustomer.UpdateCustomerInfo(customerName: request.CustomerName,

@@ -23,7 +23,7 @@
             SubLots = new List<MaterialSubLot>();
         }
 
-        public void Update(LotStatus? lotStatus, double? existingQuantity)
+        public void Update(double? existingQuantity = null, LotStatus? lotStatus = null)
         {
             LotStatus = lotStatus ?? LotStatus;
             ExistingQuantity = existingQuantity ?? ExistingQuantity;
@@ -55,15 +55,12 @@
             return true;
         }
 
-        public void UpdateExistingQuantity(double totalQuantity)
-        {
-            ExistingQuantity = totalQuantity;
-        }
-
         public void AddSubLot(MaterialSubLot newSubLot)
         {
             SubLots ??= new List<MaterialSubLot>();
             SubLots.Add(newSubLot);
         }
+
+        public double GetExistingQuantity() => SubLots?.Count > 0 ? SubLots.Sum(x => x.ExistingQuantity) : 0;
     }
 }

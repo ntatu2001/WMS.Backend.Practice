@@ -25,5 +25,20 @@
             MaterialLotId = materialLotId;
             InventoryIssueEntryId = inventoryIssueEntryId;
         }
+
+        public bool IsDone() => LotStatus is LotStatus.Done;
+        public bool IsPending() => LotStatus is LotStatus.Pending;
+
+        public void Update(double? requestedQuantity = null, LotStatus? lotStatus = null)
+        {
+            RequestedQuantity = requestedQuantity ?? RequestedQuantity;
+            LotStatus = lotStatus ?? LotStatus;
+        }
+
+        public void AddSubLot(IssueSubLot issueSubLot)
+        {
+            SubLots ??= new List<IssueSubLot>();
+            SubLots.Add(issueSubLot);
+        }
     }
 }

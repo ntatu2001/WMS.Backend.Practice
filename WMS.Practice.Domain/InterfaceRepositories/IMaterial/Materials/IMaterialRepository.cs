@@ -3,9 +3,9 @@
     public interface IMaterialRepository : IRepository<Material>
     {
         Task<bool> ExistAsync(string materialId);
-        Task<List<Material>> GetAllAsync();
-        Task<List<Material>> GetByClassIdAsync(string classId);
-        Task<Material?> GetByMaterialIdAsync(string materialId);
+        Task<List<Material>> GetAllMaterialsAsync();
+        Task<List<Material>> GetMaterialsByClassIdAsync(string classId);
+        Task<Material?> GetMaterialByIdAsync(string materialId);
         void Create(Material material);
         void Delete(Material material);
         void Update(Material material);

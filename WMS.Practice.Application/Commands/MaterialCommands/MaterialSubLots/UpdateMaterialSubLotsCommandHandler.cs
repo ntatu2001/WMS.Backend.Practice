@@ -31,7 +31,7 @@
             var materialLot = await _materialLotRepository.GetMaterialLotByIdAsync(request.LotNumber)
                            ?? throw new EntityNotFoundException(nameof(MaterialLot), request.LotNumber);
 
-            materialLot.UpdateExistingQuantity(totalQuantity);
+            materialLot.Update(existingQuantity: totalQuantity);
 
             var stockTake = await _stockRepository.GetById(request.MaterialLotAdjustmentId)
                          ?? throw new EntityNotFoundException(nameof(StockTake), request.MaterialLotAdjustmentId);

@@ -26,7 +26,7 @@
             return await _context.Customers.ToListAsync();
         }
 
-        public async Task<Customer?> GetCustomerByCustomerIdAsync(string Id)
+        public async Task<Customer?> GetCustomerByIdAsync(string Id)
         {
             return await _context.Customers
                                  .FirstOrDefaultAsync(c => c.CustomerId == Id);

@@ -16,7 +16,7 @@
             _context.MaterialLots.Remove(materialLot);
         }
 
-        public async Task<List<MaterialLot>> GetAllAsync()
+        public async Task<List<MaterialLot>> GetAllMaterialLotsAsync()
         {
             return await _context.MaterialLots
                                  .Include(e => e.Properties)

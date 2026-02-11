@@ -14,6 +14,14 @@
             _inventoryReceiptRepository = inventoryReceiptRepository;
         }
 
+        /// <summary>
+        /// API to create Receipt SubLots after implementing Storage Location Assignment Algorithm
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="EntityNotFoundException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> Handle(UpdateReceiptSubLotsCommand request, CancellationToken cancellationToken)
         {
             // Group SubLots by Lot Number
@@ -30,7 +38,7 @@
 
                 foreach (var subLot in subLotGroup.Value)
                 {
-                    var material = await _materialRepository.GetByMaterialIdAsync(subLot.MaterialId)
+                    var material = await _materialRepository.GetMaterialByIdAsync(subLot.MaterialId)
                                 ?? throw new EntityNotFoundException(nameof(Material), subLot.MaterialId);
 
                     // Try get property value of Unit to parse Enum

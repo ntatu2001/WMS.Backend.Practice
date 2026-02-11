@@ -27,7 +27,7 @@ namespace WMS.Practice.Application.Commands.InventoryReceiptCommands.InventoryRe
                      ?? throw new EntityNotFoundException(nameof(InventoryReceiptEntry), request.InventoryReceiptEntryId);
 
             string materialId = request.MaterialId is not null ? request.MaterialId : entry.MaterialId;
-            var material = await _materialRepository.GetByMaterialIdAsync(materialId)
+            var material = await _materialRepository.GetMaterialByIdAsync(materialId)
                         ?? throw new EntityNotFoundException(nameof(Material), materialId);
 
             entry.Update(purchaseOrderNumber: request.PurchaseOrderNumber ?? entry.PurchaseOrderNumber,

@@ -32,7 +32,7 @@
                 throw new InvalidOperationException("Material lots collection is empty. Cannot confirm inventory issue.");
 
             inventoryIssue.RaiseInventoryLog(materialLots.ToList(), inventoryIssue);
-            inventoryIssue.Status = finalStatus;
+            inventoryIssue.IssueStatus = finalStatus;
         }
 
 
@@ -42,7 +42,7 @@
             if (!hasPendingLots)
                 return IssueStatus.Done;
 
-            return issue.Status == IssueStatus.Done ? IssueStatus.InProgress : issue.Status;
+            return issue.IssueStatus == IssueStatus.Done ? IssueStatus.InProgress : issue.IssueStatus;
         }
 
         private async Task ValidateSubLotsAsync(IssueLot issueLot)

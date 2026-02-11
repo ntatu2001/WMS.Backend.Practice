@@ -6,6 +6,11 @@
         {
         }
 
+        public async Task<bool> ExistsAsync(string issueSubLotId)
+        {
+            return await _context.IssueSubLots.AnyAsync(x => x.IssueSubLotId == issueSubLotId);
+        }
+
         public async Task<List<IssueSubLot>> GetAllAsync()
         {
             return await _context.IssueSubLots.ToListAsync();

@@ -12,7 +12,7 @@
             builder.Property(x => x.IssueDate)
                    .IsRequired();
 
-            builder.Property(x => x.Status)
+            builder.Property(x => x.IssueStatus)
                    .HasConversion(x => x.ToString(), x => Enum.Parse<IssueStatus>(x));
 
             builder.HasOne(x => x.Customer)

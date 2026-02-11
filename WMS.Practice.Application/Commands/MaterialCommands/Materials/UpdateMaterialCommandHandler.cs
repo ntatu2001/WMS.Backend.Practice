@@ -10,7 +10,7 @@
 
         public async Task<bool> Handle(UpdateMaterialCommand request, CancellationToken cancellationToken)
         {
-            var existingMaterial = await _materialRepository.GetByMaterialIdAsync(request.MaterialId)
+            var existingMaterial = await _materialRepository.GetMaterialByIdAsync(request.MaterialId)
                                 ?? throw new EntityNotFoundException("Material could not found", nameof(request.MaterialId));
 
             existingMaterial.UpdateMaterialInfo(request.MaterialName, request.MaterialClassId);

@@ -2,6 +2,7 @@
 {
     public interface IIssueSubLotRepository : IRepository<IssueSubLot>
     {
+        Task<bool> ExistsAsync(string issueSubLotId);
         Task<List<IssueSubLot>> GetAllAsync();
         Task<IssueSubLot?> GetByIdAsync(string IssueSubLotId);
     }

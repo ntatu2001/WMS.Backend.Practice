@@ -36,7 +36,7 @@
 
         private async Task<InventoryReceiptEntry> CreateInventoryReceiptEntry(CreateReceiptEntryCommand request, string InventoryReceiptId)
         {
-            var material = await _materialRepository.GetByMaterialIdAsync(request.MaterialId)
+            var material = await _materialRepository.GetMaterialByIdAsync(request.MaterialId)
                         ?? throw new EntityNotFoundException(nameof(Material), request.MaterialId);
 
             if (await _receiptLotRepository.ExistAsync(request.LotNumber) is true)

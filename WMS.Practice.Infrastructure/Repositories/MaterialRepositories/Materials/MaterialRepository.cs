@@ -21,21 +21,21 @@
             return await _context.Materials.AnyAsync(x => x.MaterialId == materialId);
         }
 
-        public async Task<List<Material>> GetAllAsync()
+        public async Task<List<Material>> GetAllMaterialsAsync()
         {
             return await _context.Materials
                                  .Include(e => e.Properties)
                                  .ToListAsync();  
         }
 
-        public async Task<List<Material>> GetByClassIdAsync(string classId)
+        public async Task<List<Material>> GetMaterialsByClassIdAsync(string classId)
         {
             return await _context.Materials.Where(e => e.MaterialClassId.Equals(classId, StringComparison.OrdinalIgnoreCase))
                                            .Include(e => e.Properties)
                                            .ToListAsync();         
         }
 
-        public async Task<Material?> GetByMaterialIdAsync(string materialId)
+        public async Task<Material?> GetMaterialByIdAsync(string materialId)
         {
             return await _context.Materials
                                  .Include(e => e.Properties)

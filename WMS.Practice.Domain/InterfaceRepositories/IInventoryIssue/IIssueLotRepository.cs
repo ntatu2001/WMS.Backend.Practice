@@ -2,9 +2,10 @@
 {
     public interface IIssueLotRepository : IRepository<IssueLot>
     {
+        Task<bool> ExistsAsync(string id);
         Task<List<IssueLot>> GetAllIssueLotsAsync();
         Task<List<IssueLot>> GetIssueLotsNotDone();
-        Task<IssueLot?> GetIssueLotByIssueLotIdAsync(string id);
+        Task<IssueLot?> GetIssueLotByIdAsync(string id);
         Task<IssueLot?> GetIssueLotWithDetailsByIssueLotIdAsync(string id);
     }
 }

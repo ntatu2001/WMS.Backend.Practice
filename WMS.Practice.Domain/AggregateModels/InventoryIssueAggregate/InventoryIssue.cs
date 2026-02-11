@@ -4,7 +4,7 @@
     {
         public string InventoryIssueId { get; set; }
         public DateTime IssueDate { get; set; }
-        public IssueStatus Status { get; set; }
+        public IssueStatus IssueStatus { get; set; }
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
         public string EmployeeId { get; set; }
@@ -13,16 +13,17 @@
         public Warehouse Warehouse { get; set; }
         public List<InventoryIssueEntry> Entries { get; set; }
 
-        public InventoryIssue(string inventoryIssueId, DateTime issueDate, IssueStatus status, string customerId, string employeeId, string warehouseId)
+        public InventoryIssue(string inventoryIssueId, DateTime issueDate, IssueStatus issueStatus, string customerId, string employeeId, string warehouseId)
         {
             InventoryIssueId = inventoryIssueId;
             IssueDate = issueDate;
-            Status = status;
+            IssueStatus = issueStatus;
             CustomerId = customerId;
             EmployeeId = employeeId;
             WarehouseId = warehouseId;
         }
 
+        public bool IsDone() => IssueStatus is IssueStatus.Done;
         public void RaiseInventoryLog(List<MaterialLot> materialLots, InventoryIssue inventoryIssue)
         {
             if (materialLots is null || materialLots.Count == 0)
@@ -51,6 +52,25 @@
                     }
                 }
             }
+        }
+
+        public void AddEntry(InventoryIssueEntry newEntry)
+        {
+            Entries ??= new List<InventoryIssueEntry>();
+            Entries.Add(newEntry);
+        }
+
+        public InventoryIssueEntry? GetInventoryEntry(string entryId)
+        {
+            return Entries?.FirstOrDefault(x => x.InventoryIssueEntryId == entryId);
+        }
+
+        public void Update(string? customerId = null, string? employeeId = null, string? warehouseId = null, IssueStatus? issueStatus = null)
+        {
+            CustomerId = customerId ?? CustomerId;
+            EmployeeId = employeeId ?? EmployeeId;
+            WarehouseId = warehouseId ?? WarehouseId;
+            IssueStatus = issueStatus ?? IssueStatus;
         }
     }
 }
