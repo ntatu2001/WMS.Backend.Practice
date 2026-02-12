@@ -41,7 +41,7 @@
                              previousQuantity: materialLot.ExistingQuantity,
                              adjustedQuantity: totalAdjustedQuantity);
 
-            stockTake.Confirm(stockTake);
+            stockTake.Confirm(stockTake, materialLot.LotNumber);
 
 
             return await _stockRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

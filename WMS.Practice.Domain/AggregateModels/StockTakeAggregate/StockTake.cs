@@ -55,17 +55,17 @@
             AdjustedQuantity = adjustedQuantity ?? AdjustedQuantity;
         }
 
-        public void Confirm(StockTake stockTake)
+        public void Confirm(StockTake stockTake, string lotNumber)
         {
 
             AddDomainEvent(new InventoryLogAddedDomainEvent(transactionType: TransactionType.Adjustment,
-                                                            transactionDate: GetVietnamTime(),
-                                                            previousQuantity: stockTake.previousQuantity,
-                                                            changedQuantity: stockTake.adjustedQuantity - stockTake.previousQuantity,
-                                                            afterQuantity: stockTake.adjustedQuantity,
+                                                            transactionDate: DateTime.Now.ToVietNamTime(),
+                                                            previousQuantity: stockTake.PreviousQuantity,
+                                                            changedQuantity: stockTake.AdjustedQuantity - stockTake.PreviousQuantity,
+                                                            afterQuantity: stockTake.AdjustedQuantity,
                                                             note: "",
-                                                            lotNumber: materialLot.lotNumber,
-                                                            warehouseId: stockTake.warehouseId));
+                                                            lotNumber: lotNumber,
+                                                            warehouseId: stockTake.WarehouseId));
 
         }
     }
