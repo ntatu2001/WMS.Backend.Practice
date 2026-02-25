@@ -14,7 +14,7 @@
         public async Task<IssueLot?> GetIssueLotWithDetailsByIssueLotIdAsync(string issueLotId)
         {
             return await _context.IssueLots
-                                 .Include(x => x.SubLots)
+                                 .Include(x => x.IssueSubLots)
                                     .ThenInclude(x => x.MaterialSubLot)
                                  .Include(x => x.InventoryIssueEntry)
                                     .ThenInclude(x => x.InventoryIssue)
@@ -24,7 +24,7 @@
         public Task<IssueLot?> GetIssueLotByIdAsync(string issueLotId)
         {
             return _context.IssueLots
-                           .Include(x => x.SubLots)
+                           .Include(x => x.IssueSubLots)
                                .ThenInclude(x => x.MaterialSubLot)
                            .FirstOrDefaultAsync(x => x.IssueLotId == issueLotId);
         }

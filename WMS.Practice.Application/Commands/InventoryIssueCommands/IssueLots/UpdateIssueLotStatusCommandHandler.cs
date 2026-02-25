@@ -56,7 +56,7 @@
             if (issueLot.RequestedQuantity > materialLot.ExistingQuantity)
                 throw new Exception($"Requested quantity ({issueLot.RequestedQuantity}) exceeds available quantity ({materialLot.ExistingQuantity}) for lot {issueLot.MaterialLotId}");
 
-            foreach (var issueSubLot in issueLot.SubLots)
+            foreach (var issueSubLot in issueLot.IssueSubLots)
             {
                 var materialSubLot = await _materialSubLotRepository.GetByIdAsync(issueSubLot.IssueSubLotId)
                                   ?? throw new EntityNotFoundException(nameof(MaterialSubLot), issueSubLot.IssueSubLotId);

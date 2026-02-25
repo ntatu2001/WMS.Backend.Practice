@@ -10,6 +10,7 @@
         Task<List<MaterialSubLot>> GetMaterialSubLotsByLotNumber(string lotNumber);
         Task<MaterialSubLot> GetMaterialSubLotByLotNumberAndLocationId(string lotNumber, string locationId);
         Task<List<MaterialSubLot>> GetMaterialSubLotsByStatus(LotStatus status);
+        Task<Material?> GetMaterialBySubLotIdAsync(string subLotId);
         void Create(MaterialSubLot materialSubLot);
         void Delete(MaterialSubLot materialSubLot);
         void Update(MaterialSubLot materialSubLot);

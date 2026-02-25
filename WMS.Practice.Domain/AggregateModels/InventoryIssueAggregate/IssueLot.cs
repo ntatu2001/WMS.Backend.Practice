@@ -4,7 +4,7 @@
     {
         public string IssueLotId { get; set; }
         public double RequestedQuantity { get; set; }
-        public List<IssueSubLot> SubLots { get; set; } = new List<IssueSubLot>();
+        public List<IssueSubLot> IssueSubLots { get; set; } = new List<IssueSubLot>();
         public Material Material { get; set; }
         public LotStatus LotStatus { get; set; }
         public string MaterialLotId { get; set; }
@@ -37,8 +37,8 @@
 
         public void AddSubLot(IssueSubLot issueSubLot)
         {
-            SubLots ??= new List<IssueSubLot>();
-            SubLots.Add(issueSubLot);
+            IssueSubLots ??= new List<IssueSubLot>();
+            IssueSubLots.Add(issueSubLot);
         }
     }
 }

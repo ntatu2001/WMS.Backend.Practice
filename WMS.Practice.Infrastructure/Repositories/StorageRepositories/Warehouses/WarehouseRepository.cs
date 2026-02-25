@@ -49,5 +49,11 @@
         {
             return await _context.Warehouses.AnyAsync(x => x.WarehouseId.Equals(warehouseId, StringComparison.OrdinalIgnoreCase));
         }
+
+        public async Task<string> GetWarehouseNameByIdAsync(string id)
+        {
+            var warehouse = await _context.Warehouses.FirstOrDefaultAsync(w => w.WarehouseId.Equals(id, StringComparison.OrdinalIgnoreCase));
+            return warehouse?.WarehouseName ?? string.Empty;
+        }
     }
 }

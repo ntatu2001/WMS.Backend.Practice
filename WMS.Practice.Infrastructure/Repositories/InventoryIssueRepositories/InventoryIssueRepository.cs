@@ -21,7 +21,7 @@
             return await _context.InventoryIssues
                                  .Include(e => e.Entries)
                                     .ThenInclude(e => e.IssueLot)
-                                        .ThenInclude(e => e.SubLots)
+                                        .ThenInclude(e => e.IssueSubLots)
                                             .ThenInclude(e => e.MaterialSubLot)
                                  .ToListAsync(); 
         }
@@ -31,20 +31,9 @@
             return await _context.InventoryIssues
                                  .Include(e => e.Entries)
                                     .ThenInclude(e => e.IssueLot)
-                                        .ThenInclude(e => e.SubLots)
+                                        .ThenInclude(e => e.IssueSubLots)
                                             .ThenInclude(e => e.MaterialSubLot)
                                  .FirstOrDefaultAsync(ii => ii.InventoryIssueId == inventoryIssueId);
-        }
-
-        public async Task<List<InventoryIssue>> GetInventoryIssuesByLocationId(string locationId)
-        {
-            return await _context.InventoryIssues
-                                 .Include(e => e.Entries)
-                                    .ThenInclude(e => e.IssueLot)
-                                        .ThenInclude(e => e.SubLots)
-                                            .ThenInclude(e => e.MaterialSubLot)
-                                 .Where(ii => ii.Entries.Any(entry => entry.IssueLot.SubLots.Any(sub => sub.MaterialSubLot.LocationId == locationId)))
-                                 .ToListAsync();
         }
 
         public async Task<List<InventoryIssue>> GetInventoryIssuesByTimeRangeOption(DateTime start, DateTime end)
@@ -52,7 +41,7 @@
             return await _context.InventoryIssues
                                  .Include(e => e.Entries)
                                     .ThenInclude(e => e.IssueLot)
-                                        .ThenInclude(e => e.SubLots)
+                                        .ThenInclude(e => e.IssueSubLots)
                                             .ThenInclude(e => e.MaterialSubLot)
                                  .Where(ii => ii.IssueDate >= start && ii.IssueDate <= end)
                                  .ToListAsync();
@@ -63,7 +52,7 @@
             return _context.InventoryIssues
                            .Include(e => e.Entries)
                               .ThenInclude(e => e.IssueLot)
-                                  .ThenInclude(e => e.SubLots)
+                                  .ThenInclude(e => e.IssueSubLots)
                                       .ThenInclude(e => e.MaterialSubLot)
                            .Where(ii => ii.Entries.Any(entry => entryIds.Contains(entry.InventoryIssueEntryId)))
                            .ToListAsync();

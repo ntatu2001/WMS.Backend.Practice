@@ -17,7 +17,7 @@
                    .IsRequired();
 
             builder.HasOne(isl => isl.IssueLot)
-                   .WithMany(il => il.SubLots)
+                   .WithMany(il => il.IssueSubLots)
                    .HasForeignKey(isl => isl.IssueLotId)
                    .IsRequired();
         }

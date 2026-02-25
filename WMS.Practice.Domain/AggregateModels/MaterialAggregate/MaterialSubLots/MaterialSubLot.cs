@@ -22,6 +22,8 @@
             UnitOfMeasure = unitOfMeasure;
         }
 
+        public bool HasExistingQuantity() => ExistingQuantity > 0.0;
+
         public void Update(LotStatus? subLotStatus, double? existingQuality, UnitOfMeasure? unitOfMeasure, string? locationId)
         {
             SubLotStatus = subLotStatus ?? SubLotStatus;

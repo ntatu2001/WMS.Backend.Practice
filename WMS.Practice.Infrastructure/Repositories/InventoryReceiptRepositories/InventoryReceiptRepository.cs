@@ -44,17 +44,6 @@
                                  .ToListAsync();
         }
 
-        public async Task<List<InventoryReceipt>> GetInventoryReceiptsByLocationId(string locationId)
-        {
-            return await _context.InventoryReceipts
-                                 .Include(e => e.Entries)
-                                    .ThenInclude(e => e.ReceiptLot)
-                                        .ThenInclude(e => e.ReceiptSubLots)
-                                 .Where(ir => ir.Entries.Any(e => e.ReceiptLot.ReceiptSubLots.Any(x => x.LocationId == locationId)
-                                                               && e.ReceiptLot.LotStatus == LotStatus.Done))
-                                 .ToListAsync();
-        }
-
         public async Task<List<InventoryReceipt>> GetInventoryReceiptsByTimeRangeOption(DateTime start, DateTime end)
         {
             return await _context.InventoryReceipts

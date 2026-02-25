@@ -23,5 +23,24 @@
                            .Where(rsl => rsl.ReceiptLotId == lotId)
                            .ToListAsync();
         }
+
+        public async Task<string?> GetMaterialNameByReceiptSubLotIdAsync(string receiptSubLotId)
+        {
+            return await _context.ReceiptSubLots.Where(s => s.ReceiptSubLotId == receiptSubLotId)
+                                                .Select(s => s.ReceiptLot.Material.MaterialName)
+                                                .FirstOrDefaultAsync();
+        }
+
+
+        public async Task<List<(DateTime ReceiptDate, ReceiptSubLot SubLot)>> GetReceiptSubLotsByLocationIdAndTimeRange(string locationId, DateTime start, DateTime end)
+        {
+            var data = await _context.InventoryReceipts.Where(receipt => receipt.ReceiptDate >= start && receipt.ReceiptDate <= end)
+                                                        .SelectMany(receipt => receipt.Entries.Where(e => e.ReceiptLot.LotStatus == LotStatus.Done)
+                                                            .SelectMany(e => e.ReceiptLot.ReceiptSubLots.Where(s => s.LocationId == locationId)
+                                                                .Select(subLot => new { receipt.ReceiptDate, SubLot = subLot })))
+                                                        .ToListAsync();
+
+            return data.Select(x => (x.ReceiptDate, x.SubLot)).ToList();
+        }
     }
 }

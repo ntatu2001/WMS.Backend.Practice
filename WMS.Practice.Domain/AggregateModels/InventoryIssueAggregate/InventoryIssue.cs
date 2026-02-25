@@ -24,6 +24,7 @@
         }
 
         public bool IsDone() => IssueStatus is IssueStatus.Done;
+
         public void RaiseInventoryLog(List<MaterialLot> materialLots, InventoryIssue inventoryIssue)
         {
             if (materialLots is null || materialLots.Count == 0)

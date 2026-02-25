@@ -2,6 +2,13 @@
 {
     public class Material : Entity, IAggregateModel
     {
+        #region Constants
+
+        private const string volumePackagePropertyName = "VolumePacket";
+        private const string packetSizePropertyName = "PacketSize";
+
+        #endregion
+
         public string MaterialId { get; private set; }
         public string MaterialName { get; private set; }
         public string MaterialClassId { get; private set; }
@@ -50,6 +57,34 @@
                 return false;
 
             propertyValue = property.PropertyValue;
+            return true;
+        }
+
+        public bool TryCalculateUsedVolume(double existingQuantity, out double usedVolume)
+        {
+            usedVolume = 0.0;
+            if (TryGetPacketSize(out var packetSize) is false || TryGetVolumePackage(out var volumePackage) is false)
+                return false;
+
+            usedVolume = (existingQuantity / packetSize) * volumePackage;
+            return true;
+        }
+
+        private bool TryGetVolumePackage(out double volumePackage)
+        {
+            volumePackage = 0.0;
+            if (TryGetPropertyValue(volumePackagePropertyName, out string volumePackageStr) is false || double.TryParse(volumePackageStr.Trim(), out volumePackage))
+                return false;
+
+            return true;
+        }
+
+        private bool TryGetPacketSize(out double packageSize)
+        {
+            packageSize = 0.0;
+            if (TryGetPropertyValue(packetSizePropertyName, out string packageSizeStr) is false || double.TryParse(packageSizeStr.Trim(), out packageSize))
+                return false;
+
             return true;
         }
     }

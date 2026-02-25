@@ -47,7 +47,7 @@
 
         private async Task ValidateSubLotsAsync(IssueLot issueLot)
         {
-            foreach (var subLot in issueLot.SubLots)
+            foreach (var subLot in issueLot.IssueSubLots)
             {
                 var materialSubLot = await _materialSubLotRepository.GetByIdAsync(subLot.MaterialSubLotId)
                                   ?? throw new EntityNotFoundException(nameof(MaterialSubLot), subLot.MaterialSubLotId);

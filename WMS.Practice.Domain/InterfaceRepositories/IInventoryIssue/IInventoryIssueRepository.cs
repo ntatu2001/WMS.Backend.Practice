@@ -4,7 +4,6 @@
     {
         Task<List<InventoryIssue>> GetAllAsync();
         Task<InventoryIssue?> GetByIdAsync(string inventoryIssueId);
-        Task<List<InventoryIssue>> GetInventoryIssuesByLocationId(string locationId);
         Task<List<InventoryIssue>> GetInventoryIssuesByTimeRangeOption(DateTime start, DateTime end);
         Task<List<InventoryIssue>> GetInventoryIssuesByEntryIds(List<string> entryId);
         void Create(InventoryIssue inventoryIssue);

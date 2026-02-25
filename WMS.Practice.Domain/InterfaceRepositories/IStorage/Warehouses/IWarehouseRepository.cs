@@ -5,6 +5,7 @@
         Task<bool> ExistsAsync(string warehouseId);
         Task<List<Warehouse>> GetAllWarehouses();
         Task<Warehouse?> GetWarehouseByIdAsync(string id);
+        Task<string> GetWarehouseNameByIdAsync(string id);
         Task<List<string>> GetWarehouseIdByWarehouseNameAsync(string warehouseName);
         void Create(Warehouse warehouse);
         void Delete(Warehouse warehouse);
