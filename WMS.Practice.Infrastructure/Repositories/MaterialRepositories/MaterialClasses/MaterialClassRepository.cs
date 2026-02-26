@@ -30,7 +30,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<MaterialClass?> GetByClassIdAsync(string classId)
+        public async Task<MaterialClass?> GetMaterialClassByClassIdAsync(string classId)
         {
             return await _context.MaterialClasses
                                  .Include(mc => mc.Properties)    

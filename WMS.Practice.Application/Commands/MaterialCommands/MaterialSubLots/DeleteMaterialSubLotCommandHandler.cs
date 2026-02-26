@@ -11,7 +11,7 @@
 
         public async Task<bool> Handle(DeleteMaterialSubLotCommand request, CancellationToken cancellationToken)
         {
-            var materialSubLot = await _materialSubLotRepository.GetByIdAsync(request.SubLotId)
+            var materialSubLot = await _materialSubLotRepository.GetMaterialSubLotByIdAsync(request.SubLotId)
                               ?? throw new EntityNotFoundException(nameof(MaterialSubLot), request.SubLotId); ;
 
             _materialSubLotRepository.Delete(materialSubLot);

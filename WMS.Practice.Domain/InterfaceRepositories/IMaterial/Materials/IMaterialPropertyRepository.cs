@@ -2,8 +2,8 @@
 {
     public interface IMaterialPropertyRepository : IRepository<MaterialProperty>
     {
-        Task<List<MaterialProperty>> GetAllAsync();
-        Task<MaterialProperty?> GetByPropertyIdAsync(string materialPropertyId);
+        Task<List<MaterialProperty>> GetAllMaterialPropertiesAsync();
+        Task<MaterialProperty?> GetMaterialPropertyByPropertyIdAsync(string materialPropertyId);
         void Create(MaterialProperty materialProperty);
         void Delete(MaterialProperty materialProperty);
         void Update(MaterialProperty materialProperty);

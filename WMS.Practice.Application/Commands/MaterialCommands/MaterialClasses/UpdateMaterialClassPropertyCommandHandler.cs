@@ -17,7 +17,7 @@
                 throw new EntityNotFoundException("Material Class could not found", nameof(request.MaterialClassId));
             }
 
-            var existingProperty = await _propertyRepository.GetByIdAsync(request.PropertyId)
+            var existingProperty = await _propertyRepository.GetMaterialClassPropertyByPropertyIdAsync(request.PropertyId)
                                 ?? throw new EntityNotFoundException("Material Class Property could not found", nameof(request.PropertyId));
 
             existingProperty.Update(propertyName: request.PropertyName,

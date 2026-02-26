@@ -1,4 +1,6 @@
-﻿namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
+﻿using System.Text.RegularExpressions;
+
+namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
 {
     public class Warehouse : Entity, IAggregateModel
     {
@@ -21,6 +23,12 @@
         {
             WarehouseId = warehouseId;
             WarehouseName = warehouseName;
+        }
+
+        public string GetMaterialClassId()
+        {
+            var match = Regex.Match(WarehouseId, @"^\D+");
+            return match.Success ? match.Value : string.Empty;
         }
     }
 }

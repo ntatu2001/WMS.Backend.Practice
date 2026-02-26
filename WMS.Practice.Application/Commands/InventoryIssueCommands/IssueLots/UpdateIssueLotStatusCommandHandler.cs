@@ -58,7 +58,7 @@
 
             foreach (var issueSubLot in issueLot.IssueSubLots)
             {
-                var materialSubLot = await _materialSubLotRepository.GetByIdAsync(issueSubLot.IssueSubLotId)
+                var materialSubLot = await _materialSubLotRepository.GetMaterialSubLotByIdAsync(issueSubLot.IssueSubLotId)
                                   ?? throw new EntityNotFoundException(nameof(MaterialSubLot), issueSubLot.IssueSubLotId);
 
                 if (issueSubLot.RequestedQuantity > materialSubLot.ExistingQuantity)

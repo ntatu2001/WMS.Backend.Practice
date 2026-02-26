@@ -32,6 +32,8 @@ global using WMS.Practice.Domain.InterfaceRepositories.IStorage;
 global using WMS.Practice.Application.DTOs.MaterialDTOs.Materials;
 global using WMS.Practice.Application.DTOs.MaterialDTOs.MaterialSubLots;
 global using WMS.Practice.Application.DTOs.StorageDTOs.Locations;
+global using WMS.Practice.Application.DTOs.MaterialDTOs.MaterialLots;
+
 
 
 

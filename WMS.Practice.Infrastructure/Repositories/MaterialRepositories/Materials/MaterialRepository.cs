@@ -46,5 +46,13 @@
         {
             _context.Materials.Update(material);
         }
+
+        public async Task<List<Material>> GetMaterialsByClassIdAndMaterialLots(string classId)
+        {
+            return await _context.Materials.Include(e => e.MaterialLots)
+                                           .Where(e => e.MaterialClassId.Equals(classId, StringComparison.OrdinalIgnoreCase) 
+                                                    && e.MaterialLots.Count > 0)
+                                           .ToListAsync();
+        }
     }
 }

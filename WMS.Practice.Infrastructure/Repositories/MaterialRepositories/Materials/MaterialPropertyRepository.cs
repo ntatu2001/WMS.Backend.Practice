@@ -21,12 +21,12 @@
             return await _context.MaterialProperties.AnyAsync(x => x.PropertyId == propertyId);
         }
 
-        public async Task<List<MaterialProperty>> GetAllAsync()
+        public async Task<List<MaterialProperty>> GetAllMaterialPropertiesAsync()
         {
             return await _context.MaterialProperties.ToListAsync();
         }
 
-        public Task<MaterialProperty?> GetByPropertyIdAsync(string materialPropertyId)
+        public Task<MaterialProperty?> GetMaterialPropertyByPropertyIdAsync(string materialPropertyId)
         {
             return _context.MaterialProperties
                            .FirstOrDefaultAsync(mp => mp.PropertyId.Equals(materialPropertyId, StringComparison.OrdinalIgnoreCase));

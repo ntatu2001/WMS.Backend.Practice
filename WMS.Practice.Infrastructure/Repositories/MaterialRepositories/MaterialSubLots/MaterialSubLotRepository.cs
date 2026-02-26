@@ -26,7 +26,7 @@
             return await _context.MaterialSubLots.AnyAsync(x => x.MaterialSubLotId == materialSubLotId);
         }
 
-        public async Task<List<MaterialSubLot>> GetAllAsync()
+        public async Task<List<MaterialSubLot>> GetAllMaterialSubLotsAsync()
         {
             return await _context.MaterialSubLots
                                  .Include(e => e.Location)
@@ -34,7 +34,7 @@
                                  .ToListAsync();         
         }
 
-        public async Task<MaterialSubLot?> GetByIdAsync(string Id)
+        public async Task<MaterialSubLot?> GetMaterialSubLotByIdAsync(string Id)
         {
             return await _context.MaterialSubLots
                                  .Include(e => e.Location)
@@ -56,7 +56,7 @@
                                  .FirstOrDefaultAsync(e => e.MaterialLot.LotNumber == lotNumber && e.LocationId == locationId);
         }
 
-        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByLocationId(string locationId)
+        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByLocationIdAsync(string locationId)
         {
             return await _context.MaterialSubLots
                                  .Include(e => e.Location)
@@ -65,7 +65,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByLotNumber(string lotNumber)
+        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByLotNumberAsync(string lotNumber)
         {
             return await _context.MaterialSubLots
                                  .Include(e => e.Location)
@@ -74,7 +74,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByStatus(LotStatus status)
+        public async Task<List<MaterialSubLot>> GetMaterialSubLotsByStatusAsync(LotStatus status)
         {
             return await _context.MaterialSubLots
                                  .Include(e => e.Location)

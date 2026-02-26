@@ -10,7 +10,7 @@
 
         public async Task<bool> Handle(UpdateMaterialClassCommand request, CancellationToken cancellationToken)
         {
-            var existingClass = await _materialClassRepository.GetByClassIdAsync(request.MaterialClassId)
+            var existingClass = await _materialClassRepository.GetMaterialClassByClassIdAsync(request.MaterialClassId)
                              ?? throw new EntityNotFoundException("Material Class could not found", nameof(request.MaterialClassId));
 
             existingClass.UpdateInfo(request.ClassName);

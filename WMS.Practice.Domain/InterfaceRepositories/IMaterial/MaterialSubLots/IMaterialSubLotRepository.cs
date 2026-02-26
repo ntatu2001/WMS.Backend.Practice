@@ -4,12 +4,12 @@
     {
         Task<bool> ExistsAsync(string materialSubLotId);
         Task<bool> ExistMaterialSubLotsByLotNumber(string lotNumber);
-        Task<List<MaterialSubLot>> GetAllAsync();
-        Task<List<MaterialSubLot>> GetMaterialSubLotsByLocationId(string locationId);
-        Task<MaterialSubLot?> GetByIdAsync(string Id);
-        Task<List<MaterialSubLot>> GetMaterialSubLotsByLotNumber(string lotNumber);
+        Task<List<MaterialSubLot>> GetAllMaterialSubLotsAsync();
+        Task<List<MaterialSubLot>> GetMaterialSubLotsByLocationIdAsync(string locationId);
+        Task<MaterialSubLot?> GetMaterialSubLotByIdAsync(string Id);
+        Task<List<MaterialSubLot>> GetMaterialSubLotsByLotNumberAsync(string lotNumber);
         Task<MaterialSubLot> GetMaterialSubLotByLotNumberAndLocationId(string lotNumber, string locationId);
-        Task<List<MaterialSubLot>> GetMaterialSubLotsByStatus(LotStatus status);
+        Task<List<MaterialSubLot>> GetMaterialSubLotsByStatusAsync(LotStatus status);
         Task<Material?> GetMaterialBySubLotIdAsync(string subLotId);
         void Create(MaterialSubLot materialSubLot);
         void Delete(MaterialSubLot materialSubLot);

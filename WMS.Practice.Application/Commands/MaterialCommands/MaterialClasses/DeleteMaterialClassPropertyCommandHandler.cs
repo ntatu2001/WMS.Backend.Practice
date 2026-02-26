@@ -10,7 +10,7 @@
 
         public async Task<bool> Handle(DeleteMaterialClassPropertyCommand request, CancellationToken cancellationToken)
         {
-            var existingProperty = await _propertyRepository.GetByIdAsync(request.MaterialClassPropertyId)
+            var existingProperty = await _propertyRepository.GetMaterialClassPropertyByPropertyIdAsync(request.MaterialClassPropertyId)
                                 ?? throw new EntityNotFoundException("Material Class Entity could not found", nameof(request.MaterialClassPropertyId));
 
             _propertyRepository.Delete(existingProperty);

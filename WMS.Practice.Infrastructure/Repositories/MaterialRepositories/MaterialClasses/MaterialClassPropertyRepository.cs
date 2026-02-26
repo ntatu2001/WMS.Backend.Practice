@@ -21,7 +21,7 @@
             return await _context.MaterialClassProperties.ToListAsync();
         }
 
-        public async Task<MaterialClassProperty?> GetByIdAsync(string propertyId)
+        public async Task<MaterialClassProperty?> GetMaterialClassPropertyByPropertyIdAsync(string propertyId)
         {
             return await _context.MaterialClassProperties
                                  .FirstOrDefaultAsync(mcp => mcp.PropertyId == propertyId);

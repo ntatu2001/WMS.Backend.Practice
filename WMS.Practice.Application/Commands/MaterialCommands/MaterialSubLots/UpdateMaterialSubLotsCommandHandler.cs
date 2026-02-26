@@ -15,7 +15,7 @@
 
         public async Task<bool> Handle(UpdateMaterialSubLotsCommand request, CancellationToken cancellationToken)
         {
-            var materialSubLots = await _materialSubLotRepository.GetMaterialSubLotsByLotNumber(request.LotNumber)
+            var materialSubLots = await _materialSubLotRepository.GetMaterialSubLotsByLotNumberAsync(request.LotNumber)
                                ?? throw new EntityNotFoundException(nameof(MaterialSubLot), request.LotNumber);
 
             var totalQuantity = 0.0;
