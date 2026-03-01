@@ -11,7 +11,7 @@
             _context.InventoryReceiptEntries.Remove(inventoryReceiptEntry);
         }
 
-        public async Task<List<InventoryReceiptEntry>> GetAllAsync()
+        public async Task<List<InventoryReceiptEntry>> GetAllInventoryReceiptEntriesAsync()
         {
             return await _context.InventoryReceiptEntries
                                  .Include(x => x.ReceiptLot)

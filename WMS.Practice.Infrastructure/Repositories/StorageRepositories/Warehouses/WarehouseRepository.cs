@@ -50,10 +50,20 @@
             return await _context.Warehouses.AnyAsync(x => x.WarehouseId.Equals(warehouseId, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<string> GetWarehouseNameByIdAsync(string id)
+        public async Task<string?> GetWarehouseNameByIdAsync(string warehouseId)
         {
-            var warehouse = await _context.Warehouses.FirstOrDefaultAsync(w => w.WarehouseId.Equals(id, StringComparison.OrdinalIgnoreCase));
-            return warehouse?.WarehouseName ?? string.Empty;
+            return await _context.Warehouses.Where(w => w.WarehouseId == warehouseId)
+                                 .Select(w => w.WarehouseName)
+                                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<(string WarehouseId, string WarehouseName)?> GetWarehouseNameAndIdByIdAsync(string warehouseId)
+        {
+            var item = await _context.Warehouses.Where(w => w.WarehouseId == warehouseId)
+                                     .Select(w => new { w.WarehouseId, w.WarehouseName })
+                                     .FirstOrDefaultAsync();
+
+            return item is not null ? (item.WarehouseId, item.WarehouseName) : null;
         }
     }
 }

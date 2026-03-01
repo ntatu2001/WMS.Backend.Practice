@@ -7,6 +7,7 @@
         Task<List<Material>> GetMaterialsByClassIdAsync(string classId);
         Task<List<Material>> GetMaterialsByClassIdAndMaterialLots(string classId);
         Task<Material?> GetMaterialByIdAsync(string materialId);
+        Task<string?> GetMaterialNameByIdAsync(string materialId);
         void Create(Material material);
         void Delete(Material material);
         void Update(Material material);

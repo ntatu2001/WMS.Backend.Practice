@@ -35,7 +35,7 @@
             // Save the Status of Receipt Lot and Material Lot (if created) from DBContext to MSSQL
             await _receiptLotRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-            var inventoryReceipt = await _inventoryReceiptRepository.GetByReceiptIdAsync(receiptLot.InventoryReceiptEntry.InventoryReceiptId)
+            var inventoryReceipt = await _inventoryReceiptRepository.GetInventoryReceiptByReceiptIdAsync(receiptLot.InventoryReceiptEntry.InventoryReceiptId)
                                 ?? throw new EntityNotFoundException(nameof(InventoryReceipt), receiptLot.InventoryReceiptEntry.InventoryReceiptId);
 
             // Update the Status of Inventory Receipt based on Entries Status

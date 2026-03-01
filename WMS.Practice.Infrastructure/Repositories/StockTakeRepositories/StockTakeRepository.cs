@@ -11,7 +11,7 @@
             _context.StockTakes.Add(materialLotAdjustment);
         }
 
-        public async Task<List<StockTake>> GetAll()
+        public async Task<List<StockTake>> GetAllStockTakeLotsAsync()
         {
             return await _context.StockTakes
                                  .Include(x => x.SubLots)
@@ -49,6 +49,14 @@
         public async Task<bool> ExistsAsync(string stockTakeId)
         {
             return await _context.StockTakes.AnyAsync(x => x.StockTakeId == stockTakeId);
+        }
+
+        public IQueryable<StockTake?> QueryAllStockTakes()
+        {
+            return _context.StockTakes
+                           .Include(x => x.SubLots)
+                           .AsNoTracking()
+                           .OrderByDescending(x => x.AdjustmentDate);
         }
     }
 }

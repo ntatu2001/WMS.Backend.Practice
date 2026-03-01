@@ -40,7 +40,7 @@
 
             // After updating Status for Issue Lot, verify the overall status of Inventory Issue 
             // Update to DONE for Inventory Issue if all Entries are DONE
-            var inventoryIssue = await _inventoryIssueRepository.GetByIdAsync(issueLot.InventoryIssueEntry.InventoryIssueId)
+            var inventoryIssue = await _inventoryIssueRepository.GetInventoryIssueByIdAsync(issueLot.InventoryIssueEntry.InventoryIssueId)
                               ?? throw new EntityNotFoundException(nameof(InventoryReceipt), issueLot.InventoryIssueEntry.InventoryIssueId);
 
             var overallIssueStatus = GetOverallInventoryIssueStatus(inventoryIssue);

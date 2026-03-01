@@ -6,6 +6,8 @@
 
         private const string volumePackagePropertyName = "VolumePacket";
         private const string packetSizePropertyName = "PacketSize";
+        private const string storageLevelPropertyName = "StorageLevel";
+        private const string unitOfMeasurePropertyName = "Unit";
 
         #endregion
 
@@ -60,6 +62,11 @@
             return true;
         }
 
+        public bool TryGetUnitOfMeasure(out string unitOfMeasure)
+        {
+            return TryGetPropertyValue(unitOfMeasurePropertyName, out unitOfMeasure);
+        }
+
         public bool TryCalculateUsedVolume(double existingQuantity, out double usedVolume)
         {
             usedVolume = 0.0;
@@ -73,7 +80,7 @@
         private bool TryGetVolumePackage(out double volumePackage)
         {
             volumePackage = 0.0;
-            if (TryGetPropertyValue(volumePackagePropertyName, out string volumePackageStr) is false || double.TryParse(volumePackageStr.Trim(), out volumePackage))
+            if (TryGetPropertyValue(volumePackagePropertyName, out string volumePackageStr) is false || double.TryParse(volumePackageStr.Trim(), out volumePackage) is false)
                 return false;
 
             return true;
@@ -82,7 +89,16 @@
         private bool TryGetPacketSize(out double packageSize)
         {
             packageSize = 0.0;
-            if (TryGetPropertyValue(packetSizePropertyName, out string packageSizeStr) is false || double.TryParse(packageSizeStr.Trim(), out packageSize))
+            if (TryGetPropertyValue(packetSizePropertyName, out string packageSizeStr) is false || double.TryParse(packageSizeStr.Trim(), out packageSize) is false)
+                return false;
+
+            return true;
+        }
+
+        public bool TryGetStorageLevel(out int storageLevel)
+        {
+            storageLevel = 0;
+            if (TryGetPropertyValue(storageLevelPropertyName, out string storageLevelStr) is false || int.TryParse(storageLevelStr.Trim(), out storageLevel) is false)
                 return false;
 
             return true;

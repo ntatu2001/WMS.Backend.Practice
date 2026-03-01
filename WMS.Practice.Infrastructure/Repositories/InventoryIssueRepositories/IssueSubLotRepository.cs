@@ -11,7 +11,7 @@
             return await _context.IssueSubLots.AnyAsync(x => x.IssueSubLotId == issueSubLotId);
         }
 
-        public async Task<List<IssueSubLot>> GetAllAsync()
+        public async Task<List<IssueSubLot>> GetAllInventorySubLotsAsync()
         {
             return await _context.IssueSubLots.ToListAsync();
         }

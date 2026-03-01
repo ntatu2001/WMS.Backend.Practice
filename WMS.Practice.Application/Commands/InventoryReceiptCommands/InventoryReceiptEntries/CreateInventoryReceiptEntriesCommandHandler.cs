@@ -15,7 +15,7 @@
 
         public async Task<List<string>> Handle(CreateInventoryReceiptEntriesCommand request, CancellationToken cancellationToken)
         {
-            var inventoryReceipt = await _inventoryReceiptRepository.GetByReceiptIdAsync(request.InventoryReceiptId)
+            var inventoryReceipt = await _inventoryReceiptRepository.GetInventoryReceiptByReceiptIdAsync(request.InventoryReceiptId)
                                 ?? throw new EntityNotFoundException(nameof(InventoryReceipt), request.InventoryReceiptId);
 
             if (inventoryReceipt.IsDone())

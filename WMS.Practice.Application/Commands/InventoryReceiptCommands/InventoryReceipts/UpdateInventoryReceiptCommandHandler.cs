@@ -13,7 +13,7 @@
 
         public async Task<bool> Handle(UpdateInventoryReceiptCommand request, CancellationToken cancellationToken)
         {
-            var existingReceipt = await _inventoryReceiptRepository.GetByReceiptIdAsync(request.InventoryReceiptId)
+            var existingReceipt = await _inventoryReceiptRepository.GetInventoryReceiptByReceiptIdAsync(request.InventoryReceiptId)
                        ?? throw new EntityNotFoundException(nameof(InventoryReceipt), request.InventoryReceiptId);
 
             if (existingReceipt.IsDone())

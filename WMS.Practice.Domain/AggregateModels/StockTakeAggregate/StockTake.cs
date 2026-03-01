@@ -22,8 +22,8 @@
         public Warehouse Warehouse { get; private set; }
 
         public List<StockTakeSubLot> SubLots { get; set; }
-        
-        public StockTake(string stockTakeId, double previousQuantity, double adjustedQuantity, AdjustmentReason reason, AdjustmentStatus status, AdjustmentType type, 
+
+        public StockTake(string stockTakeId, double previousQuantity, double adjustedQuantity, AdjustmentReason reason, AdjustmentStatus status, AdjustmentType type,
                          DateTime adjustmentDate, string lotNumber, string employeeId, string warehouseId, string note)
         {
             StockTakeId = stockTakeId;
@@ -66,7 +66,47 @@
                                                             note: "",
                                                             lotNumber: lotNumber,
                                                             warehouseId: stockTake.WarehouseId));
+        }
 
+        public string GetAdjustmentTypeString()
+        {
+            return Type switch
+            {
+                AdjustmentType.Periodic => "Kiem ke dinh ky",
+                AdjustmentType.Continuous => "Kiem ke thuong xuyen",
+                AdjustmentType.Random => "Kiem ke dot xuat",
+                AdjustmentType.Cycle => "Kiem ke chu ky",
+                _ => "Khac"
+            };
+        }
+
+        public string GetAdjustmentReasonString()
+        {
+            return Reason switch
+            {
+                AdjustmentReason.Damaged => "Hong",
+                AdjustmentReason.Expired => "Het han",
+                AdjustmentReason.Missing => "Mat",
+                AdjustmentReason.Overstock => "Du thua",
+                AdjustmentReason.Understock => "Thieu",
+                AdjustmentReason.Recount => "Kiem dem lai",
+                AdjustmentReason.QualityReassessment => "Danh gia lai chat luong",
+                _ => "Khac"
+            };
+        }
+
+        public string GetAdjustmentStatusString()
+        {
+            return Status switch
+            {
+                AdjustmentStatus.Pending => "Cho xac nhan",
+                AdjustmentStatus.InProgress => "Dang thuc hien",
+                AdjustmentStatus.Done => "Da hoan thanh",
+                AdjustmentStatus.Cancelled => "Da huy",
+                AdjustmentStatus.Suspended => "Tam ngung",
+                AdjustmentStatus.Blocked => "Bi chan",
+                _ => "Khac"
+            };
         }
     }
 }

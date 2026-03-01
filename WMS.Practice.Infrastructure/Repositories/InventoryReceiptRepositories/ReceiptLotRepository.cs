@@ -22,7 +22,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<ReceiptLot?> GetById(string Id)
+        public async Task<ReceiptLot?> GetReceiptLotByIdAsync(string Id)
         {
             return await _context.ReceiptLots
                                  .Include(rl => rl.Material)

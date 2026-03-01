@@ -16,7 +16,7 @@
             _context.InventoryReceipts.Remove(inventoryReceipt);
         }
 
-        public async Task<List<InventoryReceipt>> GetAllAsync()
+        public async Task<List<InventoryReceipt>> GetAllInventoryReceiptsAsync()
         {
             return await _context.InventoryReceipts
                                  .Include(e => e.Entries)
@@ -25,7 +25,7 @@
                                  .ToListAsync();
         }
 
-        public async Task<InventoryReceipt?> GetByReceiptIdAsync(string inventoryReceiptId)
+        public async Task<InventoryReceipt?> GetInventoryReceiptByReceiptIdAsync(string inventoryReceiptId)
         {
             return await _context.InventoryReceipts
                                  .Include(e => e.Entries)
@@ -52,6 +52,13 @@
                                         .ThenInclude(e => e.ReceiptSubLots)
                                  .Where(ir => ir.ReceiptDate >= start && ir.ReceiptDate <= end)
                                  .ToListAsync();
+        }
+
+        public IQueryable<InventoryReceipt> QueryInventoryReceipts()
+        {
+            return _context.InventoryReceipts.Include(e => e.Entries)
+                                                .ThenInclude(e => e.ReceiptLot)
+                                                    .ThenInclude(e => e.ReceiptSubLots);
         }
     }
 }

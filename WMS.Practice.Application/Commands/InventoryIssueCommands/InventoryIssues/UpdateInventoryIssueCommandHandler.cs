@@ -11,7 +11,7 @@
 
         public async Task<bool> Handle(UpdateInventoryIssueCommand request, CancellationToken cancellationToken)
         {
-            var inventoryIssue = await _inventoryIssueRepository.GetByIdAsync(request.InventoryIssueId)
+            var inventoryIssue = await _inventoryIssueRepository.GetInventoryIssueByIdAsync(request.InventoryIssueId)
                               ?? throw new EntityNotFoundException(nameof(InventoryIssue), request.InventoryIssueId);
 
             if (inventoryIssue.IsDone())

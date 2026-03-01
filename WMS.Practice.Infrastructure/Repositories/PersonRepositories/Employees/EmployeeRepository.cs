@@ -33,6 +33,22 @@
                            .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
 
+        public async Task<(string EmployeeId, string EmployeeName)?> GetEmployeeIdAndNameByIdAsync(string employeeId)
+        {
+            var item = await _context.Employees.Where(e => e.EmployeeId == employeeId)
+                                 .Select(e => new { e.EmployeeId, e.EmployeeName })
+                                 .FirstOrDefaultAsync();
+
+            return item is not null ? (item.EmployeeId, item.EmployeeName) : null;
+        }
+
+        public async Task<string?> GetEmployeeNameByIdAsync(string employeeId)
+        {
+            return await _context.Employees.Where(e => e.EmployeeId == employeeId)
+                                 .Select(e => e.EmployeeName)
+                                 .FirstOrDefaultAsync();
+        }
+
         public void Update(Employee employee)
         {
             _context.Employees.Update(employee);

@@ -17,7 +17,7 @@ namespace WMS.Practice.Application.Commands.InventoryReceiptCommands.InventoryRe
 
         public async Task<bool> Handle(UpdateInventoryReceiptEntryCommand request, CancellationToken cancellationToken)
         {
-            var inventoryReceipt = await _inventoryReceiptRepository.GetByReceiptIdAsync(request.InventoryReceiptId)
+            var inventoryReceipt = await _inventoryReceiptRepository.GetInventoryReceiptByReceiptIdAsync(request.InventoryReceiptId)
                                 ?? throw new EntityNotFoundException(nameof(InventoryReceipt), request.InventoryReceiptId);
 
             if (inventoryReceipt.IsDone())

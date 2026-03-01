@@ -14,12 +14,6 @@
             builder.Property(w => w.WarehouseName)
                    .IsRequired()
                    .HasMaxLength(200);
-
-            // Configure one-to-many relationship with Locations
-            builder.HasMany(w => w.Locations)
-                   .WithOne()
-                   .HasForeignKey(l => l.WarehouseId)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

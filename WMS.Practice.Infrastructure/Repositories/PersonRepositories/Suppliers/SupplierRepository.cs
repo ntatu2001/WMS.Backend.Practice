@@ -36,5 +36,21 @@
         {
             _context.Suppliers.Update(supplier);
         }
+
+        public async Task<string?> GetSupplierNameByIdAsync(string supplierId)
+        {
+            return await _context.Suppliers.Where(s => s.SupplierId == supplierId)
+                                  .Select(s => s.SupplierName)
+                                  .FirstOrDefaultAsync();
+        }
+
+        public async Task<(string SupplierId, string SupplierName)?> GetSupplierNameAndIdByIdAsync(string supplierId)
+        {
+            var item = await _context.Suppliers.Where(s => s.SupplierId == supplierId)
+                                  .Select(s => new { s.SupplierId, s.SupplierName })
+                                  .FirstOrDefaultAsync();
+
+            return item is not null ? (item.SupplierId, item.SupplierName) : null;
+        }
     }
 }

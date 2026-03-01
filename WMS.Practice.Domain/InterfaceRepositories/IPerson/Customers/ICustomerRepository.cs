@@ -4,7 +4,9 @@
     {
         Task<bool> ExistsAsync(string customerId);
         Task<List<Customer>> GetAllAsync();
-        Task<Customer?> GetCustomerByIdAsync(string Id);
+        Task<Customer?> GetCustomerByIdAsync(string customerId);
+        Task<string?> GetCustomerNameByIdAsync(string customerId);
+        Task<(string CustomerId, string CustomerName)?> GetCustomerNameAndIdByIdAsync(string customerId);
         void Create(Customer customer);
         void Update(Customer customer);
         void Remove(Customer customer);

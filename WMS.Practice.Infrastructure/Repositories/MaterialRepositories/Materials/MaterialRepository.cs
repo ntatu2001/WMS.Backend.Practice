@@ -54,5 +54,12 @@
                                                     && e.MaterialLots.Count > 0)
                                            .ToListAsync();
         }
+
+        public async Task<string?> GetMaterialNameByIdAsync(string materialId)
+        {
+            return await _context.Materials.Where(e => e.MaterialId.Equals(materialId, StringComparison.OrdinalIgnoreCase))
+                                  .Select(e => e.MaterialName)
+                                  .FirstOrDefaultAsync();
+        }
     }
 }

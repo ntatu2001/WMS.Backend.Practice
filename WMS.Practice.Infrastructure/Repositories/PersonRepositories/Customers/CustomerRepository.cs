@@ -36,5 +36,21 @@
         {
             _context.Customers.Update(customer);
         }
+
+        public async Task<string?> GetCustomerNameByIdAsync(string customerId)
+        {
+            return await _context.Customers.Where(c => c.CustomerId == customerId)
+                                 .Select(c => c.CustomerName)
+                                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<(string CustomerId, string CustomerName)?> GetCustomerNameAndIdByIdAsync(string customerId)
+        {
+            var item = await _context.Customers.Where(c => c.CustomerId == customerId)
+                                 .Select(c => new { c.CustomerId, c.CustomerName })
+                                 .FirstOrDefaultAsync();
+
+            return item is not null ? (item.CustomerId, item.CustomerName) : null;
+        }
     }
 }

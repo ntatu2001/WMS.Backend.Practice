@@ -14,7 +14,7 @@
             var material = await _materialRepository.GetMaterialByIdAsync(request.MaterialId)
                         ?? throw new EntityNotFoundException($"Material with Id {request.MaterialId} could not found");  
 
-            return material.TryGetPropertyValue("Unit", out string unit) ? unit : string.Empty;
+            return material.TryGetUnitOfMeasure(out string unit) ? unit : string.Empty;
         }
     }
 }

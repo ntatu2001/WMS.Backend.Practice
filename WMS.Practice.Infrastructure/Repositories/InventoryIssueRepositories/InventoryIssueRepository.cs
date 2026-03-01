@@ -16,7 +16,7 @@
             _context.InventoryIssues.Remove(inventoryIssue);
         }
 
-        public async Task<List<InventoryIssue>> GetAllAsync()
+        public async Task<List<InventoryIssue>> GetAllInventoryIssuesAsync()
         {
             return await _context.InventoryIssues
                                  .Include(e => e.Entries)
@@ -26,7 +26,7 @@
                                  .ToListAsync(); 
         }
 
-        public async Task<InventoryIssue?> GetByIdAsync(string inventoryIssueId)
+        public async Task<InventoryIssue?> GetInventoryIssueByIdAsync(string inventoryIssueId)
         {
             return await _context.InventoryIssues
                                  .Include(e => e.Entries)
@@ -47,15 +47,23 @@
                                  .ToListAsync();
         }
 
-        public Task<List<InventoryIssue>> GetInventoryIssuesByEntryIds(List<string> entryIds)
+        public async Task<List<InventoryIssue>> GetInventoryIssuesByEntryIds(List<string> entryIds)
         {
-            return _context.InventoryIssues
+            return await _context.InventoryIssues
                            .Include(e => e.Entries)
                               .ThenInclude(e => e.IssueLot)
                                   .ThenInclude(e => e.IssueSubLots)
                                       .ThenInclude(e => e.MaterialSubLot)
                            .Where(ii => ii.Entries.Any(entry => entryIds.Contains(entry.InventoryIssueEntryId)))
                            .ToListAsync();
+        }
+
+        public IQueryable<InventoryIssue> QueryAllInventoryIssues()
+        {
+            return _context.InventoryIssues.Include(e => e.Entries)
+                                              .ThenInclude(e => e.IssueLot)
+                                                  .ThenInclude(e => e.IssueSubLots)
+                                                      .ThenInclude(e => e.MaterialSubLot);
         }
     }
 }
