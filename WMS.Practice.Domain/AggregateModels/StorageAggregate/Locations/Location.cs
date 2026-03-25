@@ -17,11 +17,16 @@
         public List<MaterialSubLot> MaterialSubLots { get; private set; }
         public List<ReceiptSubLot> ReceiptSubLots { get; private set; }
         public List<IssueSubLot> IssueSubLots { get; private set; }
-        public Location(string locationId, string warehouseId, List<LocationProperty>? properties = null)
+        public Location(string locationId, string warehouseId)
         {
             LocationId = locationId;
             WarehouseId = warehouseId;
-            Properties = properties ?? new List<LocationProperty>();
+            Properties = new List<LocationProperty>();
+        }
+
+        public void AddProperties(List<LocationProperty> properties)
+        {
+            Properties = properties;
         }
 
         public void UpdateWarehouse(string warehouseId)

@@ -1,4 +1,4 @@
-﻿namespace WMS.Practice.Application.Commands.EmployeeCommands.Employees
+﻿namespace WMS.Practice.Application.Commands.PersonCommands.Employees
 {
     public class UpdateEmployeeCommand : IRequest<bool>
     {

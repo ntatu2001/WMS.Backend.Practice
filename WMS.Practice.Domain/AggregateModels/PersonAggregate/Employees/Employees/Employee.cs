@@ -11,12 +11,17 @@
         public List<InventoryIssue> InventoryIssues { get; private set; }
         public List<StockTake> StockTakes { get; private set; }
 
-        public Employee(string employeeId, string employeeName, string employeeClassId, IEnumerable<EmployeeProperty>? properties = null)
+        public Employee(string employeeId, string employeeName, string employeeClassId)
         {
             EmployeeId = employeeId;
             EmployeeName = employeeName;
             EmployeeClassId = employeeClassId;
-            Properties = properties?.ToList() ?? new List<EmployeeProperty>();
+            Properties = new List<EmployeeProperty>();
+        }
+
+        public void AddProperties(List<EmployeeProperty> employeeProperties)
+        {
+            Properties = employeeProperties;
         }
 
         public void UpdateEmployeeInfo(string? employeeName)

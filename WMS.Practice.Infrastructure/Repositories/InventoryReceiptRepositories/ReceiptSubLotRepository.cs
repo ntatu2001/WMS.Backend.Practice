@@ -1,17 +1,17 @@
 ﻿namespace WMS.Practice.Infrastructure.Repositories.InventoryReceiptRepositories
 {
-    public class ReceiptSubLotRepositor : BaseRepository, IReceiptSubLotRepository
+    public class ReceiptSubLotRepository : BaseRepository, IReceiptSubLotRepository
     {
-        public ReceiptSubLotRepositor(WMSDbContext context) : base(context)
+        public ReceiptSubLotRepository(WMSDbContext context) : base(context)
         {
         }
 
-        public async Task<List<ReceiptSubLot>> GetAllAsync()
+        public async Task<List<ReceiptSubLot>> GetAllReceiptSubLotsAsync()
         {
             return await _context.ReceiptSubLots.ToListAsync();
         }
 
-        public Task<ReceiptSubLot?> GetByIdAsync(string receiptSubLotId)
+        public Task<ReceiptSubLot?> GetReceiptSubLotByIdAsync(string receiptSubLotId)
         {
             return _context.ReceiptSubLots
                            .FirstOrDefaultAsync(rsl => rsl.ReceiptSubLotId == receiptSubLotId);

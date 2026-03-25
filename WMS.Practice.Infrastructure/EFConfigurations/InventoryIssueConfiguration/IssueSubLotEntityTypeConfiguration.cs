@@ -14,11 +14,13 @@
             builder.HasOne(isl => isl.MaterialSubLot)
                    .WithMany(x => x.IssueSubLots)
                    .HasForeignKey(isl => isl.MaterialSubLotId)
+                   .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();
 
             builder.HasOne(isl => isl.IssueLot)
                    .WithMany(il => il.IssueSubLots)
                    .HasForeignKey(isl => isl.IssueLotId)
+                   .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();
         }
     }

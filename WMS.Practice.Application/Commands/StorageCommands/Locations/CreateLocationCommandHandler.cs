@@ -20,9 +20,9 @@
                                                .ToList();
 
             var newLocation = new Location(locationId: request.LocationId,
-                                           warehouseId: request.WarehouseId,
-                                           properties: properties);
+                                           warehouseId: request.WarehouseId);
 
+            newLocation.AddProperties(properties);
             _locationRepository.Create(newLocation);
             return await _locationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

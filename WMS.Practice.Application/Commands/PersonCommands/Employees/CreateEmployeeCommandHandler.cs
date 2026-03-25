@@ -15,10 +15,12 @@
                 throw new DuplicateRecordException("Employee is duplicated", nameof(request.EmployeeId));
             }
 
+            var employeeProperties = GetEmployeeProperties(request.Properties, request.EmployeeId).ToList();
             var newEmployee = new Employee(employeeId: request.EmployeeId,
                                            employeeName: request.EmployeeName,
-                                           employeeClassId: request.EmployeeClassId,
-                                           properties: GetEmployeeProperties(request.Properties, request.EmployeeId));
+                                           employeeClassId: request.EmployeeClassId);
+
+            newEmployee.AddProperties(employeeProperties);
 
             _employeeRepository.Create(newEmployee);
             return await _employeeRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

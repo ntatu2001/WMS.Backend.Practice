@@ -24,13 +24,13 @@
                    .WithMany(e => e.ReceiptSubLots)
                    .HasForeignKey(e => e.ReceiptLotId)
                    .IsRequired()
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(e => e.Location)
                    .WithMany(e => e.ReceiptSubLots)
                    .HasForeignKey(e => e.LocationId)
                    .IsRequired()
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.NoAction);
 
 
         }
