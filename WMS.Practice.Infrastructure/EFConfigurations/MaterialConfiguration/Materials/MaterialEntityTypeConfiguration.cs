@@ -10,7 +10,7 @@
 
             builder.Property(m => m.MaterialName)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(500);
 
             builder.HasOne(m => m.MaterialClass)
                    .WithMany(m => m.Materials)

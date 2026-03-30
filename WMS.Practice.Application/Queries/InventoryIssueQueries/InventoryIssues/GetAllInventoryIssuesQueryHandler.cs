@@ -39,7 +39,7 @@
                 inventoryIssueDTO.MapName(customerName, employeeName, warehouseName);
                 foreach (var entry in inventoryIssueDTO.Entries)
                 {
-                    entry.MapName(inventoryIssueDTO.WarehouseName, inventoryIssueDTO.CustomerName, inventoryIssueDTO.PersonName);
+                    entry.MapName(inventoryIssueDTO.WarehouseName, inventoryIssueDTO.CustomerName, inventoryIssueDTO.EmployeeName);
                 }
 
                 inventoryIssueDTOs.Add(inventoryIssueDTO);

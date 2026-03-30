@@ -149,7 +149,7 @@ namespace WMS.Practice.APIs.Migrations
                 columns: table => new
                 {
                     MaterialId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaterialName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    MaterialName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     MaterialClassId = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                 },
@@ -191,8 +191,7 @@ namespace WMS.Practice.APIs.Migrations
                     PropertyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PropertyValue = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UnitOfMeasure = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    WarehouseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    WarehouseId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,7 +211,7 @@ namespace WMS.Practice.APIs.Migrations
                     PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PropertyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PropertyValue = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    UnitOfMeasure = table.Column<int>(type: "int", nullable: false),
+                    UnitOfMeasure = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                 },
@@ -348,8 +347,7 @@ namespace WMS.Practice.APIs.Migrations
                     PropertyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PropertyValue = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UnitOfMeasure = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LocationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    LocationId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {

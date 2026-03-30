@@ -9,7 +9,7 @@
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public IssueStatus IssueStatus { get; set; }
         public string CustomerName { get; set; }
-        public string PersonName { get; set; }
+        public string EmployeeName { get; set; }
         public string WarehouseName { get; set; }
         public List<InventoryIssueEntryDTO> Entries { get; set; }
 
@@ -17,13 +17,14 @@
         {
         }
 
-        public InventoryIssueDTO(string inventoryIssueId, DateTime issueDate, IssueStatus issueStatus, string customerName, string personName, string warehouseName, List<InventoryIssueEntryDTO> entries)
+        public InventoryIssueDTO(string inventoryIssueId, DateTime issueDate, IssueStatus issueStatus, string customerName, 
+                                 string employeeName, string warehouseName, List<InventoryIssueEntryDTO> entries)
         {
             InventoryIssueId = inventoryIssueId;
             IssueDate = issueDate;
             IssueStatus = issueStatus;
             CustomerName = customerName;
-            PersonName = personName;
+            EmployeeName = employeeName;
             WarehouseName = warehouseName;
             Entries = entries;
         }
@@ -31,7 +32,7 @@
         public void MapName(string customerName, string personName, string warehouseName)
         {
             CustomerName = customerName;
-            PersonName = personName;
+            EmployeeName = personName;
             WarehouseName = warehouseName;
         }
 

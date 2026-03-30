@@ -8,7 +8,13 @@
 
             builder.HasKey(e => e.PropertyId);
 
-            builder.Property(e => e.PropertyName)
+            // Configure UnitOfMeasure with conversion to string
+            builder.Property(x => x.UnitOfMeasure)
+                   .HasConversion(x => x.ToString(), x => (UnitOfMeasure)Enum.Parse(typeof(UnitOfMeasure), x))
+                   .IsRequired()
+                   .HasMaxLength(50);
+
+            builder.Property(x => x.PropertyName)
                    .IsRequired()
                    .HasMaxLength(200);
 
@@ -16,9 +22,9 @@
                    .IsRequired()
                    .HasMaxLength(200);
 
-            builder.HasOne(x => x.Employee)
+            builder.HasOne(e => e.Employee)
                    .WithMany(e => e.Properties)
-                   .HasForeignKey(x => x.EmployeeId)
+                   .HasForeignKey(e => e.EmployeeId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

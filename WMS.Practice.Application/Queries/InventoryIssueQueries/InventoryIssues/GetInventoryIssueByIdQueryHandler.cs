@@ -42,13 +42,13 @@
                                                           issueDate: inventoryIssue.IssueDate,
                                                           issueStatus: inventoryIssue.IssueStatus,
                                                           customerName: customerName,
-                                                          personName: employeeName,
+                                                          employeeName: employeeName,
                                                           warehouseName: warehouseName,
                                                           entries: entries);
 
             foreach (var entry in inventoryIssueDTO.Entries)
             {
-                entry.MapName(inventoryIssueDTO.WarehouseName, inventoryIssueDTO.CustomerName, inventoryIssueDTO.PersonName);
+                entry.MapName(inventoryIssueDTO.WarehouseName, inventoryIssueDTO.CustomerName, inventoryIssueDTO.EmployeeName);
             }
 
             return inventoryIssueDTO;

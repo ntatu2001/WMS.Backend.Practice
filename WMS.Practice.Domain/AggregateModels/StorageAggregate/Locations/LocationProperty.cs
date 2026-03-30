@@ -1,6 +1,6 @@
 ﻿namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
 {
-    public class LocationProperty : Entity, IAggregateModel
+    public class LocationProperty : IAggregateModel
     {
         public string PropertyId { get; set; }
         public string PropertyName { get; set; }

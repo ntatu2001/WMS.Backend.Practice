@@ -19,10 +19,10 @@
 
         }
 
-        [HttpGet("GetEmployeeById/{personId}")]
-        public async Task<IActionResult> GetById(string personId)
+        [HttpGet("GetEmployeeById/{employeeId}")]
+        public async Task<IActionResult> GetById(string employeeId)
         {
-            var query = new GetEmployeeByIdQuery(personId);
+            var query = new GetEmployeeByIdQuery(employeeId);
 
             return await RequestAsync(query);
         }
@@ -39,10 +39,10 @@
             return await RequestAsync(request);
         }
 
-        [HttpDelete("DeleteEmployee/{personId}")]
-        public async Task<IActionResult> DeleteEmployee(string personId)
+        [HttpDelete("DeleteEmployee/{employeeId}")]
+        public async Task<IActionResult> DeleteEmployee(string employeeId)
         {
-            var request = new DeleteEmployeeCommand(personId);
+            var request = new DeleteEmployeeCommand(employeeId);
 
             return await RequestAsync(request);
         }

@@ -384,8 +384,8 @@ namespace WMS.Practice.APIs.Migrations
 
                     b.Property<string>("MaterialName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("MaterialId");
 
@@ -698,8 +698,10 @@ namespace WMS.Practice.APIs.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("UnitOfMeasure")
-                        .HasColumnType("int");
+                    b.Property<string>("UnitOfMeasure")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("PropertyId");
 
@@ -850,9 +852,6 @@ namespace WMS.Practice.APIs.Migrations
                     b.Property<string>("PropertyId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("LocationId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -901,9 +900,6 @@ namespace WMS.Practice.APIs.Migrations
                 {
                     b.Property<string>("PropertyId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("PropertyName")
                         .IsRequired()
