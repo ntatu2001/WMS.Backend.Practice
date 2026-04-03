@@ -29,6 +29,7 @@
             return await _context.MaterialLots
                                  .Include(e => e.Properties)
                                  .Include(e => e.SubLots)
+                                 .Include(e => e.IssueLots)
                                  .FirstOrDefaultAsync(e => e.LotNumber == lotNumber);
         }
 
@@ -43,7 +44,7 @@
         public async Task<List<MaterialLot>> GetMaterialLotsByMaterialId(string materialId)
         {
             return await _context.MaterialLots
-                                 .Where(e => e.MaterialId.Equals(materialId, StringComparison.OrdinalIgnoreCase))
+                                 .Where(e => e.MaterialId == materialId)
                                  .Include(e => e.Properties)
                                  .Include(e => e.SubLots)
                                  .ToListAsync();

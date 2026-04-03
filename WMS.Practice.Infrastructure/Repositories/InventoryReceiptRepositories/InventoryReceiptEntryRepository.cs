@@ -15,7 +15,6 @@
         {
             return await _context.InventoryReceiptEntries
                                  .Include(x => x.ReceiptLot)
-                                    .ThenInclude(x => x.Material)
                                  .Include(e => e.InventoryReceipt)
                                     .ThenInclude(e => e.Warehouse)
                                  .Include(e => e.InventoryReceipt)
@@ -27,7 +26,6 @@
         {
             return await _context.InventoryReceiptEntries
                                  .Include(x => x.ReceiptLot)
-                                    .ThenInclude(x => x.Material)
                                  .Include(e => e.InventoryReceipt)
                                     .ThenInclude(e => e.Warehouse)
                                  .Include(e => e.InventoryReceipt)

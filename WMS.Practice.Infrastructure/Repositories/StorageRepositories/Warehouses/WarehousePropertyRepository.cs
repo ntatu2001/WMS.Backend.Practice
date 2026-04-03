@@ -18,7 +18,7 @@
 
         public async Task<WarehouseProperty?> GetById(string propertyId)
         {
-            return await _context.WarehouseProperties.FirstOrDefaultAsync(wp => wp.PropertyId.Equals(propertyId, StringComparison.OrdinalIgnoreCase));
+            return await _context.WarehouseProperties.FirstOrDefaultAsync(wp => wp.PropertyId == propertyId);
         }
     }
 }

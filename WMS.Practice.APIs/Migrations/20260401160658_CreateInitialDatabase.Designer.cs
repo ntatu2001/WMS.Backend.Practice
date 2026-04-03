@@ -12,7 +12,7 @@ using WMS.Practice.Infrastructure;
 namespace WMS.Practice.APIs.Migrations
 {
     [DbContext(typeof(WMSDbContext))]
-    [Migration("20260330154515_CreateInitialDatabase")]
+    [Migration("20260401160658_CreateInitialDatabase")]
     partial class CreateInitialDatabase
     {
         /// <inheritdoc />

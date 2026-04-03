@@ -25,7 +25,7 @@
         public async Task<List<string>> GetWarehouseIdByWarehouseNameAsync(string warehouseName)
         {
             return await _context.Warehouses
-                                 .Where(x => x.WarehouseName.Equals(warehouseName, StringComparison.OrdinalIgnoreCase))
+                                 .Where(x => x.WarehouseName == warehouseName)
                                  .Select(x => x.WarehouseId)
                                  .ToListAsync();
         }
@@ -47,7 +47,7 @@
 
         public async Task<bool> ExistsAsync(string warehouseId)
         {
-            return await _context.Warehouses.AnyAsync(x => x.WarehouseId.Equals(warehouseId, StringComparison.OrdinalIgnoreCase));
+            return await _context.Warehouses.AnyAsync(x => x.WarehouseId == warehouseId);
         }
 
         public async Task<string?> GetWarehouseNameByIdAsync(string warehouseId)

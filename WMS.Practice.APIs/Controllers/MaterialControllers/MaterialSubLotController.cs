@@ -10,8 +10,8 @@
 
         // API for MaterialSubLot
 
-        [HttpGet("GetAllMaterialSubLot")]
-        public async Task<IActionResult> GetAllMaterialSubLot()
+        [HttpGet("GetAllMaterialSubLots")]
+        public async Task<IActionResult> GetAllMaterialSubLots()
         {
             var query = new GetAllMaterialSubLotsQuery();
 

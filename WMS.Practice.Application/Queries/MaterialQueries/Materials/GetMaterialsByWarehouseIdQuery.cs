@@ -1,6 +1,6 @@
 ﻿namespace WMS.Practice.Application.Queries.MaterialQueries.Materials
 {
-    public class GetMaterialsByWarehouseIdQuery : IRequest<List<MaterialByWarehouseIdDTO>>
+    public class GetMaterialsByWarehouseIdQuery : IRequest<IEnumerable<MaterialByWarehouseIdDTO>>
     {
         public string WarehouseId { get; set; }
 

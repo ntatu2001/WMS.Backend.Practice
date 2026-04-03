@@ -9,7 +9,7 @@
         public async Task<bool> ExistsAsync(string locationId)
         {
             return await _context.Locations
-                                 .AnyAsync(x => x.LocationId.Equals(locationId, StringComparison.OrdinalIgnoreCase));
+                                 .AnyAsync(x => x.LocationId == locationId);
         }
 
         public async Task<List<Location>> GetAllLocations()
@@ -25,7 +25,7 @@
             return await _context.Locations
                                  .Include(l => l.Properties)
                                  .Include(l => l.MaterialSubLots)
-                                 .FirstOrDefaultAsync(x => x.LocationId.Equals(locationId, StringComparison.OrdinalIgnoreCase));
+                                 .FirstOrDefaultAsync(x => x.LocationId == locationId);
         }
 
         public async Task<List<Location>> GetLocationsByWarehouseId(string warehouseId)
@@ -33,7 +33,7 @@
             return await _context.Locations
                                  .Include(l => l.Properties)
                                  .Include(l => l.MaterialSubLots)
-                                 .Where(x => x.WarehouseId.Equals(warehouseId, StringComparison.OrdinalIgnoreCase))
+                                 .Where(x => x.WarehouseId == warehouseId)
                                  .ToListAsync();
         }
 

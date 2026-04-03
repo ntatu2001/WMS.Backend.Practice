@@ -29,7 +29,7 @@
         public Task<MaterialProperty?> GetMaterialPropertyByPropertyIdAsync(string materialPropertyId)
         {
             return _context.MaterialProperties
-                           .FirstOrDefaultAsync(mp => mp.PropertyId.Equals(materialPropertyId, StringComparison.OrdinalIgnoreCase));
+                           .FirstOrDefaultAsync(mp => mp.PropertyId == materialPropertyId);
         }
 
         public void Update(MaterialProperty materialProperty)

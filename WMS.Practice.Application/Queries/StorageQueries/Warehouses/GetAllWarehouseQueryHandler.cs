@@ -18,7 +18,24 @@ namespace WMS.Practice.Application.Queries.StorageQueries.Warehouses
             var warehouses = await _warehouseRepository.GetAllWarehouses()
                           ?? throw new EntityNotFoundException("Warehouses", "No warehouses found");
 
-            return _mapper.Map<IEnumerable<WarehouseDTO>>(warehouses);
+            var warehouseDTOs = _mapper.Map<IEnumerable<WarehouseDTO>>(warehouses);
+            EnrichWarehouseNameForLocationDTOs(warehouseDTOs);
+
+            return warehouseDTOs;
+        }
+
+        private void EnrichWarehouseNameForLocationDTOs(IEnumerable<WarehouseDTO> warehouseDTOs)
+        {
+            foreach (var warehouseDTO in warehouseDTOs)
+            {
+                if (warehouseDTO.Locations != null)
+                {
+                    foreach (var locationDTO in warehouseDTO.Locations)
+                    {
+                        locationDTO.WarehouseName = warehouseDTO.WarehouseName;
+                    }
+                }
+            }
         }
     }
 }

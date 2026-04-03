@@ -15,12 +15,12 @@
                            ?? throw new EntityNotFoundException(nameof(MaterialLot), request.MaterialLotId);
 
             var totalIssueQuantity = 0.0;
-            var issueLots = materialLot.IssueLots.Where(s => s.IsDone() is false);
+            var issueLots = materialLot.IssueLots?.Where(s => s.IsDone() is false);
             if (issueLots?.Count() > 0)
                 totalIssueQuantity = issueLots.Sum(s => s.RequestedQuantity);
 
-            double existingQuality = materialLot.SubLots.Sum(s => s.ExistingQuantity);
-            double availableQuantity = existingQuality - totalIssueQuantity;
+            double existingQuantity = materialLot.SubLots.Sum(s => s.ExistingQuantity);
+            double availableQuantity = existingQuantity - totalIssueQuantity;
             if (availableQuantity < 0)
                 throw new Exception($"Material lot {materialLot.LotNumber} has no available quantity.");
 

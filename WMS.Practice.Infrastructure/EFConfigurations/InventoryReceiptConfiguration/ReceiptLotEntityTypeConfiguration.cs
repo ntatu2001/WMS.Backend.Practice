@@ -14,7 +14,7 @@
             builder.Property(e => e.ImportedQuantity)
                    .IsRequired();
 
-            builder.Ignore(e => e.Material);
+            builder.Ignore(x => x.Material); // Assuming Material is a navigation property and not sto
 
             // Configure one-to-many relationship with InventoryReceipt
             builder.HasOne(e => e.InventoryReceiptEntry)

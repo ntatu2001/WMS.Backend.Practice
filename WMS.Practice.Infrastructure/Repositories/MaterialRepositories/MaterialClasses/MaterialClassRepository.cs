@@ -26,7 +26,6 @@
             return await _context.MaterialClasses
                                  .Include(mc => mc.Properties)
                                  .Include(e => e.Materials)
-                                    .ThenInclude(e => e.MaterialName)
                                  .ToListAsync();
         }
 
@@ -36,7 +35,7 @@
                                  .Include(mc => mc.Properties)    
                                  .Include(e => e.Materials)
                                     .ThenInclude(e => e.Properties)
-                                 .FirstOrDefaultAsync(e => e.MaterialClassId.Equals(classId, StringComparison.OrdinalIgnoreCase));
+                                 .FirstOrDefaultAsync(e => e.MaterialClassId == classId);
         }
 
         public async Task<List<MaterialClass>> GetByClassIdsAsync(List<string> classIds)

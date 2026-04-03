@@ -20,10 +20,10 @@
             return await RequestAsync(query);
         }
 
-        [HttpGet("GetMaterialsByClassIdQuery/{classId}")]
-        public async Task<IActionResult> GetMaterialsByClassId(string classId)
+        [HttpGet("GetMaterialsByClassIdQuery/{materialClassId}")]
+        public async Task<IActionResult> GetMaterialsByClassId(string materialClassId)
         {
-            var query = new GetMaterialsByClassIdQuery(classId);
+            var query = new GetMaterialsByClassIdQuery(materialClassId);
 
             return await RequestAsync(query);
         }

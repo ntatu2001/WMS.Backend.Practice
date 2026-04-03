@@ -2,11 +2,11 @@
 {
     public class MaterialSubLotDTO
     {
-        public string SubLotId { get; set; }
+        public string MaterialSubLotId { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public LotStatus SubLotStatus { get; set; }
-        public double ExistingQuality { get; set; }
+        public double ExistingQuantity { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public UnitOfMeasure UnitOfMeasure { get; set; }
@@ -15,11 +15,11 @@
 
         // public List<IssueSubLots> issueSubLots { get; set; }
 
-        public MaterialSubLotDTO(string subLotId, LotStatus subLotStatus, double existingQuality, UnitOfMeasure unitOfMeasure, string locationId, string lotNumber)
+        public MaterialSubLotDTO(string materialSubLotId, LotStatus subLotStatus, double existingQuantity, UnitOfMeasure unitOfMeasure, string locationId, string lotNumber)
         {
-            SubLotId = subLotId;
+            MaterialSubLotId = materialSubLotId;
             SubLotStatus = subLotStatus;
-            ExistingQuality = existingQuality;
+            ExistingQuantity = existingQuantity;
             UnitOfMeasure = unitOfMeasure;
             LocationId = locationId;
             LotNumber = lotNumber;

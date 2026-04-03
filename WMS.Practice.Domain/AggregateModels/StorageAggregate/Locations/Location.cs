@@ -55,13 +55,13 @@
         public bool TryCalculateLocationMaxVolume(out double maxVolume)
         {
             maxVolume = 0.0;
-            if (TryGetPropertyValue(lengthPropertyName, out string lengthStr) is false || double.TryParse(lengthStr.Trim(), out double length))
+            if (TryGetPropertyValue(lengthPropertyName, out string lengthStr) is false || double.TryParse(lengthStr.Trim(), out double length) is false)
                 return false;
 
-            if (TryGetPropertyValue(widthPropertyName, out string widthStr) is false || double.TryParse(widthStr.Trim(), out double width))
+            if (TryGetPropertyValue(widthPropertyName, out string widthStr) is false || double.TryParse(widthStr.Trim(), out double width) is false)
                 return false;
 
-            if (TryGetPropertyValue(heightPropertyName, out string heightStr) is false || double.TryParse(heightStr.Trim(), out double height))
+            if (TryGetPropertyValue(heightPropertyName, out string heightStr) is false || double.TryParse(heightStr.Trim(), out double height) is false)
                 return false;
 
             maxVolume = length * width * height;

@@ -14,8 +14,6 @@
         public async Task<List<ReceiptLot>> GetAllAsync()
         {
             return await _context.ReceiptLots
-                                 .Include(rl => rl.Material)
-                                    .ThenInclude(e => e.Properties)
                                  .Include(rl => rl.InventoryReceiptEntry)
                                     .ThenInclude(e => e.InventoryReceipt)
                                  .Include(rl => rl.ReceiptSubLots)
@@ -25,8 +23,6 @@
         public async Task<ReceiptLot?> GetReceiptLotByIdAsync(string Id)
         {
             return await _context.ReceiptLots
-                                 .Include(rl => rl.Material)
-                                    .ThenInclude(e => e.Properties)
                                  .Include(rl => rl.InventoryReceiptEntry)
                                     .ThenInclude(e => e.InventoryReceipt)
                                  .Include(rl => rl.ReceiptSubLots)
@@ -36,8 +32,6 @@
         public async Task<ReceiptLot?> GetByIdAsync(string Id)
         {
             return await _context.ReceiptLots
-                                 .Include(rl => rl.Material)
-                                    .ThenInclude(e => e.Properties)
                                  .Include(rl => rl.InventoryReceiptEntry)
                                     .ThenInclude(e => e.InventoryReceipt)
                                  .Include(rl => rl.ReceiptSubLots)
@@ -47,8 +41,6 @@
         public async Task<ReceiptLot?> GetReceiptByLotId(string Id)
         {
             return await _context.ReceiptLots
-                                 .Include(rl => rl.Material)
-                                    .ThenInclude(e => e.Properties)
                                  .Include(rl => rl.InventoryReceiptEntry)
                                     .ThenInclude(e => e.InventoryReceipt)
                                  .Include(rl => rl.ReceiptSubLots)
@@ -58,8 +50,6 @@
         public async Task<List<ReceiptLot>> GetReceiptLotsAsPending()
         {
             return await _context.ReceiptLots
-                                 .Include(rl => rl.Material)
-                                    .ThenInclude(e => e.Properties)
                                  .Include(rl => rl.InventoryReceiptEntry)
                                     .ThenInclude(e => e.InventoryReceipt)
                                  .Include(rl => rl.ReceiptSubLots)
