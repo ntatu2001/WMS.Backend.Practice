@@ -2,11 +2,16 @@
 {
     public class Customer : Entity, IAggregateModel
     {
+        #region Properties
         public string CustomerId { get; private set; }
         public string CustomerName { get; private set; }
         public string Address { get; private set; }
         public string ContactDetails { get; private set; }
         public List<InventoryIssue> InventoryIssues { get; private set; }
+
+        #endregion
+
+        #region Constructor
 
         public Customer(string customerId, string customerName, string address, string contactDetails)
         {
@@ -16,11 +21,17 @@
             ContactDetails = contactDetails;
         }
 
+        #endregion
+
+        #region Update Methods
+
         public void UpdateCustomerInfo(string? customerName, string? address, string? contactDetails)
         {
             CustomerName = customerName ?? CustomerName;
             Address = address ?? Address;
             ContactDetails = contactDetails ?? ContactDetails;
         }
+
+        #endregion
     }
 }

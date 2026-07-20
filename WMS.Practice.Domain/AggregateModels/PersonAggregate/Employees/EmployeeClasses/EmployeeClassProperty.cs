@@ -2,12 +2,17 @@
 {
     public class EmployeeClassProperty : Entity, IAggregateModel
     {
+        #region Properties
         public string PropertyId { get; set; }
         public string PropertyName { get; set; }
         public string PropertyValue { get; set; }
         public UnitOfMeasure UnitOfMeasure { get; set; }
         public string EmployeeClassId { get; set; }
         public EmployeeClass EmployeeClass { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public EmployeeClassProperty(string propertyId, string propertyName, string propertyValue, UnitOfMeasure unitOfMeasure, string employeeClassId)
         {
@@ -17,5 +22,7 @@
             UnitOfMeasure = unitOfMeasure;
             EmployeeClassId = employeeClassId;
         }
+
+        #endregion
     }
 }

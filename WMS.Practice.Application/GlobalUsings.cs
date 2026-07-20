@@ -2,7 +2,12 @@
 global using System.Text.Json.Serialization;
 global using AutoMapper;
 global using MediatR;
+global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
+global using WMS.Practice.Application.Commands.AuthCommands;
+global using WMS.Practice.Application.DTOs.AuthDTOs;
+global using WMS.Practice.Infrastructure.Identity;
+global using WMS.Practice.Infrastructure.Services.Auth;
 global using WMS.Practice.Application.Commands.InventoryReceiptCommands.InventoryReceiptEntries;
 global using WMS.Practice.Application.Commands.MaterialCommands.MaterialLots;
 global using WMS.Practice.Application.Commands.MaterialCommands.MaterialSubLots;

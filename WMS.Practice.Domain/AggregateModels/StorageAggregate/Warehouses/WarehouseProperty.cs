@@ -2,12 +2,18 @@
 {
     public class WarehouseProperty : IAggregateModel
     {
+        #region Properties
+
         public string PropertyId { get; set; }
         public string PropertyName { get; set; }
         public string PropertyValue { get; set; }
         public UnitOfMeasure UnitOfMeasure { get; set; }
         public string WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public WarehouseProperty(string propertyId, string propertyName, string propertyValue, UnitOfMeasure unitOfMeasure, string warehouseId)
         {
@@ -17,5 +23,7 @@
             UnitOfMeasure = unitOfMeasure;
             WarehouseId = warehouseId;
         }
+
+        #endregion
     }
 }

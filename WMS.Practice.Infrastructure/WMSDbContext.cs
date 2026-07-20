@@ -1,7 +1,10 @@
 ﻿namespace WMS.Practice.Infrastructure
 {
-    public class WMSDbContext : DbContext, IUnitOfWork
+    public class WMSDbContext : IdentityDbContext<AppUser, AppRole, string>, IUnitOfWork
     {
+        // Identity / Auth
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         // Aggregate Models - Person Aggregate
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -52,6 +55,10 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Apply EF Configurations for Identity/Auth
+            modelBuilder.ApplyConfiguration(new AppUserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RefreshTokenEntityTypeConfiguration());
+
             // Apply EF Configurations for Storage Aggregate
             modelBuilder.ApplyConfiguration(new LocationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new LocationPropertyEntityTypeConfiguration());

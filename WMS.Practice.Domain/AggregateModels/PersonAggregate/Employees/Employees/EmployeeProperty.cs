@@ -5,12 +5,17 @@ namespace WMS.Practice.Domain.AggregateModels.PersonAggregate
 {
     public class EmployeeProperty : Entity, IAggregateModel
     {
+        #region Properties
         public string PropertyId { get; set; }
         public string PropertyName { get; set; }
         public string PropertyValue { get; set; }
         public UnitOfMeasure UnitOfMeasure { get; set; }
         public string EmployeeId { get; set; }
         public Employee Employee{ get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public EmployeeProperty(string propertyId, string propertyName, string propertyValue, UnitOfMeasure unitOfMeasure, string employeeId)
         {
@@ -20,6 +25,10 @@ namespace WMS.Practice.Domain.AggregateModels.PersonAggregate
             UnitOfMeasure = unitOfMeasure;
             EmployeeId = employeeId;
         }
+
+        #endregion
+
+        #region Update Methods
 
         public void UpdatePropertyValue(string? propertyValue)
         {
@@ -46,5 +55,7 @@ namespace WMS.Practice.Domain.AggregateModels.PersonAggregate
 
             propertyInfo.SetValue(this, updateValue);
         }
+
+        #endregion
     }
 }

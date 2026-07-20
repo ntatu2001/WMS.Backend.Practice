@@ -10,6 +10,8 @@
 
         #endregion
 
+        #region Properties
+
         public string LocationId { get; private set; }
         public List<LocationProperty> Properties { get; private set; }
         public string WarehouseId { get; private set; }
@@ -17,12 +19,21 @@
         public List<MaterialSubLot> MaterialSubLots { get; private set; }
         public List<ReceiptSubLot> ReceiptSubLots { get; private set; }
         public List<IssueSubLot> IssueSubLots { get; private set; }
+
+        #endregion
+
+        #region Constructor
+
         public Location(string locationId, string warehouseId)
         {
             LocationId = locationId;
             WarehouseId = warehouseId;
             Properties = new List<LocationProperty>();
         }
+
+        #endregion
+
+        #region Update Methods
 
         public void AddProperties(List<LocationProperty> properties)
         {
@@ -33,6 +44,10 @@
         {
             WarehouseId = warehouseId;
         }
+
+        #endregion
+
+        #region Retrieval Methods
 
         public bool HasProperties() => Properties?.Count > 0;
 
@@ -73,5 +88,7 @@
         public string GetWidthValue() => TryGetPropertyValue(widthPropertyName, out string widthStr) ? widthStr : string.Empty;
 
         public string GetHeightValue() => TryGetPropertyValue(heightPropertyName, out string heightStr) ? heightStr : string.Empty;
+
+        #endregion
     }
 }
