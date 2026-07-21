@@ -19,6 +19,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetReceiptLotByNotDone")]
         public async Task<IActionResult> GetReceiptLotByNotDone(string warehouseId = "TP01")
         {
@@ -35,6 +36,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut("UpdateReceiptLotStatus")]
         public async Task<IActionResult> UpdateReceiptLotStatus([FromBody] UpdateReceiptLotStatusCommand command)
         {

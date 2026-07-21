@@ -5,6 +5,6 @@ namespace WMS.Practice.Application.DTOs.AuthDTOs
         public string UserId { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public List<string> Roles { get; set; } = new();
-        public string? EmployeeId { get; set; }
+        public string EmployeeId { get; set; } = string.Empty;
     }
 }

@@ -10,6 +10,7 @@
 
         // API for MaterialClass
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllMaterialClass")]
         public async Task<IActionResult> GetAllMaterialClass()
         {

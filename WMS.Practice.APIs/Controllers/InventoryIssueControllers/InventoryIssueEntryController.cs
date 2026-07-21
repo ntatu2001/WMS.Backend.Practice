@@ -11,6 +11,7 @@
 
         // API for InventoryIssueEntry
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllIssueEntries")]
         public async Task<IActionResult> GetAllIssueEntries()
         {
@@ -19,6 +20,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetIssueEntryById/{IssueEntryId}")]
         public async Task<IActionResult> GetIssueEntryById(string IssueEntryId)
         {

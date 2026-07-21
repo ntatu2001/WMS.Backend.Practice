@@ -9,6 +9,7 @@
         }
 
         // API for InventoryReceiptEntry
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllReceiptEntries")]
         public async Task<IActionResult> GetAllReceiptEntries()
         {
@@ -17,6 +18,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetReceiptEntryById/{receiptEntryId}")]
         public async Task<IActionResult> GetReceiptEntryById(string receiptEntryId)
         {

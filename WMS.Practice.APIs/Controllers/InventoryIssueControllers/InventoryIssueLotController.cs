@@ -11,6 +11,7 @@
 
         // API for InventoryIssueLot
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllIssueLots")]
         public async Task<IActionResult> GetAllIssueLots()
         {
@@ -19,6 +20,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetIssueLotsNotDone")]
         public async Task<IActionResult> GetIssueLotsNotDone(string warehouseId = "TP01")
         {
@@ -35,6 +37,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut("UpdateIssueLotStatus")]
         public async Task<IActionResult> UpdateIssueLotStatus([FromBody] UpdateIssueLotStatusCommand command)
         {

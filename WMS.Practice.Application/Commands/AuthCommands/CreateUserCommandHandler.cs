@@ -15,11 +15,8 @@ namespace WMS.Practice.Application.Commands.AuthCommands
 
         public async Task<CreateUserResultDTO> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrEmpty(request.EmployeeId))
-            {
-                _ = await _employeeRepository.GetEmployeeByIdAsync(request.EmployeeId)
-                    ?? throw new EntityNotFoundException(nameof(Employee), request.EmployeeId);
-            }
+            _ = await _employeeRepository.GetEmployeeByIdAsync(request.EmployeeId)
+                ?? throw new EntityNotFoundException(nameof(Employee), request.EmployeeId);
 
             foreach (var role in request.Roles)
             {

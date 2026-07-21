@@ -27,6 +27,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut("UpdateReceiptSublot")]
         public async Task<IActionResult> UpdateReceiptSublot([FromBody] UpdateReceiptSubLotsCommand command)
         {

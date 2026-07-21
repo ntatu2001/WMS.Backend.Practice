@@ -16,7 +16,7 @@
 | Swagger UI | `/swagger` (chỉ bật khi chạy ở môi trường Development, mở mặc định khi `dotnet run`) |
 | Swagger JSON | `/swagger/v1/swagger.json` |
 | CORS | Policy `AllowAll` — cho phép **mọi origin/header/method**, không cần cấu hình gì thêm ở FE |
-| Authentication/Authorization | **Không có** — chưa có JWT/cookie/API key nào được cấu hình, không có `[Authorize]`. Mọi endpoint hiện đang public. FE **chưa cần** gắn access token vào header (sẽ cần bổ sung khi backend triển khai auth sau này) |
+| Authentication/Authorization | **Đã triển khai** — JWT Bearer + Refresh Token, Role-based (`Admin`/`Manager`/`Staff`). Mọi endpoint bên dưới đều yêu cầu header `Authorization: Bearer <accessToken>`. Xem chi tiết & hướng dẫn tích hợp React tại [`Authentication_Authorization_Guide.md`](./Authentication_Authorization_Guide.md) |
 | API Versioning | Không có |
 | Định dạng ngày giờ | `DateTime` chuẩn ISO 8601 khi serialize JSON |
 | Enum | Serialize dưới dạng **string** (ví dụ `"Pending"`, `"Done"`), không phải số |
@@ -108,7 +108,7 @@ Lưu ý: response **không** trả lại `pageNumber`/`pageSize`/`totalPages`, F
 ## 5. ⚠️ Các điểm bất thường cần lưu ý khi tích hợp
 
 1. **Mọi lỗi trả về HTTP 400** — không dùng status code để phân loại, phải đọc field `code` (xem mục 2.2).
-2. **Chưa có authentication** — không cần gắn token; toàn bộ API đang public.
+2. **Đã có authentication** — mọi endpoint (trừ `Auth/Login`, `Auth/Refresh`, `Auth/Logout`) đều yêu cầu header `Authorization: Bearer <accessToken>`, thiếu sẽ nhận `401`. Xem [`Authentication_Authorization_Guide.md`](./Authentication_Authorization_Guide.md).
 3. `DELETE /WarehouseAPI/InventoryReceiptEntry/DeleteReceiptEntries` và `DELETE /WarehouseAPI/InventoryIssueEntry/DeleteIssueEntries` nhận **request body JSON** thay vì chỉ route param — một số HTTP client (axios `delete()`) mặc định không gửi body, cần cấu hình rõ `data:` trong config.
 4. Route có khoảng trắng: `POST /WarehouseAPI/Warehouse/Create New Warehouse Property` → khi gọi phải URL-encode thành `Create%20New%20Warehouse%20Property`.
 5. Không đồng nhất chữ hoa/thường: `InventoryReceiptSublot` (chữ "l" thường) khác với `InventoryIssueSubLot`/`MaterialSubLot` (chữ "L" hoa) — route phân biệt hoa thường, gõ sai sẽ 404.
@@ -662,7 +662,7 @@ StockTakeLotDTO {
 ## 7. Checklist cho Frontend Developer khi migrate
 
 - [ ] Đổi base URL API sang `http://localhost:5037` hoặc `https://localhost:7066` (hoặc URL môi trường thật tương ứng)
-- [ ] Xoá bỏ header Authorization/Bearer token nếu FE cũ đang gắn cứng (backend hiện chưa check)
+- [ ] Thêm header `Authorization: Bearer <accessToken>` cho mọi request (backend hiện đã bắt buộc kiểm tra) — xem [`Authentication_Authorization_Guide.md`](./Authentication_Authorization_Guide.md)
 - [ ] Viết lại error handler: không dựa vào HTTP status (404/500...), luôn check `error.response.data.code`
 - [ ] Với 2 API `GetAllLocations`, `GetAllMaterials`: cập nhật lại UI phân trang để đọc `results` + `totalItems`
 - [ ] Với các API `GetAll...` khác: không gửi `pageNumber`/`itemsPerPage` (không có tác dụng), xử lý phân trang ở client nếu cần
