@@ -21,6 +21,11 @@ namespace WMS.Practice.Infrastructure.Services.Auth
             };
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
+            if (!string.IsNullOrEmpty(user.EmployeeId))
+            {
+                claims.Add(new Claim("employeeId", user.EmployeeId));
+            }
+
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SigningKey));
             var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var expiresAt = DateTime.UtcNow.AddMinutes(_settings.AccessTokenExpiryMinutes);

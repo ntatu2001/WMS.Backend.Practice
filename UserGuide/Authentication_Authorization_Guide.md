@@ -4,7 +4,7 @@
 >
 > Đọc kèm [`API_Guide_For_Frontend.md`](./API_Guide_For_Frontend.md) để biết chi tiết các API nghiệp vụ khác (Location, Material, Inventory...) — **lưu ý**: mục "Authentication/Authorization" trong file đó đã lỗi thời, quy tắc đúng là tài liệu này.
 >
-> Cập nhật lần cuối: 2026-07-20, dựa trên nhánh `main`.
+> Cập nhật lần cuối: 2026-07-25, dựa trên nhánh `main`.
 
 ---
 
@@ -18,10 +18,7 @@
 | Access Token hết hạn sau | 30 phút (`Jwt:AccessTokenExpiryMinutes` trong `appsettings.json`) |
 | Refresh Token hết hạn sau | 7 ngày (`Jwt:RefreshTokenExpiryDays`), tự động rotate mỗi lần dùng |
 | Tạo tài khoản mới | **Chỉ Admin** được gọi API tạo user — **không có** endpoint tự đăng ký (self-register) |
-| Quan hệ User — Employee | **Bắt buộc 1-1**: mọi tài khoản đăng nhập phải gắn với đúng 1 `Employee` đã tồn tại (`employeeId` là field bắt buộc khi tạo user, không còn optional). Một Employee cũng chỉ được gắn với tối đa 1 tài khoản (unique constraint) |
 | Áp dụng cho endpoint nào | **Toàn bộ API** (tất cả controller trong [`API_Guide_For_Frontend.md`](./API_Guide_For_Frontend.md)) đều yêu cầu đăng nhập, trừ 3 endpoint `Login`/`Refresh`/`Logout` |
-
-⚠️ **Không còn tài khoản Admin seed sẵn lúc khởi động.** Trước đây có 1 tài khoản `admin` được tự tạo mỗi khi chạy app (qua `IdentitySeeder`), nhưng vì mọi user giờ bắt buộc phải gắn với 1 Employee cụ thể (không thể chọn tuỳ ý lúc seed), cơ chế này đã được gỡ bỏ. `IdentitySeeder` hiện **chỉ seed 3 role** (`Admin`/`Manager`/`Staff`), không tạo user nào. Tài khoản Admin đầu tiên của hệ thống phải được tạo thủ công (insert trực tiếp vào DB, hoặc qua 1 script riêng) — sau đó mới dùng tài khoản đó để gọi `CreateUser` tạo các tài khoản tiếp theo.
 
 Kể từ khi tính năng này được triển khai, **mọi request tới API (trừ Login/Refresh/Logout) đều phải đính kèm access token hợp lệ**, nếu không sẽ nhận về `401 Unauthorized`.
 
@@ -114,7 +111,7 @@ Endpoint này chỉ thu hồi **refresh token**. Access token đã phát hành t
   email: string
   password: string
   roles: string[]        // vd: ["Staff"], ["Manager"], có thể gán nhiều role cùng lúc
-  employeeId: string      // BẮT BUỘC — phải là EmployeeId của 1 Employee đã tồn tại, và Employee đó chưa gắn tài khoản nào khác
+  employeeId?: string     // optional — liên kết tài khoản với 1 Employee đã tồn tại trong hệ thống
 }
 ```
 
@@ -124,7 +121,7 @@ Endpoint này chỉ thu hồi **refresh token**. Access token đã phát hành t
   userId: string
   userName: string
   roles: string[]
-  employeeId: string
+  employeeId?: string
 }
 ```
 
@@ -134,12 +131,41 @@ Endpoint này chỉ thu hồi **refresh token**. Access token đã phát hành t
 |---|---|---|
 | Không đính kèm token, hoặc token hết hạn/sai | `401` | *(không có body `ErrorResponse`, đây là lỗi ở tầng middleware, không tới được Controller)* |
 | Có token hợp lệ nhưng **không phải role Admin** | `403` | *(không có body `ErrorResponse`)* |
-| Thiếu `employeeId`, hoặc `employeeId` không tồn tại | `400` | `NotFound.Employee` |
+| `employeeId` không tồn tại | `400` | `NotFound.Employee` |
 | Role trong `roles` không tồn tại (chỉ có `Admin`/`Manager`/`Staff`) | `400` | `NotFound.AppRole` |
-| `employeeId` hợp lệ nhưng **đã có tài khoản khác gắn với Employee này** (vi phạm ràng buộc 1 Employee = 1 User) | `400` | `Unexpected` — lỗi constraint từ DB, `detail` chứa thông báo SQL gốc |
 | Username/email trùng, password không đạt yêu cầu (tối thiểu 8 ký tự) | `400` | `IdentityOperationFailed` — `detail` là mảng string mô tả từng lỗi |
 
 ⚠️ Đây là endpoint **duy nhất** để tạo tài khoản mới. Không có form đăng ký công khai — về mặt sản phẩm, chỉ Admin (qua màn hình quản trị) mới tạo được tài khoản cho nhân viên khác.
+
+---
+
+### 3.5. ✅ Claim `employeeId` trong JWT (đã triển khai)
+
+**Bối cảnh**: trang "Quản lý tài khoản" ở Frontend cần hiển thị thông tin nhân viên (họ tên, email, SĐT, ngày sinh...) của người dùng đang đăng nhập, bằng cách gọi `GET Employee/GetEmployeeById/{employeeId}` (API đã có sẵn) — muốn vậy Frontend cần biết `employeeId` của phiên đăng nhập hiện tại.
+
+**Đã triển khai**: `Auth/Login` và `Auth/Refresh` giờ đều thêm claim sau vào access token (cạnh claim `role`):
+
+```
+new Claim("employeeId", <employeeId của user đó>)
+```
+
+- Dùng đúng key ngắn `"employeeId"` (không theo dạng URI schema như claim `role`) — Frontend decode thẳng `payload.employeeId`, không cần đổi cách decode.
+- Vì `employeeId` giờ là field **bắt buộc** khi tạo tài khoản (mục 3.4), claim này sẽ **luôn có mặt** trên mọi access token phát hành từ nay trở đi.
+- Không có field mới nào được thêm vào response body của `Login`/`Refresh` — chỉ cần claim trong JWT, decode bằng hàm `decodeEmployeeId` ở mục 5.3.
+
+Ví dụ payload JWT sau khi decode:
+```json
+{
+  "sub": "26a3b61f-...",
+  "unique_name": "anhtunguyen",
+  "jti": "7f9ebba2-...",
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin",
+  "employeeId": "NV_22",
+  "exp": 1784996559,
+  "iss": "WMS.Practice.APIs",
+  "aud": "WMS.Practice.Client"
+}
+```
 
 ---
 
@@ -256,6 +282,7 @@ interface AuthState {
   refreshToken: string | null;
   roles: string[];
   userName: string | null;
+  employeeId: string | null;
 }
 
 interface AuthContextValue extends AuthState {
@@ -276,12 +303,19 @@ function decodeRoles(accessToken: string): string[] {
   return Array.isArray(roleClaim) ? roleClaim : [roleClaim]; // 1 role -> string, nhiều role -> string[]
 }
 
+// Claim "employeeId" dùng đúng key ngắn (không phải URI schema như "role")
+function decodeEmployeeId(accessToken: string): string | null {
+  const payload = JSON.parse(atob(accessToken.split(".")[1]));
+  return payload["employeeId"] ?? null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     accessToken: null,
     refreshToken: localStorage.getItem("refreshToken"),
     roles: [],
     userName: null,
+    employeeId: null,
   });
 
   const login = useCallback(async (userName: string, password: string) => {
@@ -291,6 +325,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
       roles: decodeRoles(data.accessToken),
+      employeeId: decodeEmployeeId(data.accessToken),
       userName,
     });
   }, []);
@@ -300,7 +335,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await axiosClient.post("/WarehouseAPI/Auth/Logout", { refreshToken: state.refreshToken }).catch(() => {});
     }
     localStorage.removeItem("refreshToken");
-    setState({ accessToken: null, refreshToken: null, roles: [], userName: null });
+    setState({ accessToken: null, refreshToken: null, roles: [], userName: null, employeeId: null });
   }, [state.refreshToken]);
 
   const hasRole = useCallback((role: string) => state.roles.includes(role), [state.roles]);
@@ -382,10 +417,7 @@ Lưu ý khác biệt so với các lỗi nghiệp vụ khác trong [`API_Guide_F
 Không. Backend đã bật policy `AllowAll` (mọi origin/header/method) — không cần thêm gì.
 
 **Muốn tạo tài khoản mới thì làm sao?**
-Không có form tự đăng ký. Phải đăng nhập bằng tài khoản `Admin`, gọi `POST /WarehouseAPI/Auth/CreateUser` (mục 3.4), và **luôn phải kèm `employeeId`** của 1 Employee đã tồn tại, chưa gắn tài khoản nào khác.
-
-**Tài khoản Admin đầu tiên lấy từ đâu nếu chưa có Admin nào để gọi `CreateUser`?**
-Hệ thống không tự seed sẵn tài khoản Admin nữa (xem cảnh báo ở mục 1). Cần tạo thủ công 1 lần — ví dụ nhờ BE insert trực tiếp vào `AspNetUsers`/`AspNetUserRoles` (đảm bảo `PasswordHash` được hash đúng chuẩn Identity, không lưu plaintext) — sau đó dùng tài khoản đó để tạo các tài khoản tiếp theo qua `CreateUser` như bình thường.
+Không có form tự đăng ký. Phải đăng nhập bằng tài khoản `Admin`, gọi `POST /WarehouseAPI/Auth/CreateUser` (mục 3.4).
 
 **Vì sao đôi lúc tất cả token cũ đột nhiên không dùng được nữa dù chưa hết 30 phút?**
 Nếu BE đổi `Jwt:SigningKey` trong `appsettings.json` (hoặc restart với key khác), toàn bộ access token đã phát hành trước đó sẽ mất hiệu lực ngay vì chữ ký không còn khớp — FE cần bắt `401` và điều hướng về trang đăng nhập.
@@ -401,6 +433,5 @@ Nếu BE đổi `Jwt:SigningKey` trong `appsettings.json` (hoặc restart với 
 - [ ] Thêm nút/luồng Logout gọi `POST /WarehouseAPI/Auth/Logout`, xoá token khỏi FE
 - [ ] Với các trang/chức năng chỉ dành cho Admin (vd. quản lý user) → dùng `RequireRole`/kiểm tra `hasRole("Admin")` (mục 5.4)
 - [ ] Không tự ý thêm form đăng ký công khai — mọi tài khoản phải qua `CreateUser` bởi Admin
-- [ ] Form tạo user (nếu FE có màn hình quản trị) phải bắt buộc chọn `employeeId` (dropdown/search chọn từ danh sách Employee hiện có qua `GET /WarehouseAPI/Employee/GetAllEmployees`) — không được để trống hoặc optional
 - [ ] Kiểm tra lại toàn bộ API call cũ (trước khi có auth) — chắc chắn đã đi qua axios instance có gắn token, tránh gọi thẳng `fetch`/axios trần dẫn đến bị `401`
 - [ ] Test lại toàn bộ luồng Login → gọi API → hết hạn token → auto refresh → Logout qua Swagger UI (`/swagger`) hoặc Postman trước khi tích hợp UI thật
