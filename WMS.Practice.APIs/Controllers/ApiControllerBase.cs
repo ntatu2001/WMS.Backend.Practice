@@ -32,6 +32,21 @@
                 var errorMessage = new ErrorResponse(ex);
                 return BadRequest(errorMessage);
             }
+            catch (InvalidCredentialsException ex)
+            {
+                var errorMessage = new ErrorResponse(ex);
+                return BadRequest(errorMessage);
+            }
+            catch (InvalidRefreshTokenException ex)
+            {
+                var errorMessage = new ErrorResponse(ex);
+                return BadRequest(errorMessage);
+            }
+            catch (IdentityOperationException ex)
+            {
+                var errorMessage = new ErrorResponse(ex);
+                return BadRequest(errorMessage);
+            }
             catch (Exception ex)
             {
                 var errorMessage = new ErrorResponse(ex);

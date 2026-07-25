@@ -28,6 +28,7 @@
 
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllReceiptLotsTracking")]
         public async Task<IActionResult> GetAllReceiptLotsTracking(string? lotNumber, string? supplierId, DateTime? startTime, DateTime? endTime)
         {
@@ -36,6 +37,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllIssueLotsTracking")]
         public async Task<IActionResult> GetAllIssueLotsTracking(string? lotNumber, string? customerId, DateTime? startTime, DateTime? endTime)
         {
@@ -44,6 +46,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetLotAdjustmentsTracking")]
         public async Task<IActionResult> GetAllAdjustmentLotsTracking(string? lotNumber, string? materialId, DateTime? startTime, DateTime? endTime)
         {

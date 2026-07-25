@@ -60,6 +60,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateMaterial")]
         public async Task<IActionResult> CreateMaterial([FromBody] CreateMaterialCommand command)
         {

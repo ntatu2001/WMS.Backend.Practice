@@ -2,6 +2,7 @@
 {
     public class Employee : Entity, IAggregateModel
     {
+        #region Properties
         public string EmployeeId { get; private set; }
         public string EmployeeName { get; private set; }
         public string EmployeeClassId { get; private set; }
@@ -11,6 +12,10 @@
         public List<InventoryIssue> InventoryIssues { get; private set; }
         public List<StockTake> StockTakes { get; private set; }
 
+        #endregion
+
+        #region Constructor
+
         public Employee(string employeeId, string employeeName, string employeeClassId)
         {
             EmployeeId = employeeId;
@@ -18,6 +23,10 @@
             EmployeeClassId = employeeClassId;
             Properties = new List<EmployeeProperty>();
         }
+
+        #endregion
+
+        #region Update Methods
 
         public void AddProperties(List<EmployeeProperty> employeeProperties)
         {
@@ -41,5 +50,7 @@
             property.UpdatePropertyValue(propertyValue);
             return true;
         }
+
+        #endregion
     }
 }

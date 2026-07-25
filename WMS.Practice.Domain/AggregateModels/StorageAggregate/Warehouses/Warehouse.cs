@@ -4,6 +4,7 @@ namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
 {
     public class Warehouse : Entity, IAggregateModel
     {
+        #region Properties
         public string WarehouseId { get; set; }
         public string WarehouseName { get; set; }
         public List<Location> Locations { get; set; }
@@ -12,6 +13,11 @@ namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
         public List<InventoryIssue> InventoryIssues { get; set; }
         public List<StockTake> StockTakes { get; set; }
         public List<InventoryLog> InventoryLogs { get; set; }
+
+        #endregion
+
+        #region Constructor
+
         public Warehouse(string warehouseId, string warehouseName)
         {
             WarehouseId = warehouseId;
@@ -19,16 +25,26 @@ namespace WMS.Practice.Domain.AggregateModels.StorageAggregate
             Properties = new List<WarehouseProperty>();
         }
 
+        #endregion
+
+        #region Update Methods
+
         public void UpdateWarehouse(string warehouseId, string warehouseName)
         {
             WarehouseId = warehouseId;
             WarehouseName = warehouseName;
         }
 
+        #endregion
+
+        #region Retrieval Methods
+
         public string GetMaterialClassId()
         {
             var match = Regex.Match(WarehouseId, @"^\D+");
             return match.Success ? match.Value : string.Empty;
         }
+
+        #endregion
     }
 }

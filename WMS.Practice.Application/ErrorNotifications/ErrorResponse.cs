@@ -56,5 +56,26 @@
             Message = $"Itemlot with ID {ex.ItemLotId} is exported";
             Detail = new ExportedItemLotErrorDetail(ex.ItemLotId);
         }
+
+        public ErrorResponse(InvalidCredentialsException ex)
+        {
+            Code = "InvalidCredentials";
+            Message = ex.Message;
+            Detail = "";
+        }
+
+        public ErrorResponse(InvalidRefreshTokenException ex)
+        {
+            Code = "InvalidRefreshToken";
+            Message = ex.Message;
+            Detail = "";
+        }
+
+        public ErrorResponse(IdentityOperationException ex)
+        {
+            Code = "IdentityOperationFailed";
+            Message = ex.Message;
+            Detail = ex.Errors;
+        }
     }
 }

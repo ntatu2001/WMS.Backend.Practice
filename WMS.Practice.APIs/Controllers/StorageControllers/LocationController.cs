@@ -18,6 +18,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetLocationsByWarehouseId/{warehouseId}")]
         public async Task<IActionResult> GetByWarehouseId(string warehouseId)
         {
@@ -26,6 +27,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetLocationById/{locationId}")]
         public async Task<IActionResult> GetById(string locationId)
         {
@@ -34,6 +36,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetInforByLocationId/{locationId}")]
         public async Task<IActionResult> GetInforByLocationId(string locationId)
         {
@@ -42,6 +45,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetStockLocationHistoriesByLocationId")]
         public async Task<IActionResult> GetStockLocationHistoriesByLocationId(string? locationId, DateTime? startTime, DateTime? endTime)
         {
@@ -50,6 +54,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateNewLocation")]
         public async Task<IActionResult> Create([FromBody] CreateLocationCommand command)
         {

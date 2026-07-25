@@ -18,6 +18,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetWarehouseIdByWarehouseName/{warehouseName}")]
         public async Task<IActionResult> GetWarehouseIdByWarehouseName(string warehouseName)
         {

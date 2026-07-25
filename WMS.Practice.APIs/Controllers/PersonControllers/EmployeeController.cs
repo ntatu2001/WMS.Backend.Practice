@@ -27,6 +27,7 @@
             return await RequestAsync(query);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateNewEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeCommand request)
         {
