@@ -8,11 +8,11 @@
         public string WarehouseId { get; set; }
         public List<CreateReceiptEntryCommand> Entries { get; set; }
 
-        public CreateInventoryReceiptCommand(DateTime? receiptDate, string supplierId, string personId, string warehouseId, List<CreateReceiptEntryCommand> entries)
+        public CreateInventoryReceiptCommand(DateTime? receiptDate, string supplierId, string employeeId, string warehouseId, List<CreateReceiptEntryCommand> entries)
         {
             ReceiptDate = receiptDate;
             SupplierId = supplierId;
-            EmployeeId = personId;
+            EmployeeId = employeeId;
             WarehouseId = warehouseId;
             Entries = entries;
         }

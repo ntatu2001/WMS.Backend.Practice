@@ -47,8 +47,8 @@
 
         private async Task CreateMaterialLotAsyncWhenReceiptLotIsDone(ReceiptLot receiptLot)
         {
-            var materialLot = await _materialLotRepository.GetMaterialLotByIdAsync(receiptLot.ReceiptLotId)
-                           ?? throw new DuplicateRecordException(nameof(MaterialLot), receiptLot.ReceiptLotId);
+            if (await _materialLotRepository.GetMaterialLotByIdAsync(receiptLot.ReceiptLotId) is not null)
+                throw new DuplicateRecordException(nameof(MaterialLot), receiptLot.ReceiptLotId);
 
             var newMaterialLot = new MaterialLot(lotNumber: receiptLot.ReceiptLotId,
                                                  lotStatus: LotStatus.Done,
