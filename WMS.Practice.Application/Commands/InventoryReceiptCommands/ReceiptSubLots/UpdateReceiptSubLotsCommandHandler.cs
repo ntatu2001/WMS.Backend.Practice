@@ -37,6 +37,9 @@
 
                 foreach (var subLot in subLotGroup.Value)
                 {
+                    if (receiptLot.ReceiptSubLots?.Any(x => x.ReceiptSubLotId == subLot.ReceiptSubLotId) is true)
+                        throw new DuplicateRecordException(nameof(ReceiptSubLot), subLot.ReceiptSubLotId);
+
                     var material = await _materialRepository.GetMaterialByIdAsync(subLot.MaterialId)
                                 ?? throw new EntityNotFoundException(nameof(Material), subLot.MaterialId);
 
