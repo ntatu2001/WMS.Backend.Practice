@@ -1,4 +1,5 @@
 ﻿using WMS.Practice.Application.DTOs.MaterialDTOs.MaterialClasses;
+using WMS.Practice.Application.DTOs.PersonDTOs.EmployeeClasses;
 using WMS.Practice.Application.DTOs.StorageDTOs.Warehouses;
 
 namespace WMS.Practice.Application.Mapping
@@ -9,6 +10,8 @@ namespace WMS.Practice.Application.Mapping
         {
             MapEmployeeViewModel();
             MapEmployeePropertyViewModel();
+            MapEmployeeClassViewModel();
+            MapEmployeeClassPropertyViewModel();
             MapCustomerViewModel();
             MapSupplierViewModel();
 
@@ -62,6 +65,18 @@ namespace WMS.Practice.Application.Mapping
         public void MapEmployeePropertyViewModel()
         {
             CreateMap<EmployeeProperty, EmployeePropertyDTO>().ForMember(s => s.UnitOfMeasure, s => s.MapFrom(s => s.UnitOfMeasure.ToString()));
+        }
+
+        public void MapEmployeeClassViewModel()
+        {
+            CreateMap<EmployeeClass, EmployeeClassDTO>()
+                .ForMember(s => s.Properties, s => s.MapFrom(s => s.Properties));
+        }
+
+        public void MapEmployeeClassPropertyViewModel()
+        {
+            CreateMap<EmployeeClassProperty, EmployeeClassPropertyDTO>()
+                .ForMember(s => s.UnitOfMeasure, s => s.MapFrom(s => s.UnitOfMeasure.ToString()));
         }
 
         public void MapCustomerViewModel()

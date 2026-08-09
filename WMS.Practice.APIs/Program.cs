@@ -67,6 +67,7 @@ namespace WMS.Practice.APIs
 
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeePropertyRepository, EmployeePropertyRepository>();
+            builder.Services.AddScoped<IEmployeeClassRepository, EmployeeClassRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 

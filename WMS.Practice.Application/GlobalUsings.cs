@@ -21,6 +21,7 @@ global using WMS.Practice.Application.DTOs.MaterialDTOs.Materials;
 global using WMS.Practice.Application.DTOs.MaterialDTOs.MaterialSubLots;
 global using WMS.Practice.Application.DTOs.PersonDTOs.Customers;
 global using WMS.Practice.Application.DTOs.PersonDTOs.Employees;
+global using WMS.Practice.Application.DTOs.PersonDTOs.EmployeeClasses;
 global using WMS.Practice.Application.DTOs.PersonDTOs.Suppliers;
 global using WMS.Practice.Application.DTOs.StockTakeDTOs;
 global using WMS.Practice.Application.DTOs.StorageDTOs.Locations;

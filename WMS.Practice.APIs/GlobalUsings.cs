@@ -25,6 +25,7 @@ global using WMS.Practice.Application.Commands.PersonCommands.Customers;
 global using WMS.Practice.Application.Queries.PersonQueries.Customers;
 global using WMS.Practice.Application.Commands.PersonCommands.Employees;
 global using WMS.Practice.Application.Queries.PersonQueries.Employees;
+global using WMS.Practice.Application.Queries.PersonQueries.EmployeeClasses;
 global using WMS.Practice.Application.Commands.PersonCommands.Suppliers;
 global using WMS.Practice.Application.Queries.PersonQueries.Suppliers;
 global using WMS.Practice.Application.Commands.MaterialCommands.MaterialClasses;
