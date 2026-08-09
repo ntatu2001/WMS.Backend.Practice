@@ -36,7 +36,7 @@
         {
             var data = await _context.InventoryReceipts.Where(receipt => receipt.ReceiptDate >= start && receipt.ReceiptDate <= end)
                                                         .SelectMany(receipt => receipt.Entries.Where(e => e.ReceiptLot.LotStatus == LotStatus.Done)
-                                                            .SelectMany(e => e.ReceiptLot.ReceiptSubLots.Where(s => s.LocationId == locationId)
+                                                            .SelectMany(e => e.ReceiptLot.ReceiptSubLots.Where(s => _context.MaterialSubLots.Any(m => m.MaterialSubLotId == s.ReceiptSubLotId && m.LocationId == locationId))
                                                                 .Select(subLot => new { receipt.ReceiptDate, SubLot = subLot })))
                                                         .ToListAsync();
 

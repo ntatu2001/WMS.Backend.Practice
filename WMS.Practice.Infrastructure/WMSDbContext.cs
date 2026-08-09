@@ -27,6 +27,7 @@
         public DbSet<MaterialLot> MaterialLots { get; set; }
         public DbSet<MaterialLotProperty> MaterialLotProperties { get; set; }
         public DbSet<MaterialSubLot> MaterialSubLots { get; set; }
+        public DbSet<StockLocationHistory> StockLocationHistories { get; set; }
 
         // Aggregate Models - Inventory Receipt Aggregate
         public DbSet<InventoryReceipt> InventoryReceipts { get; set; }
@@ -81,6 +82,7 @@
             modelBuilder.ApplyConfiguration(new MaterialLotEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialLotPropertyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialSubLotEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StockLocationHistoryEntityTypeConfiguration());
 
             // Apply EF Configurations for Inventory Receipt Aggregate
             modelBuilder.ApplyConfiguration(new InventoryReceiptEntityTypeConfiguration());

@@ -19,6 +19,7 @@
         public List<MaterialSubLot> MaterialSubLots { get; private set; }
         public List<ReceiptSubLot> ReceiptSubLots { get; private set; }
         public List<IssueSubLot> IssueSubLots { get; private set; }
+        public List<StockLocationHistory> StockLocationHistories { get; private set; }
 
         #endregion
 

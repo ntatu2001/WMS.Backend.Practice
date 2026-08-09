@@ -6,14 +6,17 @@
         private readonly IReceiptLotRepository _receiptLotRepository;
         private readonly IMaterialLotRepository _materialLotRepository;
         private readonly IMaterialSubLotRepository _materialSubLotRepository;
+        private readonly IStockLocationHistoryRepository _stockLocationHistoryRepository;
 
-        public UpdateReceiptLotStatusCommandHandler(IInventoryReceiptRepository inventoryReceiptRepository, IReceiptLotRepository receiptLotRepository, 
-                                                    IMaterialLotRepository materialLotRepository, IMaterialSubLotRepository materialSubLotRepository)
+        public UpdateReceiptLotStatusCommandHandler(IInventoryReceiptRepository inventoryReceiptRepository, IReceiptLotRepository receiptLotRepository,
+                                                    IMaterialLotRepository materialLotRepository, IMaterialSubLotRepository materialSubLotRepository,
+                                                    IStockLocationHistoryRepository stockLocationHistoryRepository)
         {
             _inventoryReceiptRepository = inventoryReceiptRepository;
             _receiptLotRepository = receiptLotRepository;
             _materialLotRepository = materialLotRepository;
             _materialSubLotRepository = materialSubLotRepository;
+            _stockLocationHistoryRepository = stockLocationHistoryRepository;
         }
 
         public async Task<bool> Handle(UpdateReceiptLotStatusCommand request, CancellationToken cancellationToken)
@@ -68,6 +71,14 @@
                                                    lotNumber: sublot.ReceiptLotId);
 
                 newMaterialLot.AddSubLot(newSubLot);
+
+                _stockLocationHistoryRepository.Create(new StockLocationHistory(stockLocationHistoryId: Guid.NewGuid().ToString(),
+                                                                                materialSubLotId: newSubLot.MaterialSubLotId,
+                                                                                lotNumber: newSubLot.LotNumber,
+                                                                                locationId: newSubLot.LocationId,
+                                                                                quantity: newSubLot.ExistingQuantity,
+                                                                                movementType: StockMovementType.Inbound,
+                                                                                eventDate: DateTime.UtcNow));
             }
 
             _materialLotRepository.Create(newMaterialLot);

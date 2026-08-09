@@ -83,6 +83,7 @@ namespace WMS.Practice.APIs
             builder.Services.AddScoped<IMaterialLotRepository, MaterialLotRepository>();
             builder.Services.AddScoped<IMaterialLotPropertyRepository, MaterialLotPropertyRepository>();
             builder.Services.AddScoped<IMaterialSubLotRepository, MaterialSubLotRepository>();
+            builder.Services.AddScoped<IStockLocationHistoryRepository, StockLocationHistoryRepository>();
 
             builder.Services.AddScoped<IInventoryReceiptRepository, InventoryReceiptRepository>();
             builder.Services.AddScoped<IInventoryReceiptEntryRepository, InventoryReceiptEntryRepository>();

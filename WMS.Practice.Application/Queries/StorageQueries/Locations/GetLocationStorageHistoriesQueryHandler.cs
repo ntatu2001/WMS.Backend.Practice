@@ -1,60 +1,54 @@
-﻿namespace WMS.Practice.Application.Queries.StorageQueries.Locations
+namespace WMS.Practice.Application.Queries.StorageQueries.Locations
 {
     public class GetLocationStorageHistoriesQueryHandler : IRequestHandler<GetLocationStorageHistoriesQuery, List<InventoryStorageTrackingDTO>>
     {
         private readonly ILocationRepository _locationRepository;
-        private readonly IReceiptSubLotRepository _receiptSubLotRepository;
-        private readonly IIssueSubLotRepository _issueSubLotRepository;
+        private readonly IStockLocationHistoryRepository _stockLocationHistoryRepository;
+        private readonly IMaterialSubLotRepository _materialSubLotRepository;
 
-        public GetLocationStorageHistoriesQueryHandler(ILocationRepository locationRepository, IReceiptSubLotRepository receiptSubLotRepository, IIssueSubLotRepository issueSubLotRepository)
+        public GetLocationStorageHistoriesQueryHandler(ILocationRepository locationRepository, IStockLocationHistoryRepository stockLocationHistoryRepository,
+                                                        IMaterialSubLotRepository materialSubLotRepository)
         {
             _locationRepository = locationRepository;
-            _receiptSubLotRepository = receiptSubLotRepository;
-            _issueSubLotRepository = issueSubLotRepository;
+            _stockLocationHistoryRepository = stockLocationHistoryRepository;
+            _materialSubLotRepository = materialSubLotRepository;
         }
+
         public async Task<List<InventoryStorageTrackingDTO>> Handle(GetLocationStorageHistoriesQuery request, CancellationToken cancellationToken)
         {
-            var location = await _locationRepository.GetLocationByIdAsync(request.LocationId)
+            _ = await _locationRepository.GetLocationByIdAsync(request.LocationId)
                         ?? throw new EntityNotFoundException(nameof(Location), request.LocationId);
 
-            var inventoryStorageTrackingDTOs = new List<InventoryStorageTrackingDTO>();
-
-            // Get Start and End Time from Request, if they are Null, we will retrieve all receipts and issues
+            // Get Start and End Time from Request, if they are Null, we will retrieve the full history
             var startTime = request.StartTime is not null ? request.StartTime.Value : DateTime.MinValue;
             var endTime = request.EndTime is not null ? request.EndTime.Value : DateTime.MaxValue;
 
-            // Queries for Inventory Receipts and Issues of location in a specific time range.
-            var receiptSubLotDateList = await _receiptSubLotRepository.GetReceiptSubLotsByLocationIdAndTimeRange(request.LocationId, startTime, endTime);
-            var issueSubLotDateList = await _issueSubLotRepository.GetIssueSubLotsByLocationIdAndTimeRange(request.LocationId, startTime, endTime);
+            var histories = await _stockLocationHistoryRepository.GetByLocationIdAndTimeRangeAsync(request.LocationId, startTime, endTime);
 
-            foreach (var (receiptDate, receiptSubLot) in receiptSubLotDateList)
+            var inventoryStorageTrackingDTOs = new List<InventoryStorageTrackingDTO>();
+            foreach (var group in histories.GroupBy(x => x.MaterialSubLotId))
             {
-                var materialName = await _receiptSubLotRepository.GetMaterialNameByReceiptSubLotIdAsync(receiptSubLot.ReceiptSubLotId)
-                                ?? throw new InvalidDataException($"Material Name of Receipt SubLot {receiptSubLot.ReceiptSubLotId} could not be retrieved");
+                var material = await _materialSubLotRepository.GetMaterialBySubLotIdAsync(group.Key)
+                            ?? throw new EntityNotFoundException(nameof(Material), group.Key);
 
-                var (outboundQuantity, issueDate) = GetOutBoundQuantityAndIssueDate(issueSubLotDateList, receiptSubLot.ReceiptSubLotId);
-                var inventoryStorageTrackingDTO = new InventoryStorageTrackingDTO(materialName: materialName,
-                                                                                  lotNumber: receiptSubLot.ReceiptSubLotId,
-                                                                                  inboundQuantity: receiptSubLot.ImportedQuantity,
-                                                                                  outboundQuantity: outboundQuantity,
-                                                                                  availableQuantity: receiptSubLot.ImportedQuantity - outboundQuantity,
-                                                                                  receiptDate: receiptDate,
-                                                                                  issueDate: issueDate);
+                var inboundEvents = group.Where(x => x.MovementType == StockMovementType.Inbound).ToList();
+                var outboundEvents = group.Where(x => x.MovementType == StockMovementType.Outbound).ToList();
 
-                inventoryStorageTrackingDTOs.Add(inventoryStorageTrackingDTO);
+                var inboundQuantity = inboundEvents.Sum(x => x.Quantity);
+                var outboundQuantity = outboundEvents.Sum(x => x.Quantity);
+                var receiptDate = inboundEvents.Count > 0 ? inboundEvents.Min(x => x.EventDate) : group.Min(x => x.EventDate);
+                var issueDate = outboundEvents.Count > 0 ? outboundEvents.Max(x => x.EventDate) : (DateTime?)null;
+
+                inventoryStorageTrackingDTOs.Add(new InventoryStorageTrackingDTO(materialName: material.MaterialName,
+                                                                                 lotNumber: group.First().LotNumber,
+                                                                                 inboundQuantity: inboundQuantity,
+                                                                                 outboundQuantity: outboundQuantity,
+                                                                                 availableQuantity: inboundQuantity - outboundQuantity,
+                                                                                 receiptDate: receiptDate,
+                                                                                 issueDate: issueDate));
             }
 
             return inventoryStorageTrackingDTOs;
-        }
-
-        private (double OutBoundQuantity, DateTime IssueDate) GetOutBoundQuantityAndIssueDate(List<(DateTime IssueDate, IssueSubLot SubLot)> issueSubLotDateList, string materialSubLotId)
-        {
-            var subLotGroups = issueSubLotDateList.Where(x => x.SubLot.MaterialSubLot?.MaterialSubLotId == materialSubLotId)
-                                                  .GroupBy(x => x.SubLot.MaterialSubLot?.MaterialSubLotId);
-
-            double outboundQuantity = subLotGroups.Sum(group => group.Sum(x => x.SubLot.RequestedQuantity));
-            DateTime issueDate = subLotGroups.Any() ? subLotGroups.Max(group => group.Max(x => x.IssueDate)) : DateTime.MinValue;
-            return (outboundQuantity, issueDate);   
         }
     }
 }
