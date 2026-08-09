@@ -44,8 +44,10 @@
 
         public async Task<Material?> GetMaterialBySubLotIdAsync(string subLotId)
         {
-            return await _context.MaterialSubLots.Where(x => x.MaterialSubLotId == subLotId)
-                                                 .Select(x => x.MaterialLot.Material).FirstOrDefaultAsync();
+            return await _context.MaterialSubLots
+                                 .Include(x => x.MaterialLot.Material).ThenInclude(m => m.Properties)
+                                 .Where(x => x.MaterialSubLotId == subLotId)
+                                 .Select(x => x.MaterialLot.Material).FirstOrDefaultAsync();
         }
 
         public async Task<MaterialSubLot?> GetMaterialSubLotByLotNumberAndLocationId(string lotNumber, string locationId)
