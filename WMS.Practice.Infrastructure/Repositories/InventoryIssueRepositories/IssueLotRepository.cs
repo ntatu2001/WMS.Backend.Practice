@@ -26,6 +26,8 @@
             return _context.IssueLots
                            .Include(x => x.IssueSubLots)
                                .ThenInclude(x => x.MaterialSubLot)
+                           .Include(x => x.InventoryIssueEntry)
+                               .ThenInclude(x => x.InventoryIssue)
                            .FirstOrDefaultAsync(x => x.IssueLotId == issueLotId);
         }
 
