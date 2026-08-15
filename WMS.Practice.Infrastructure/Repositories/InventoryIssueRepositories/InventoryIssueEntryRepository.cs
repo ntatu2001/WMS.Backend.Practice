@@ -15,6 +15,9 @@
         {
             return await _context.InventoryIssueEntries
                                  .Include(e => e.InventoryIssue)
+                                 .Include(e => e.IssueLot)
+                                    .ThenInclude(e => e.IssueSubLots)
+                                        .ThenInclude(e => e.MaterialSubLot)
                                  .ToListAsync();
         }
 
