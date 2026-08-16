@@ -11,10 +11,9 @@
         public string Status { get; set; }
         public double StorageRate { get; set; }
         public List<LocationSubLotInfo> LotInfors { get; set; }
-        public double UsableVolume { get; set; }
         public double MaxVolume { get; set; }
 
-        public LocationStorageInfoDTO(string warehouseId, string warehouseName, string length, string width, string height, string status, double storageRate, List<LocationSubLotInfo> lotInfors, double usableVolume, double maxVolume)
+        public LocationStorageInfoDTO(string warehouseId, string warehouseName, string length, string width, string height, string status, double storageRate, List<LocationSubLotInfo> lotInfors, double maxVolume)
         {
             WarehouseId = warehouseId;
             WarehouseName = warehouseName;
@@ -24,7 +23,6 @@
             Status = status;
             StorageRate = storageRate;
             LotInfors = lotInfors;
-            UsableVolume = usableVolume;
             MaxVolume = maxVolume;
         }
     }
@@ -33,11 +31,15 @@
     {
         public string Lotnumber { get; set; }
         public double Quantity { get; set; }
+        public string? UnitOfMeasure { get; set; }
+        public double UsedVolume { get; set; }
 
-        public LocationSubLotInfo(string lotnumber, double quantity)
+        public LocationSubLotInfo(string lotnumber, double quantity, string? unitOfMeasure, double usedVolume)
         {
             Lotnumber = lotnumber;
             Quantity = quantity;
+            UnitOfMeasure = unitOfMeasure;
+            UsedVolume = usedVolume;
         }
     }
 }

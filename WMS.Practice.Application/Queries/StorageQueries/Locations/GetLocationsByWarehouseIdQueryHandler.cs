@@ -46,9 +46,14 @@
 
                         locationUsedVolume += materialSubLotUsedVolume;
 
+                        material.TryGetUnitOfMeasure(out string? unitOfMeasure);
+                        unitOfMeasure = unitOfMeasure?.Trim();
+
                         // Create a new instance of SubLot Infor
                         locationSubLotInfors.Add(new LocationSubLotInfo(lotnumber: materialSubLot.LotNumber,
-                                                                        quantity: materialSubLot.ExistingQuantity));
+                                                                        quantity: materialSubLot.ExistingQuantity,
+                                                                        unitOfMeasure: unitOfMeasure,
+                                                                        usedVolume: materialSubLotUsedVolume));
                     }
 
                     if (locationSubLotInfors.Count > 0)

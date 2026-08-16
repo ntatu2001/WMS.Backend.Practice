@@ -37,16 +37,20 @@
                     if (materialSubLot.HasExistingQuantity() is false)
                         continue;
 
-                    locationSubLotInfors.Add(new LocationSubLotInfo(lotnumber: materialSubLot.LotNumber,
-                                                                    quantity: materialSubLot.ExistingQuantity));
-
                     var material = await _materialSubLotRepository.GetMaterialBySubLotIdAsync(materialSubLot.MaterialSubLotId)
                                 ?? throw new EntityNotFoundException(nameof(MaterialSubLot), materialSubLot.MaterialSubLotId);
 
-                    if (material.TryCalculateUsedVolume(materialSubLot.ExistingQuantity, out double materialSubLotUsedVolume) is false)
-                        continue;
+                    double materialSubLotUsedVolume = 0.0;
+                    if (material.TryCalculateUsedVolume(materialSubLot.ExistingQuantity, out materialSubLotUsedVolume))
+                        locationUsedVolume += materialSubLotUsedVolume;
 
-                    locationUsedVolume += materialSubLotUsedVolume;
+                    material.TryGetUnitOfMeasure(out string? unitOfMeasure);
+                    unitOfMeasure = unitOfMeasure?.Trim();
+
+                    locationSubLotInfors.Add(new LocationSubLotInfo(lotnumber: materialSubLot.LotNumber,
+                                                                    quantity: materialSubLot.ExistingQuantity,
+                                                                    unitOfMeasure: unitOfMeasure,
+                                                                    usedVolume: materialSubLotUsedVolume));
                 }
 
                 if (locationSubLotInfors.Count > 0)
@@ -64,7 +68,6 @@
                                                                 status: locationStorageStatus,
                                                                 lotInfors: locationSubLotInfors,
                                                                 maxVolume: locationMaxVolume,
-                                                                usableVolume: locationUsedVolume,
                                                                 storageRate: locationStorageRate);
 
             return inforInLocationDTO;
