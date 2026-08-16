@@ -19,6 +19,14 @@
 
         }
 
+        [HttpGet("GetAllEmployeeNameId")]
+        public async Task<IActionResult> GetAllEmployeeNameId()
+        {
+            var query = new GetAllEmployeeNameIdQuery();
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetEmployeeById/{employeeId}")]
         public async Task<IActionResult> GetById(string employeeId)
         {

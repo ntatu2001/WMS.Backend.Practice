@@ -20,6 +20,14 @@
         }
 
 
+        [HttpGet("GetAllCustomerNameId")]
+        public async Task<IActionResult> GetAllCustomerNameId()
+        {
+            var query = new GetAllCustomerNameIdQuery();
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetCustomerById/{customerId}")]
         public async Task<IActionResult> GetById(string customerId)
         {

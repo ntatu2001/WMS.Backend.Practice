@@ -26,6 +26,15 @@
             return await _context.Suppliers.ToListAsync();
         }
 
+        public async Task<List<(string SupplierId, string SupplierName)>> GetAllSupplierNameIdAsync()
+        {
+            var items = await _context.Suppliers
+                                  .Select(s => new { s.SupplierId, s.SupplierName })
+                                  .ToListAsync();
+
+            return items.Select(s => (s.SupplierId, s.SupplierName)).ToList();
+        }
+
         public Task<Supplier?> GetSupplierByIdAsync(string supplierId)
         {
             return _context.Suppliers

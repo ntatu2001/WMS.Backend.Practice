@@ -26,6 +26,14 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetLotNumbersByMaterialId/{materialId}")]
+        public async Task<IActionResult> GetLotNumbersByMaterialId(string materialId)
+        {
+            var query = new GetLotNumbersByMaterialIdQuery(materialId);
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetMaterialLotbyLotStatus/{status}")]
         public async Task<IActionResult> GetMaterialLotsByStatus(string status)
         {

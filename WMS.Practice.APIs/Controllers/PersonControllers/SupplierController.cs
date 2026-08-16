@@ -18,6 +18,14 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetAllSupplierNameId")]
+        public async Task<IActionResult> GetAllSupplierNameId()
+        {
+            var query = new GetAllSupplierNameIdQuery();
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetSupplierById/{supplierId}")]
         public async Task<IActionResult> GetById(string supplierId)
         {

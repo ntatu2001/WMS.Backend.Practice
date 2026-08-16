@@ -26,6 +26,15 @@
                                  .Include(x => x.Properties)
                                  .ToListAsync();
         }
+        public async Task<List<(string EmployeeId, string EmployeeName)>> GetAllEmployeeNameIdAsync()
+        {
+            var items = await _context.Employees
+                                 .Select(e => new { e.EmployeeId, e.EmployeeName })
+                                 .ToListAsync();
+
+            return items.Select(e => (e.EmployeeId, e.EmployeeName)).ToList();
+        }
+
         public async Task<Employee?> GetEmployeeByIdAsync(string employeeId)
         {
             return await _context.Employees

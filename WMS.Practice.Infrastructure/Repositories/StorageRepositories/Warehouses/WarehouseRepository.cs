@@ -14,6 +14,15 @@
                                  .ToListAsync();
         }
 
+        public async Task<List<(string WarehouseId, string WarehouseName)>> GetAllWarehouseNameIdAsync()
+        {
+            var items = await _context.Warehouses
+                                 .Select(w => new { w.WarehouseId, w.WarehouseName })
+                                 .ToListAsync();
+
+            return items.Select(w => (w.WarehouseId, w.WarehouseName)).ToList();
+        }
+
         public async Task<Warehouse?> GetWarehouseByIdAsync(string id)
         {
             return await _context.Warehouses

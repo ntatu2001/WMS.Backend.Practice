@@ -4,6 +4,7 @@
     {
         Task<bool> ExistsAsync(string warehouseId);
         Task<List<Warehouse>> GetAllWarehouses();
+        Task<List<(string WarehouseId, string WarehouseName)>> GetAllWarehouseNameIdAsync();
         Task<Warehouse?> GetWarehouseByIdAsync(string warehouseId);
         Task<string?> GetWarehouseNameByIdAsync(string warehouseId);
         Task<List<string>> GetWarehouseIdByWarehouseNameAsync(string warehouseName);

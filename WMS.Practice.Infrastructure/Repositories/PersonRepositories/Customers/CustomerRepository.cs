@@ -26,6 +26,15 @@
             return await _context.Customers.ToListAsync();
         }
 
+        public async Task<List<(string CustomerId, string CustomerName)>> GetAllCustomerNameIdAsync()
+        {
+            var items = await _context.Customers
+                                 .Select(c => new { c.CustomerId, c.CustomerName })
+                                 .ToListAsync();
+
+            return items.Select(c => (c.CustomerId, c.CustomerName)).ToList();
+        }
+
         public async Task<Customer?> GetCustomerByIdAsync(string Id)
         {
             return await _context.Customers

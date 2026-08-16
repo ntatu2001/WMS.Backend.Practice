@@ -20,6 +20,13 @@
                                  .ToListAsync();
         }
 
+        public async Task<List<string>> GetAllReceiptLotIdsAsync()
+        {
+            return await _context.ReceiptLots
+                                 .Select(rl => rl.ReceiptLotId)
+                                 .ToListAsync();
+        }
+
         public async Task<ReceiptLot?> GetReceiptLotByIdAsync(string Id)
         {
             return await _context.ReceiptLots

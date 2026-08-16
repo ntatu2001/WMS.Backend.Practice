@@ -4,6 +4,7 @@
     {
         Task<bool> ExistAsync(string receiptLotId);
         Task<List<ReceiptLot>> GetAllAsync();
+        Task<List<string>> GetAllReceiptLotIdsAsync();
         Task<List<ReceiptLot>> GetReceiptLotsAsPending();
         Task<ReceiptLot?> GetReceiptLotByIdAsync(string receiptLotId);
         Task<ReceiptLot?> GetReceiptByLotId(string receiptLotId);

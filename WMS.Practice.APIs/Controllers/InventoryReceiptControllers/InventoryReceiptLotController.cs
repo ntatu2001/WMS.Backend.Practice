@@ -19,6 +19,14 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetAllReceiptLotIds")]
+        public async Task<IActionResult> GetAllReceiptLotIds()
+        {
+            var query = new GetAllReceiptLotIdsQuery();
+
+            return await RequestAsync(query);
+        }
+
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetReceiptLotByNotDone")]
         public async Task<IActionResult> GetReceiptLotByNotDone(string warehouseId = "TP01")
