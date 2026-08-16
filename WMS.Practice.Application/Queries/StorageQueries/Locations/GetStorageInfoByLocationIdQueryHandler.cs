@@ -49,8 +49,11 @@
                     locationUsedVolume += materialSubLotUsedVolume;
                 }
 
-                locationStorageRate = CalculateLocationStorageRate(locationUsedVolume, locationMaxVolume);
-                locationStorageStatus = GetLocationStorageStatus(locationStorageRate);
+                if (locationSubLotInfors.Count > 0)
+                {
+                    locationStorageRate = CalculateLocationStorageRate(locationUsedVolume, locationMaxVolume);
+                    locationStorageStatus = GetLocationStorageStatus(locationStorageRate);
+                }
             }
 
             var inforInLocationDTO = new LocationStorageInfoDTO(warehouseId: warehouse.WarehouseId,
