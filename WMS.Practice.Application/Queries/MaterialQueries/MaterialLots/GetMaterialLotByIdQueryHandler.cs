@@ -16,7 +16,10 @@
             var materialLot = await _materialLotRepository.GetMaterialLotByIdAsync(request.MaterialLotId)
                            ?? throw new EntityNotFoundException($"Material Lot with Id {request.MaterialLotId} could not found");
 
-            return _mapper.Map<MaterialLotDTO>(materialLot);
+            var materialLotDTO = _mapper.Map<MaterialLotDTO>(materialLot);
+            materialLotDTO.SubLots = materialLotDTO.SubLots.Where(subLot => subLot.ExistingQuantity > 0).ToList();
+
+            return materialLotDTO;
         }
     }
 }

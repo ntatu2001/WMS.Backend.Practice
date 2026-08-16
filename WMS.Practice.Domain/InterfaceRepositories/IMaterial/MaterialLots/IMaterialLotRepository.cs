@@ -5,6 +5,7 @@
         Task<bool> ExistAsync(string lotNumber);
         Task<List<MaterialLot>> GetAllMaterialLotsAsync();
         Task<MaterialLot?> GetMaterialLotByIdAsync(string lotNumber);
+        Task<string?> GetMaterialIdByLotNumberAsync(string lotNumber);
         Task<MaterialLot?> GetMaterialLotWithIssuesByIdAsync(string lotNumber);
         Task<List<MaterialLot>> GetMaterialLotsByMaterialId(string materialId);
         Task<List<MaterialLot>> GetMaterialLotsByStatus(LotStatus status);

@@ -33,6 +33,14 @@
                                  .FirstOrDefaultAsync(e => e.LotNumber == lotNumber);
         }
 
+        public async Task<string?> GetMaterialIdByLotNumberAsync(string lotNumber)
+        {
+            return await _context.MaterialLots
+                                 .Where(e => e.LotNumber == lotNumber)
+                                 .Select(e => e.MaterialId)
+                                 .FirstOrDefaultAsync();
+        }
+
         public async Task<MaterialLot?> GetMaterialLotWithIssuesByIdAsync(string lotNumber)
         {
             return await _context.MaterialLots                                  

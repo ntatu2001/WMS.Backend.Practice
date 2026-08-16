@@ -156,7 +156,8 @@ namespace WMS.Practice.Application.Mapping
             CreateMap<MaterialLot, MaterialLotDTO>()
                 .ForMember(s => s.SubLots, s => s.MapFrom(s => s.SubLots))
                 .ForMember(s => s.Properties, s => s.MapFrom(s => s.Properties))
-                .ForMember(s => s.LotStatus, s => s.MapFrom(s => s.LotStatus.ToString()));
+                .ForMember(s => s.LotStatus, s => s.MapFrom(s => s.LotStatus.ToString()))
+                .ForMember(s => s.ExistingQuantity, s => s.MapFrom(s => s.ExistingQuantity));
 
         }
 

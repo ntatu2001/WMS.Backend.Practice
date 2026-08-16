@@ -16,7 +16,8 @@
             var materialSubLots = await _materialSubLotRepository.GetMaterialSubLotsByLotNumberAsync(request.LotNumber)
                                ?? throw new EntityNotFoundException($"Material sublots for lot number {request.LotNumber} not found");
 
-            return _mapper.Map<IEnumerable<MaterialSubLotDTO>>(materialSubLots);
+            return _mapper.Map<IEnumerable<MaterialSubLotDTO>>(materialSubLots)
+                          .Where(subLot => subLot.ExistingQuantity > 0);
         }
     }
 }

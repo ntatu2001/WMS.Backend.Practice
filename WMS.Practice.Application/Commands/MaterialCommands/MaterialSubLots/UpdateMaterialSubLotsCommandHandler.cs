@@ -33,11 +33,14 @@
 
             materialLot.Update(existingQuantity: totalQuantity);
 
-            var stockTake = await _stockRepository.GetById(request.MaterialLotAdjustmentId)
-                         ?? throw new EntityNotFoundException(nameof(StockTake), request.MaterialLotAdjustmentId);
+            if (string.IsNullOrEmpty(request.MaterialLotAdjustmentId) is false)
+            {
+                var stockTake = await _stockRepository.GetById(request.MaterialLotAdjustmentId)
+                             ?? throw new EntityNotFoundException(nameof(StockTake), request.MaterialLotAdjustmentId);
 
-            stockTake.Status = AdjustmentStatus.Done;
-            stockTake.AdjustedQuantity = totalQuantity;
+                stockTake.Status = AdjustmentStatus.Done;
+                stockTake.AdjustedQuantity = totalQuantity;
+            }
 
             return await _materialLotRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

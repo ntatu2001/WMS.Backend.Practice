@@ -4,9 +4,9 @@
     {
         public List<MaterialSubLotsCommand> MaterialSubLots { get; set; }
         public string LotNumber { get; set; }
-        public string MaterialLotAdjustmentId { get; set; }
+        public string? MaterialLotAdjustmentId { get; set; }
 
-        public UpdateMaterialSubLotsCommand(List<MaterialSubLotsCommand> materialSubLots, string lotNumber, string materialLotAdjustmentId)
+        public UpdateMaterialSubLotsCommand(List<MaterialSubLotsCommand> materialSubLots, string lotNumber, string? materialLotAdjustmentId)
         {
             MaterialSubLots = materialSubLots;
             LotNumber = lotNumber;

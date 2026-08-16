@@ -30,7 +30,16 @@ namespace WMS.Practice.Application.Queries.MaterialQueries.MaterialLots
             if (materialLots.Count == 0)
                 throw new EntityNotFoundException($"Don't Have MaterialLots with WarehouseId is {request.WarehouseId}");
 
-            return _mapper.Map<IEnumerable<MaterialLotDTO>>(materialLots);
+            var materialLotDTOs = _mapper.Map<IEnumerable<MaterialLotDTO>>(materialLots)
+                                          .Where(lot => lot.ExistingQuantity > 0)
+                                          .ToList();
+
+            foreach (var lot in materialLotDTOs)
+            {
+                lot.SubLots = lot.SubLots.Where(subLot => subLot.ExistingQuantity > 0).ToList();
+            }
+
+            return materialLotDTOs;
         }
     }
 }

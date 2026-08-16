@@ -50,6 +50,14 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetMaterialIdByLotNumber/{lotNumber}")]
+        public async Task<IActionResult> GetMaterialIdByLotNumber(string lotNumber)
+        {
+            var query = new GetMaterialIdByLotNumberQuery(lotNumber);
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetQuantityByMaterialLotId/{lotNumber}")]
         public async Task<IActionResult> GetQuantityByMaterialLotId(string lotNumber)
         {
@@ -66,6 +74,14 @@
             return await RequestAsync(query);
         }
 
+
+        [HttpGet("GetLotNumbersByWarehouseId/{warehouseId}")]
+        public async Task<IActionResult> GetLotNumbersByWarehouseId(string warehouseId)
+        {
+            var query = new GetLotNumbersByWarehouseIdQuery(warehouseId);
+
+            return await RequestAsync(query);
+        }
 
         [HttpPost("CreateMaterialLot")]
         public async Task<IActionResult> CreateMaterialLot([FromBody] CreateMaterialLotCommand command)
