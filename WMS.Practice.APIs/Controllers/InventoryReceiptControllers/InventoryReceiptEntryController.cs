@@ -10,10 +10,10 @@
 
         // API for InventoryReceiptEntry
         [Authorize(Roles = "Manager,Admin")]
-        [HttpGet("GetAllReceiptEntries")]
-        public async Task<IActionResult> GetAllReceiptEntries()
+        [HttpGet("GetReceiptEntriesByDate")]
+        public async Task<IActionResult> GetReceiptEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null)
         {
-            var query = new GetAllInventoryReceiptEntriesQuery();
+            var query = new GetInventoryReceiptEntriesQuery(fromDate, toDate);
 
             return await RequestAsync(query);
         }

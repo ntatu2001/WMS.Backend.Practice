@@ -1,6 +1,6 @@
-﻿namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueEntries
+namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueEntries
 {
-    public class GetAllInventoryIssueEntriesQueryHandler : IRequestHandler<GetAllInventoryIssueEntriesQuery, IEnumerable<InventoryIssueEntryDTO>>
+    public class GetInventoryIssueEntriesQueryHandler : IRequestHandler<GetInventoryIssueEntriesQuery, IEnumerable<InventoryIssueEntryDTO>>
     {
         private readonly IInventoryIssueRepository _inventoryIssueRepository;
         private readonly IInventoryIssueEntryRepository _inventoryIssueEntryRepository;
@@ -9,7 +9,7 @@
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public GetAllInventoryIssueEntriesQueryHandler(IInventoryIssueRepository inventoryIssueRepository, IInventoryIssueEntryRepository inventoryIssueEntryRepository, IMaterialRepository materialRepository, 
+        public GetInventoryIssueEntriesQueryHandler(IInventoryIssueRepository inventoryIssueRepository, IInventoryIssueEntryRepository inventoryIssueEntryRepository, IMaterialRepository materialRepository,
                                                        IWarehouseRepository warehouseRepository, IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _inventoryIssueRepository = inventoryIssueRepository;
@@ -20,7 +20,7 @@
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<InventoryIssueEntryDTO>> Handle(GetAllInventoryIssueEntriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<InventoryIssueEntryDTO>> Handle(GetInventoryIssueEntriesQuery request, CancellationToken cancellationToken)
         {
             var inventoryIssueEntries = await _inventoryIssueEntryRepository.GetAllInventoryIssueEntriesAsync()
                                      ?? throw new EntityNotFoundException($"Inventory Issue Entries could not found");
@@ -28,10 +28,16 @@
             var inventoryIssueEntryDTOs = new List<InventoryIssueEntryDTO>();
             foreach (var inventoryIssueEntry in inventoryIssueEntries)
             {
-                var inventoryIssueEntryDTO = _mapper.Map<InventoryIssueEntryDTO>(inventoryIssueEntry);
-
                 var inventoryIssue = await _inventoryIssueRepository.GetInventoryIssueByIdAsync(inventoryIssueEntry.InventoryIssueId)
                                   ?? throw new EntityNotFoundException($"Inventory Issue with Id {inventoryIssueEntry.InventoryIssueId} could not found");
+
+                if (request.FromDate.HasValue && inventoryIssue.IssueDate.Date < request.FromDate.Value.Date)
+                    continue;
+
+                if (request.ToDate.HasValue && inventoryIssue.IssueDate.Date > request.ToDate.Value.Date)
+                    continue;
+
+                var inventoryIssueEntryDTO = _mapper.Map<InventoryIssueEntryDTO>(inventoryIssueEntry);
 
                 var employee = await _employeeRepository.GetEmployeeByIdAsync(inventoryIssue.EmployeeId)
                             ?? throw new EntityNotFoundException($"Employee with Id {inventoryIssue.EmployeeId} could not found");

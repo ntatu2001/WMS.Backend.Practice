@@ -12,10 +12,10 @@
         // API for InventoryIssueEntry
 
         [Authorize(Roles = "Manager,Admin")]
-        [HttpGet("GetAllIssueEntries")]
-        public async Task<IActionResult> GetAllIssueEntries()
+        [HttpGet("GetIssueEntriesByDate")]
+        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null)
         {
-            var query = new GetAllInventoryIssueEntriesQuery();
+            var query = new GetInventoryIssueEntriesQuery(fromDate, toDate);
 
             return await RequestAsync(query);
         }
