@@ -28,10 +28,10 @@
         }
 
         [Authorize(Roles = "Manager,Admin")]
-        [HttpGet("GetReceiptLotByNotDone")]
-        public async Task<IActionResult> GetReceiptLotByNotDone(string warehouseId = "TP01")
+        [HttpGet("GetReceiptLotsPending")]
+        public async Task<IActionResult> GetReceiptLotsPending(string warehouseId = "TP01")
         {
-            var query = new GetReceiptLotByNotDoneQuery(warehouseId);
+            var query = new GetReceiptLotsPendingQuery(warehouseId);
 
             return await RequestAsync(query);
         }

@@ -4,7 +4,7 @@
     {
         Task<bool> ExistsAsync(string id);
         Task<List<IssueLot>> GetAllIssueLotsAsync();
-        Task<List<IssueLot>> GetIssueLotsNotDone();
+        Task<List<IssueLot>> GetIssueLotsPending();
         Task<IssueLot?> GetIssueLotByIdAsync(string id);
         Task<IssueLot?> GetIssueLotWithDetailsByIssueLotIdAsync(string id);
     }

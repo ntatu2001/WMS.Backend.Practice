@@ -1,28 +1,24 @@
-﻿namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.ReceiptLots
+namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.ReceiptLots
 {
-    public class GetReceiptLotByNotDoneQueryHandler : IRequestHandler<GetReceiptLotByNotDoneQuery, IEnumerable<ReceiptLotDTO>>
+    public class GetReceiptLotsPendingQueryHandler : IRequestHandler<GetReceiptLotsPendingQuery, IEnumerable<ReceiptLotDTO>>
     {
         private readonly IReceiptLotRepository _receiptLotRepository;
-        private readonly IInventoryReceiptEntryRepository _inventoryReceiptEntryRepository;
-        private readonly IInventoryReceiptRepository _inventoryReceiptRepository;
         private readonly IMaterialRepository _materialRepository;
         private readonly IWarehouseRepository _warehouseRepository;
         private readonly IMapper _mapper;
 
-        public GetReceiptLotByNotDoneQueryHandler(IReceiptLotRepository receiptLotRepository, IInventoryReceiptEntryRepository inventoryReceiptEntryRepository, IInventoryReceiptRepository inventoryReceiptRepository, IMaterialRepository materialRepository, IWarehouseRepository warehouseRepository, IMapper mapper)
+        public GetReceiptLotsPendingQueryHandler(IReceiptLotRepository receiptLotRepository, IMaterialRepository materialRepository, IWarehouseRepository warehouseRepository, IMapper mapper)
         {
             _receiptLotRepository = receiptLotRepository;
-            _inventoryReceiptEntryRepository = inventoryReceiptEntryRepository;
-            _inventoryReceiptRepository = inventoryReceiptRepository;
             _materialRepository = materialRepository;
             _warehouseRepository = warehouseRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ReceiptLotDTO>> Handle(GetReceiptLotByNotDoneQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ReceiptLotDTO>> Handle(GetReceiptLotsPendingQuery request, CancellationToken cancellationToken)
         {
             var receiptLots = await _receiptLotRepository.GetReceiptLotsAsPending()
-                           ?? throw new EntityNotFoundException(nameof(ReceiptLot), "No receipt lots found with status NotDone");
+                           ?? throw new EntityNotFoundException(nameof(ReceiptLot), "No receipt lots found with status Pending");
 
             var receiptLotsDTOs = new List<ReceiptLotDTO>();
             foreach (var receiptLot in receiptLots)

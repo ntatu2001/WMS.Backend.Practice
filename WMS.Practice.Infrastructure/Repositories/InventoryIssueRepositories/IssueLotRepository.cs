@@ -31,12 +31,12 @@
                            .FirstOrDefaultAsync(x => x.IssueLotId == issueLotId);
         }
 
-        public async Task<List<IssueLot>> GetIssueLotsNotDone()
+        public async Task<List<IssueLot>> GetIssueLotsPending()
         {
             return await _context.IssueLots
                                  .Include(x => x.InventoryIssueEntry)
                                     .ThenInclude(x => x.InventoryIssue)
-                                 .Where(x => x.LotStatus != LotStatus.Done)
+                                 .Where(x => x.LotStatus == LotStatus.Pending)
                                  .ToListAsync();
         }
 

@@ -38,6 +38,7 @@ namespace WMS.Practice.Application.Mapping
 
             MapIssueSublotViewModel();
             MapIssueLotViewModel();
+            MapIssueLotPendingViewModel();
             MapInventoryIssueEntryViewModel();
             MapInventoryIssueViewModel();
 
@@ -201,6 +202,13 @@ namespace WMS.Practice.Application.Mapping
         public void MapIssueLotViewModel()
         {
             CreateMap<IssueLot, IssueLotDTO>()
+                .ForMember(s => s.IssueSublots, s => s.MapFrom(s => s.IssueSubLots))
+                .ForMember(s => s.IssueLotStatus, s => s.MapFrom(s => s.LotStatus.ToString()));
+        }
+
+        public void MapIssueLotPendingViewModel()
+        {
+            CreateMap<IssueLot, IssueLotPendingDTO>()
                 .ForMember(s => s.IssueSublots, s => s.MapFrom(s => s.IssueSubLots))
                 .ForMember(s => s.IssueLotStatus, s => s.MapFrom(s => s.LotStatus.ToString()));
         }
