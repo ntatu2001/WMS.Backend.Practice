@@ -29,9 +29,10 @@
         {
             IQueryable<InventoryIssue> inventoryIssuesQuery = _inventoryIssueRepository.QueryAllInventoryIssues();
 
-            if (!string.IsNullOrEmpty(request.CustomerId))
+            if (!string.IsNullOrEmpty(request.CustomerName))
             {
-                inventoryIssuesQuery = inventoryIssuesQuery.Where(s => s.CustomerId == request.CustomerId);
+                var customerIds = await _customerRepository.GetCustomerIdsByNameAsync(request.CustomerName);
+                inventoryIssuesQuery = inventoryIssuesQuery.Where(s => customerIds.Contains(s.CustomerId));
             }
 
             if (request.StartTime.HasValue && request.EndTime.HasValue)
@@ -53,7 +54,7 @@
             }
 
             var inventoryIssueTrackingDTOs = new List<IssueLotsTrackingDTO>();
-            foreach (var inventoryIssue in inventoryIssuesQuery)
+            foreach (var inventoryIssue in inventoryIssues)
             {
 
                 var (warehouseId, warehouseName) = await _warehouseRepository.GetWarehouseNameAndIdByIdAsync(inventoryIssue.WarehouseId)
@@ -67,6 +68,9 @@
 
                 foreach (var entry in inventoryIssue.Entries)
                 {
+                    if (!string.IsNullOrEmpty(request.LotNumber) && entry.IssueLot.MaterialLotId != request.LotNumber)
+                        continue;
+
                     var material = await _materialRepository.GetMaterialByIdAsync(entry.MaterialId)
                                 ?? throw new EntityNotFoundException($"Material with Id {entry.MaterialId} could not found");
 

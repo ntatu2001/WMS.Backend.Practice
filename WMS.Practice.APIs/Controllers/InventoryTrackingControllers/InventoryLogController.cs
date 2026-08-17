@@ -30,18 +30,18 @@
 
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllReceiptLotsTracking")]
-        public async Task<IActionResult> GetAllReceiptLotsTracking(string? lotNumber, string? supplierId, DateTime? startTime, DateTime? endTime)
+        public async Task<IActionResult> GetAllReceiptLotsTracking(string? lotNumber, string? supplierName, DateTime? startTime, DateTime? endTime)
         {
-            var query = new GetAllReceiptLotsTrackingQuery(lotNumber, supplierId, startTime, endTime);
+            var query = new GetAllReceiptLotsTrackingQuery(lotNumber, supplierName, startTime, endTime);
 
             return await RequestAsync(query);
         }
 
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetAllIssueLotsTracking")]
-        public async Task<IActionResult> GetAllIssueLotsTracking(string? lotNumber, string? customerId, DateTime? startTime, DateTime? endTime)
+        public async Task<IActionResult> GetAllIssueLotsTracking(string? lotNumber, string? customerName, DateTime? startTime, DateTime? endTime)
         {
-            var query = new GetAllIssueLotsTrackingQuery(lotNumber, customerId, startTime, endTime);
+            var query = new GetAllIssueLotsTrackingQuery(lotNumber, customerName, startTime, endTime);
 
             return await RequestAsync(query);
         }

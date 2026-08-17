@@ -35,6 +35,14 @@
             return items.Select(c => (c.CustomerId, c.CustomerName)).ToList();
         }
 
+        public async Task<List<string>> GetCustomerIdsByNameAsync(string customerName)
+        {
+            return await _context.Customers
+                                 .Where(c => c.CustomerName.Contains(customerName))
+                                 .Select(c => c.CustomerId)
+                                 .ToListAsync();
+        }
+
         public async Task<Customer?> GetCustomerByIdAsync(string Id)
         {
             return await _context.Customers

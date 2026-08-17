@@ -34,9 +34,10 @@ namespace WMS.Practice.Application.Queries.InventoryTrackingQueries.InventoryRec
         {
             var inventoryReceiptsQuery = _inventoryReceiptRepository.QueryInventoryReceipts();
 
-            if (request.SupplierId is not null)
+            if (!string.IsNullOrEmpty(request.SupplierName))
             {
-                inventoryReceiptsQuery = inventoryReceiptsQuery.Where(s => s.SupplierId == request.SupplierId);
+                var supplierIds = await _supplierRepository.GetSupplierIdsByNameAsync(request.SupplierName);
+                inventoryReceiptsQuery = inventoryReceiptsQuery.Where(s => supplierIds.Contains(s.SupplierId));
             }
 
             if (request.StartTime is not null && request.EndTime is not null)
@@ -71,6 +72,9 @@ namespace WMS.Practice.Application.Queries.InventoryTrackingQueries.InventoryRec
 
                 foreach (var entry in inventoryReceipt.Entries)
                 {
+                    if (request.LotNumber is not null && entry.LotNumber != request.LotNumber)
+                        continue;
+
                     var material = await _materialRepository.GetMaterialByIdAsync(entry.MaterialId)
                                 ?? throw new EntityNotFoundException($"Material with Id {entry.MaterialId} could not found");
 

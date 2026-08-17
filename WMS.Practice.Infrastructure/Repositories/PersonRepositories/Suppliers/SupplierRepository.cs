@@ -35,6 +35,14 @@
             return items.Select(s => (s.SupplierId, s.SupplierName)).ToList();
         }
 
+        public async Task<List<string>> GetSupplierIdsByNameAsync(string supplierName)
+        {
+            return await _context.Suppliers
+                                 .Where(s => s.SupplierName.Contains(supplierName))
+                                 .Select(s => s.SupplierId)
+                                 .ToListAsync();
+        }
+
         public Task<Supplier?> GetSupplierByIdAsync(string supplierId)
         {
             return _context.Suppliers

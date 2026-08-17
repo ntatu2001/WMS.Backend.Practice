@@ -55,6 +55,7 @@
         {
             return _context.StockTakes
                            .Include(x => x.SubLots)
+                           .Include(x => x.MaterialLot)
                            .AsNoTracking()
                            .OrderByDescending(x => x.AdjustmentDate);
         }

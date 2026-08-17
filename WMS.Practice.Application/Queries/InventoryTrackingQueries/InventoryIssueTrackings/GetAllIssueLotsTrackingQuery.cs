@@ -5,12 +5,12 @@ namespace WMS.Practice.Application.Queries.InventoryTrackingQueries.InventoryIss
     public class GetAllIssueLotsTrackingQuery : TimeRangeQuery, IRequest<List<IssueLotsTrackingDTO>>
     {
         public string? LotNumber { get; set; }
-        public string? CustomerId { get; set; }
+        public string? CustomerName { get; set; }
 
-        public GetAllIssueLotsTrackingQuery(string? lotNumber, string? customerId, DateTime? startTime, DateTime? endTime)
+        public GetAllIssueLotsTrackingQuery(string? lotNumber, string? customerName, DateTime? startTime, DateTime? endTime)
         {
             LotNumber = lotNumber;
-            CustomerId = customerId;
+            CustomerName = customerName;
             StartTime = startTime;
             EndTime = endTime;
         }
