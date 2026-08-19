@@ -70,22 +70,19 @@
                     }
                 }
 
-                if (stockTakeSublotDTOs.Count != 0)
-                {
-                    var LotAdjustmentsTrackingDTO = new StockTakeLotTrackingDTO(warehouseID: warehouseId,
-                                                                                warehouseName: warehouseName,
-                                                                                personId: employeeId,
-                                                                                personName: employeeName,
-                                                                                adjustmentDate: stockTake.AdjustmentDate,
-                                                                                lotNumber: stockTake.LotNumber,
-                                                                                materialId: material.MaterialId,
-                                                                                materialName: material.MaterialName,
-                                                                                unitOfMeasure: unitOfMeasure,
-                                                                                lotStatus: stockTake.Status,
-                                                                                stockTakeSublotDTOs: stockTakeSublotDTOs);
+                var LotAdjustmentsTrackingDTO = new StockTakeLotTrackingDTO(warehouseID: warehouseId,
+                                                                            warehouseName: warehouseName,
+                                                                            personId: employeeId,
+                                                                            personName: employeeName,
+                                                                            adjustmentDate: stockTake.AdjustmentDate,
+                                                                            lotNumber: stockTake.LotNumber,
+                                                                            materialId: material.MaterialId,
+                                                                            materialName: material.MaterialName,
+                                                                            unitOfMeasure: unitOfMeasure,
+                                                                            lotStatus: stockTake.Status,
+                                                                            stockTakeSublotDTOs: stockTakeSublotDTOs);
 
-                    stockTakeLotTrackingDTOs.Add(LotAdjustmentsTrackingDTO);
-                }
+                stockTakeLotTrackingDTOs.Add(LotAdjustmentsTrackingDTO);
             }
 
             if (stockTakeLotTrackingDTOs.Count == 0)
