@@ -15,7 +15,7 @@
 
         public async Task<bool> Handle(UpdateStockTakeCommand request, CancellationToken cancellationToken)
         {
-            if (await _materialSubLotRepository.ExistMaterialSubLotsByLotNumber(request.LotNumber) is true)
+            if (await _materialSubLotRepository.ExistMaterialSubLotsByLotNumber(request.LotNumber) is false)
                 throw new EntityNotFoundException(nameof(MaterialSubLot), request.LotNumber);
 
             var materialLot = await _materialLotRepository.GetMaterialLotByIdAsync(request.LotNumber)
