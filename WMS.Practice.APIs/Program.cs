@@ -102,6 +102,7 @@ namespace WMS.Practice.APIs
 
             builder.Services.AddScoped<IIssueLoggingService, IssueLoggingService>();
             builder.Services.AddScoped<IReceiptLoggingService, ReceiptLoggingService>();
+            builder.Services.AddScoped<ILocationCapacityService, LocationCapacityService>();
             builder.Services.AddScoped<IOverviewService, OverviewService>();
 
             builder.Services.AddControllers();

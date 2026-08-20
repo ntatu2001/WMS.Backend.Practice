@@ -9,5 +9,6 @@
         IQueryable<StockTake?> QueryAllStockTakes();
         void Create(StockTake materialLotAdjustment);
         Task<bool> ExistsAsync(string stockTakeId);
+        Task<bool> ExistsPendingStockTakeByLotNumberAsync(string lotNumber);
     }
 }

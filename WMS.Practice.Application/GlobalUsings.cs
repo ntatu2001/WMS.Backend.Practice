@@ -32,6 +32,7 @@ global using WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIss
 global using WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryReceiptEntries;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryIssues;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryReceipts;
+global using WMS.Practice.Application.Services.Locations;
 global using WMS.Practice.Domain.AggregateModels.InventoryIssueAggregate;
 global using WMS.Practice.Domain.AggregateModels.InventoryLogAggregate;
 global using WMS.Practice.Domain.AggregateModels.InventoryReceiptAggregate;

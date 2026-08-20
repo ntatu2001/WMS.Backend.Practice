@@ -50,6 +50,13 @@
                 ex.ProductIssueQuantity);
         }
 
+        public ErrorResponse(LocationCapacityExceededException ex)
+        {
+            Code = "LocationCapacityExceeded";
+            Message = $"Location {ex.LocationId} would reach {ex.ResultingRate:F2}% storage rate after adding this sublot, exceeding 100% capacity.";
+            Detail = new LocationCapacityExceededErrorDetail(ex.LocationId, ex.MaxVolume, ex.CurrentUsedVolume, ex.IncomingVolume, ex.ResultingRate);
+        }
+
         public ErrorResponse(ExportedItemLotException ex)
         {
             Code = $"ExportedItemLot.{ex.ItemLotId}";

@@ -8,8 +8,9 @@
         public MaterialSubLot MaterialSubLot { get; set; }
         public string IssueLotId { get; set; }
         public IssueLot IssueLot { get; set; }
+        public string? LocationId { get; set; }
 
-        public IssueSubLot(string issueSubLotId, double requestedQuantity, string materialSubLotId, string issueLotId)
+        public IssueSubLot(string issueSubLotId, double requestedQuantity, string materialSubLotId, string issueLotId, string? locationId = null)
         {
             if (string.IsNullOrWhiteSpace(issueSubLotId))
                 throw new ArgumentNullException(nameof(issueSubLotId));
@@ -21,6 +22,7 @@
             RequestedQuantity = requestedQuantity;
             MaterialSubLotId = materialSubLotId;
             IssueLotId = issueLotId;
+            LocationId = locationId;
         }
     }
 }

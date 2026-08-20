@@ -11,6 +11,9 @@
             builder.Property(isl => isl.RequestedQuantity)
                    .IsRequired();
 
+            builder.Property(isl => isl.LocationId)
+                   .IsRequired(false);
+
             builder.HasOne(isl => isl.MaterialSubLot)
                    .WithMany(x => x.IssueSubLots)
                    .HasForeignKey(isl => isl.MaterialSubLotId)

@@ -68,6 +68,12 @@
             return await RequestAsync(command);
         }
 
+        [HttpPut("MoveMaterialSubLot")]
+        public async Task<IActionResult> MoveMaterialSubLot([FromBody] MoveMaterialSubLotCommand command)
+        {
+            return await RequestAsync(command);
+        }
+
         [HttpDelete("DeleteMaterialSubLot/{sublotId}")]
         public async Task<IActionResult> DeleteMaterialSubLot(string sublotId)
         {

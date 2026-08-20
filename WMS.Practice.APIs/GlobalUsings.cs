@@ -77,3 +77,4 @@ global using WMS.Practice.Infrastructure.Repositories.StockTakeRepositories;
 global using WMS.Practice.Infrastructure.Repositories.StorageRepositories;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryIssues;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryReceipts;
+global using WMS.Practice.Application.Services.Locations;

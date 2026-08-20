@@ -51,6 +51,11 @@
             return await _context.StockTakes.AnyAsync(x => x.StockTakeId == stockTakeId);
         }
 
+        public async Task<bool> ExistsPendingStockTakeByLotNumberAsync(string lotNumber)
+        {
+            return await _context.StockTakes.AnyAsync(x => x.LotNumber == lotNumber && x.Status == AdjustmentStatus.Pending);
+        }
+
         public IQueryable<StockTake?> QueryAllStockTakes()
         {
             return _context.StockTakes

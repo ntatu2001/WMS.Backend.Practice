@@ -4,11 +4,13 @@
     {
         private readonly IIssueLotRepository _issueLotRepository;
         private readonly IIssueSubLotRepository _issueSubLotRepository;
+        private readonly IMaterialSubLotRepository _materialSubLotRepository;
 
-        public UpdateIssueSubLotsCommandHandler(IIssueLotRepository issueLotRepository, IIssueSubLotRepository issueSubLotRepository)
+        public UpdateIssueSubLotsCommandHandler(IIssueLotRepository issueLotRepository, IIssueSubLotRepository issueSubLotRepository, IMaterialSubLotRepository materialSubLotRepository)
         {
             _issueLotRepository = issueLotRepository;
             _issueSubLotRepository = issueSubLotRepository;
+            _materialSubLotRepository = materialSubLotRepository;
         }
 
         /// <summary>
@@ -34,10 +36,14 @@
                     if (await _issueSubLotRepository.ExistsAsync(subLot.IssueSublotId) is true)
                         throw new DuplicateRecordException(nameof(IssueSubLot), subLot.IssueSublotId);
 
+                    var materialSubLot = await _materialSubLotRepository.GetMaterialSubLotByIdAsync(subLot.MaterialSubLotId)
+                                      ?? throw new EntityNotFoundException(nameof(MaterialSubLot), subLot.MaterialSubLotId);
+
                     var issueSubLot = new IssueSubLot(issueSubLotId: subLot.IssueSublotId,
                                                       requestedQuantity: subLot.RequestedQuantity,
                                                       materialSubLotId: subLot.MaterialSubLotId,
-                                                      issueLotId: subLot.IssueLotId);
+                                                      issueLotId: subLot.IssueLotId,
+                                                      locationId: materialSubLot.LocationId);
 
                     issueLot.AddSubLot(issueSubLot);
                 }

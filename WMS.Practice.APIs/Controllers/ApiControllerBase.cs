@@ -32,6 +32,11 @@
                 var errorMessage = new ErrorResponse(ex);
                 return BadRequest(errorMessage);
             }
+            catch (LocationCapacityExceededException ex)
+            {
+                var errorMessage = new ErrorResponse(ex);
+                return BadRequest(errorMessage);
+            }
             catch (InvalidCredentialsException ex)
             {
                 var errorMessage = new ErrorResponse(ex);
