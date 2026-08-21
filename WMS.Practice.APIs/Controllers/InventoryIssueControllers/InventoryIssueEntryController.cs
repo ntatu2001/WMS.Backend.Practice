@@ -13,9 +13,9 @@
 
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetIssueEntriesByDate")]
-        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null)
         {
-            var query = new GetInventoryIssueEntriesQuery(fromDate, toDate);
+            var query = new GetInventoryIssueEntriesQuery(fromDate, toDate, warehouseName);
 
             return await RequestAsync(query);
         }

@@ -28,6 +28,12 @@ namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryRece
             var inventoryReceiptEntries = await _inventoryReceiptEntryRepository.GetAllInventoryReceiptEntriesAsync()
                                        ?? throw new EntityNotFoundException("Inventory Receipt Entries could not found");
 
+            List<string>? matchingWarehouseIds = null;
+            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            {
+                matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+            }
+
             var inventoryReceiptEntriesDTOs = new List<InventoryReceiptEntryDTO>();
             foreach (var inventoryReceiptEntry in inventoryReceiptEntries)
             {
@@ -38,6 +44,9 @@ namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryRece
                     continue;
 
                 if (request.ToDate.HasValue && inventoryReceipt.ReceiptDate.Date > request.ToDate.Value.Date)
+                    continue;
+
+                if (matchingWarehouseIds is not null && !matchingWarehouseIds.Contains(inventoryReceipt.WarehouseId))
                     continue;
 
                 var receiptLot = await _receiptLotRepository.GetReceiptLotByIdAsync(inventoryReceiptEntry.LotNumber)

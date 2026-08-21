@@ -25,6 +25,12 @@ namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueE
             var inventoryIssueEntries = await _inventoryIssueEntryRepository.GetAllInventoryIssueEntriesAsync()
                                      ?? throw new EntityNotFoundException($"Inventory Issue Entries could not found");
 
+            List<string>? matchingWarehouseIds = null;
+            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            {
+                matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+            }
+
             var inventoryIssueEntryDTOs = new List<InventoryIssueEntryDTO>();
             foreach (var inventoryIssueEntry in inventoryIssueEntries)
             {
@@ -35,6 +41,9 @@ namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueE
                     continue;
 
                 if (request.ToDate.HasValue && inventoryIssue.IssueDate.Date > request.ToDate.Value.Date)
+                    continue;
+
+                if (matchingWarehouseIds is not null && !matchingWarehouseIds.Contains(inventoryIssue.WarehouseId))
                     continue;
 
                 var inventoryIssueEntryDTO = _mapper.Map<InventoryIssueEntryDTO>(inventoryIssueEntry);
