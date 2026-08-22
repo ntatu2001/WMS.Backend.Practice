@@ -4,6 +4,7 @@
     {
         Task<bool> ExistsAsync(string locationId);
         Task <List<Location>> GetAllLocations();
+        IQueryable<Location> QueryLocations();
         Task<Location?> GetLocationByIdAsync(string locationId);
         Task<List<Location>> GetLocationsByWarehouseId(string warehouseId);
         void Create(Location location);

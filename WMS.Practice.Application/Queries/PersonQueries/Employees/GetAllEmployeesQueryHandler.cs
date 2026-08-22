@@ -1,6 +1,6 @@
-﻿namespace WMS.Practice.Application.Queries.PersonQueries.Employees
+namespace WMS.Practice.Application.Queries.PersonQueries.Employees
 {
-    public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeDTO>>
+    public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, QueryResult<EmployeeDTO>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
@@ -11,13 +11,19 @@
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+        public async Task<QueryResult<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var employees = await _employeeRepository.GetAllAsync()
-                         ?? throw new EntityNotFoundException("Employees could not found");
+            var employeesQuery = _employeeRepository.QueryEmployees()
+                                                      .OrderBy(e => e.EmployeeId);
 
-            var employeeDTOs = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
-            return employeeDTOs;
+            var totalItems = await employeesQuery.CountAsync(cancellationToken);
+
+            var skip = (request.Page - 1) * request.ItemsPerPage;
+            var pagedEmployees = await employeesQuery.Skip(skip).Take(request.ItemsPerPage).ToListAsync(cancellationToken);
+
+            var employeeDTOs = _mapper.Map<List<EmployeeDTO>>(pagedEmployees);
+
+            return new QueryResult<EmployeeDTO>(results: employeeDTOs, totalItems: totalItems);
         }
     }
 }

@@ -18,6 +18,16 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("SearchLocationsByLocationId")]
+        public async Task<IActionResult> SearchLocationsByLocationId([FromQuery] string? locationId, [FromQuery] string? warehouseId,
+                                                                       [FromQuery] int pageNumber, [FromQuery] int itemsPerPage)
+        {
+            var query = new SearchLocationsByLocationIdQuery(locationId: locationId, warehouseId: warehouseId,
+                                                               page: pageNumber, itemsPerPage: itemsPerPage);
+
+            return await RequestAsync(query);
+        }
+
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetLocationsByWarehouseId/{warehouseId}")]
         public async Task<IActionResult> GetByWarehouseId(string warehouseId)

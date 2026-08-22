@@ -1,30 +1,38 @@
 namespace WMS.Practice.Application.Queries.StorageQueries.Locations
 {
-    public class GetAllLocationQueryHandler : IRequestHandler<GetAllLocationQuery, QueryResult<LocationDTO>>
+    public class SearchLocationsByLocationIdQueryHandler : IRequestHandler<SearchLocationsByLocationIdQuery, QueryResult<LocationDTO>>
     {
         private readonly ILocationRepository _locationRepository;
         private readonly IWarehouseRepository _warehouseRepository;
         private readonly IMapper _mapper;
 
-        public GetAllLocationQueryHandler(ILocationRepository locationRepository, IWarehouseRepository warehouseRepository, IMapper mapper)
+        public SearchLocationsByLocationIdQueryHandler(ILocationRepository locationRepository, IWarehouseRepository warehouseRepository, IMapper mapper)
         {
             _locationRepository = locationRepository;
             _warehouseRepository = warehouseRepository;
             _mapper = mapper;
         }
 
-
-        public async Task<QueryResult<LocationDTO>> Handle(GetAllLocationQuery request, CancellationToken cancellationToken)
+        public async Task<QueryResult<LocationDTO>> Handle(SearchLocationsByLocationIdQuery request, CancellationToken cancellationToken)
         {
-            var locationsQuery = _locationRepository.QueryLocations()
-                                                      .OrderBy(l => l.LocationId);
+            var locationsQuery = _locationRepository.QueryLocations();
+
+            if (!string.IsNullOrWhiteSpace(request.LocationId))
+            {
+                locationsQuery = locationsQuery.Where(l => l.LocationId.Contains(request.LocationId));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.WarehouseId))
+            {
+                locationsQuery = locationsQuery.Where(l => l.WarehouseId == request.WarehouseId);
+            }
+
+            locationsQuery = locationsQuery.OrderBy(l => l.LocationId);
 
             var totalItems = await locationsQuery.CountAsync(cancellationToken);
 
-            // Skip the locations on the previous page (Page is sent from Request)
             var skip = (request.Page - 1) * request.ItemsPerPage;
 
-            // Find locations should be included in current page
             var pagedLocations = await locationsQuery.Skip(skip)
                                                        .Take(request.ItemsPerPage)
                                                        .ToListAsync(cancellationToken);

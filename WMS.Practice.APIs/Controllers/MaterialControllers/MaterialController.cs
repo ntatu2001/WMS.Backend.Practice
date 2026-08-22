@@ -20,6 +20,16 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("SearchMaterialsByMaterialId")]
+        public async Task<IActionResult> SearchMaterialsByMaterialId([FromQuery] string? materialId, [FromQuery] string? materialClassId,
+                                                                       [FromQuery] int pageNumber, [FromQuery] int itemsPerPage)
+        {
+            var query = new SearchMaterialsByMaterialIdQuery(materialId: materialId, materialClassId: materialClassId,
+                                                               page: pageNumber, itemsPerPage: itemsPerPage);
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetMaterialsByClassIdQuery/{materialClassId}")]
         public async Task<IActionResult> GetMaterialsByClassId(string materialClassId)
         {

@@ -11,12 +11,22 @@
         // API for Employee
 
         [HttpGet("GetAllEmployees")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int pageNumber, [FromQuery] int itemsPerPage)
         {
-            var query = new GetAllEmployeesQuery();
+            var query = new GetAllEmployeesQuery(page: pageNumber, itemsPerPage: itemsPerPage);
 
             return await RequestAsync(query);
 
+        }
+
+        [HttpGet("SearchEmployeesByEmployeeId")]
+        public async Task<IActionResult> SearchEmployeesByEmployeeId([FromQuery] string? employeeId, [FromQuery] string? employeeClassId,
+                                                                       [FromQuery] int pageNumber, [FromQuery] int itemsPerPage)
+        {
+            var query = new SearchEmployeesByEmployeeIdQuery(employeeId: employeeId, employeeClassId: employeeClassId,
+                                                               page: pageNumber, itemsPerPage: itemsPerPage);
+
+            return await RequestAsync(query);
         }
 
         [HttpGet("GetAllEmployeeNameId")]

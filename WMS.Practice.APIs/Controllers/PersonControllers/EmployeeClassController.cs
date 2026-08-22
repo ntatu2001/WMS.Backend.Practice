@@ -18,6 +18,14 @@ namespace WMS.Practice.APIs.Controllers.PersonControllers
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetAllEmployeeClassNameId")]
+        public async Task<IActionResult> GetAllEmployeeClassNameId()
+        {
+            var query = new GetAllEmployeeClassNameIdQuery();
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetEmployeeClassById/{employeeClassId}")]
         public async Task<IActionResult> GetById(string employeeClassId)
         {

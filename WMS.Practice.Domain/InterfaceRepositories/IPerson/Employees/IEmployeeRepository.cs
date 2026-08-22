@@ -4,6 +4,7 @@
     {
         Task<bool> ExistAsync(string employeeId);
         Task<List<Employee>> GetAllAsync();
+        IQueryable<Employee> QueryEmployees();
         Task<List<(string EmployeeId, string EmployeeName)>> GetAllEmployeeNameIdAsync();
         Task<Employee?> GetEmployeeByIdAsync(string employeeId);
         Task<string?> GetEmployeeNameByIdAsync(string employeeId);

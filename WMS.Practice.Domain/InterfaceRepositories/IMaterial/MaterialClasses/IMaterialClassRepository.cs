@@ -4,6 +4,7 @@
     {
         Task<bool> ExistsAsync(string classId);
         Task<List<MaterialClass>> GetAllAsync();
+        Task<List<(string MaterialClassId, string MaterialClassName)>> GetAllMaterialClassNameIdAsync();
         Task<MaterialClass?> GetMaterialClassByClassIdAsync(string id);
         Task<List<MaterialClass>> GetByClassIdsAsync(List<string> ids);
         void Create(MaterialClass materialClass);

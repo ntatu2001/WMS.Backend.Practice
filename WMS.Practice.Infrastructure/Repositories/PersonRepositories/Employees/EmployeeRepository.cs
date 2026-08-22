@@ -22,9 +22,13 @@
 
         public async Task<List<Employee>> GetAllAsync()
         {
-            return await _context.Employees
-                                 .Include(x => x.Properties)
-                                 .ToListAsync();
+            return await QueryEmployees().ToListAsync();
+        }
+
+        public IQueryable<Employee> QueryEmployees()
+        {
+            return _context.Employees
+                           .Include(x => x.Properties);
         }
         public async Task<List<(string EmployeeId, string EmployeeName)>> GetAllEmployeeNameIdAsync()
         {

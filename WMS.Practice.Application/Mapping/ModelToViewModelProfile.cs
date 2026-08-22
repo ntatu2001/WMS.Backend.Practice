@@ -119,6 +119,7 @@ namespace WMS.Practice.Application.Mapping
         public void MapMaterialClassViewModel()
         {
             CreateMap<MaterialClass, MaterialClassDTO>()
+                .ForMember(s => s.ClassName, s => s.MapFrom(s => s.MaterialClassName))
                 .ForMember(s => s.Properties, s => s.MapFrom(s => s.Properties))
                 .ForMember(s => s.Materials, s => s.MapFrom(s => s.Materials));
         }
@@ -141,7 +142,8 @@ namespace WMS.Practice.Application.Mapping
         public void MapMaterialViewModel()
         {
             CreateMap<Material, MaterialDTO>()
-                .ForMember(s => s.Properties, s => s.MapFrom(s => s.Properties));
+                .ForMember(s => s.Properties, s => s.MapFrom(s => s.Properties))
+                .ForMember(s => s.MaterialClassName, s => s.MapFrom(s => s.MaterialClass != null ? s.MaterialClass.MaterialClassName : null));
 
         }
 

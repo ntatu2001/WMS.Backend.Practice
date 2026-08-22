@@ -29,6 +29,15 @@
                                  .ToListAsync();
         }
 
+        public async Task<List<(string MaterialClassId, string MaterialClassName)>> GetAllMaterialClassNameIdAsync()
+        {
+            var items = await _context.MaterialClasses
+                                 .Select(mc => new { mc.MaterialClassId, mc.MaterialClassName })
+                                 .ToListAsync();
+
+            return items.Select(mc => (mc.MaterialClassId, mc.MaterialClassName)).ToList();
+        }
+
         public async Task<MaterialClass?> GetMaterialClassByClassIdAsync(string classId)
         {
             return await _context.MaterialClasses

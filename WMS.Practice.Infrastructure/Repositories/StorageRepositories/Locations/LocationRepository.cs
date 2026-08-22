@@ -14,10 +14,14 @@
 
         public async Task<List<Location>> GetAllLocations()
         {
-            return await _context.Locations
-                                 .Include(l => l.Properties)
-                                 .Include(l => l.MaterialSubLots)
-                                 .ToListAsync();
+            return await QueryLocations().ToListAsync();
+        }
+
+        public IQueryable<Location> QueryLocations()
+        {
+            return _context.Locations
+                           .Include(l => l.Properties)
+                           .Include(l => l.MaterialSubLots);
         }
 
         public async Task<Location?> GetLocationByIdAsync(string locationId)

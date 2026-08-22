@@ -19,6 +19,14 @@
             return await RequestAsync(query);
         }
 
+        [HttpGet("GetAllMaterialClassNameId")]
+        public async Task<IActionResult> GetAllMaterialClassNameId()
+        {
+            var query = new GetAllMaterialClassNameIdQuery();
+
+            return await RequestAsync(query);
+        }
+
         [HttpGet("GetMaterialClassById/{materialClassId}")]
         public async Task<IActionResult> GetById(string materialClassId)
         {

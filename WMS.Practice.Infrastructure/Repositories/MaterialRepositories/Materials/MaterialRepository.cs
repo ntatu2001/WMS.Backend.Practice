@@ -23,22 +23,29 @@
 
         public async Task<List<Material>> GetAllMaterialsAsync()
         {
-            return await _context.Materials
-                                 .Include(e => e.Properties)
-                                 .ToListAsync();  
+            return await QueryMaterials().ToListAsync();
+        }
+
+        public IQueryable<Material> QueryMaterials()
+        {
+            return _context.Materials
+                           .Include(e => e.Properties)
+                           .Include(e => e.MaterialClass);
         }
 
         public async Task<List<Material>> GetMaterialsByClassIdAsync(string classId)
         {
             return await _context.Materials.Where(e => e.MaterialClassId == classId)
                                            .Include(e => e.Properties)
-                                           .ToListAsync();         
+                                           .Include(e => e.MaterialClass)
+                                           .ToListAsync();
         }
 
         public async Task<Material?> GetMaterialByIdAsync(string materialId)
         {
             return await _context.Materials
                                  .Include(e => e.Properties)
+                                 .Include(e => e.MaterialClass)
                                  .FirstOrDefaultAsync(e => e.MaterialId == materialId);
         }
 

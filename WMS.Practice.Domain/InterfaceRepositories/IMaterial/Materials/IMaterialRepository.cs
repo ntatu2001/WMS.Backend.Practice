@@ -4,6 +4,7 @@
     {
         Task<bool> ExistAsync(string materialId);
         Task<List<Material>> GetAllMaterialsAsync();
+        IQueryable<Material> QueryMaterials();
         Task<List<Material>> GetMaterialsByClassIdAsync(string classId);
         Task<List<Material>> GetMaterialsByClassIdAndMaterialLots(string classId);
         Task<Material?> GetMaterialByIdAsync(string materialId);

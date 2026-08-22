@@ -13,6 +13,15 @@ namespace WMS.Practice.Infrastructure.Repositories.PersonRepositories
                                  .ToListAsync();
         }
 
+        public async Task<List<(string EmployeeClassId, string EmployeeClassName)>> GetAllEmployeeClassNameIdAsync()
+        {
+            var items = await _context.EmployeeClasses
+                                 .Select(ec => new { ec.EmployeeClassId, ec.EmployeeClassName })
+                                 .ToListAsync();
+
+            return items.Select(ec => (ec.EmployeeClassId, ec.EmployeeClassName)).ToList();
+        }
+
         public async Task<EmployeeClass?> GetEmployeeClassByIdAsync(string employeeClassId)
         {
             return await _context.EmployeeClasses
