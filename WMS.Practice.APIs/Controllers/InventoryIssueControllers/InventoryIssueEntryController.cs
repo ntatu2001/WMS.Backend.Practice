@@ -13,9 +13,22 @@
 
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetIssueEntriesByDate")]
-        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null)
+        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
+                                                                 int? pageNumber = null, int? pageSize = null)
         {
-            var query = new GetInventoryIssueEntriesQuery(fromDate, toDate, warehouseName);
+            var query = new GetInventoryIssueEntriesQuery(fromDate: fromDate, toDate: toDate, warehouseName: warehouseName,
+                                                            pageNumber: pageNumber, pageSize: pageSize);
+
+            return await RequestAsync(query);
+        }
+
+        [Authorize(Roles = "Manager,Admin")]
+        [HttpGet("GetIssueEntriesByLotNumber")]
+        public async Task<IActionResult> GetIssueEntriesByLotNumber(string? lotNumber = null, string? materialName = null, string? warehouseName = null,
+                                                                      int? pageNumber = null, int? pageSize = null)
+        {
+            var query = new GetInventoryIssueEntriesQuery(warehouseName: warehouseName, lotNumber: lotNumber, materialName: materialName,
+                                                            pageNumber: pageNumber, pageSize: pageSize);
 
             return await RequestAsync(query);
         }

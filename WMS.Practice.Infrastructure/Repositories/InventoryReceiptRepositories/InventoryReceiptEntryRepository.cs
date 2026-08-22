@@ -13,13 +13,17 @@
 
         public async Task<List<InventoryReceiptEntry>> GetAllInventoryReceiptEntriesAsync()
         {
-            return await _context.InventoryReceiptEntries
-                                 .Include(x => x.ReceiptLot)
-                                 .Include(e => e.InventoryReceipt)
-                                    .ThenInclude(e => e.Warehouse)
-                                 .Include(e => e.InventoryReceipt)
-                                    .ThenInclude(e => e.Employee)
-                                 .ToListAsync();
+            return await QueryInventoryReceiptEntries().ToListAsync();
+        }
+
+        public IQueryable<InventoryReceiptEntry> QueryInventoryReceiptEntries()
+        {
+            return _context.InventoryReceiptEntries
+                           .Include(x => x.ReceiptLot)
+                           .Include(e => e.InventoryReceipt)
+                              .ThenInclude(e => e.Warehouse)
+                           .Include(e => e.InventoryReceipt)
+                              .ThenInclude(e => e.Employee);
         }
 
         public async Task<InventoryReceiptEntry?> GetById(string inventoryReceiptEntryId)

@@ -1,59 +1,78 @@
 namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryReceiptEntries
 {
-    public class GetInventoryReceiptEntriesQueryHandler : IRequestHandler<GetInventoryReceiptEntriesQuery, IEnumerable<InventoryReceiptEntryDTO>>
+    public class GetInventoryReceiptEntriesQueryHandler : IRequestHandler<GetInventoryReceiptEntriesQuery, QueryResult<InventoryReceiptEntryDTO>>
     {
-        private readonly IInventoryReceiptRepository _inventoryReceiptRepository;
         private readonly IInventoryReceiptEntryRepository _inventoryReceiptEntryRepository;
-        private readonly IReceiptLotRepository _receiptLotRepository;
         private readonly IMaterialRepository _materialRepository;
         private readonly IWarehouseRepository _warehouseRepository;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public GetInventoryReceiptEntriesQueryHandler(IInventoryReceiptRepository inventoryReceiptRepository, IInventoryReceiptEntryRepository inventoryReceiptEntryRepository,
-                                                         IReceiptLotRepository receiptLotRepository, IMaterialRepository materialRepository, IWarehouseRepository warehouseRepository,
-                                                         IEmployeeRepository employeeRepository, IMapper mapper)
+        public GetInventoryReceiptEntriesQueryHandler(IInventoryReceiptEntryRepository inventoryReceiptEntryRepository, IMaterialRepository materialRepository,
+                                                         IWarehouseRepository warehouseRepository, IMapper mapper)
         {
-            _inventoryReceiptRepository = inventoryReceiptRepository;
             _inventoryReceiptEntryRepository = inventoryReceiptEntryRepository;
-            _receiptLotRepository = receiptLotRepository;
             _materialRepository = materialRepository;
             _warehouseRepository = warehouseRepository;
-            _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<InventoryReceiptEntryDTO>> Handle(GetInventoryReceiptEntriesQuery request, CancellationToken cancellationToken)
+        public async Task<QueryResult<InventoryReceiptEntryDTO>> Handle(GetInventoryReceiptEntriesQuery request, CancellationToken cancellationToken)
         {
-            var inventoryReceiptEntries = await _inventoryReceiptEntryRepository.GetAllInventoryReceiptEntriesAsync()
-                                       ?? throw new EntityNotFoundException("Inventory Receipt Entries could not found");
+            var entriesQuery = _inventoryReceiptEntryRepository.QueryInventoryReceiptEntries();
 
-            List<string>? matchingWarehouseIds = null;
-            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            if (request.FromDate.HasValue)
             {
-                matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+                entriesQuery = entriesQuery.Where(e => e.InventoryReceipt.ReceiptDate.Date >= request.FromDate.Value.Date);
             }
 
-            var inventoryReceiptEntriesDTOs = new List<InventoryReceiptEntryDTO>();
-            foreach (var inventoryReceiptEntry in inventoryReceiptEntries)
+            if (request.ToDate.HasValue)
             {
-                var inventoryReceipt = await _inventoryReceiptRepository.GetInventoryReceiptByReceiptIdAsync(inventoryReceiptEntry.InventoryReceiptId)
-                                    ?? throw new EntityNotFoundException($"Inventory Receipt with Id {inventoryReceiptEntry.InventoryReceiptId} could not found");
+                entriesQuery = entriesQuery.Where(e => e.InventoryReceipt.ReceiptDate.Date <= request.ToDate.Value.Date);
+            }
 
-                if (request.FromDate.HasValue && inventoryReceipt.ReceiptDate.Date < request.FromDate.Value.Date)
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            {
+                var matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+                entriesQuery = entriesQuery.Where(e => matchingWarehouseIds.Contains(e.InventoryReceipt.WarehouseId));
+            }
 
-                if (request.ToDate.HasValue && inventoryReceipt.ReceiptDate.Date > request.ToDate.Value.Date)
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.LotNumber))
+            {
+                entriesQuery = entriesQuery.Where(e => e.LotNumber.Contains(request.LotNumber));
+            }
 
-                if (matchingWarehouseIds is not null && !matchingWarehouseIds.Contains(inventoryReceipt.WarehouseId))
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.MaterialName))
+            {
+                entriesQuery = entriesQuery.Where(e => e.MaterialName.Contains(request.MaterialName));
+            }
 
-                var receiptLot = await _receiptLotRepository.GetReceiptLotByIdAsync(inventoryReceiptEntry.LotNumber)
-                              ?? throw new EntityNotFoundException($"Receipt Lot with Lot Number {inventoryReceiptEntry.LotNumber} could not found");
+            // Progress order: InProgress - Pending - Done - HoldOn - IsBlocked - Cancelled
+            entriesQuery = entriesQuery.OrderBy(e => e.ReceiptLot.LotStatus == LotStatus.InProgress ? 0
+                                                    : e.ReceiptLot.LotStatus == LotStatus.Pending ? 1
+                                                    : e.ReceiptLot.LotStatus == LotStatus.Done ? 2
+                                                    : e.ReceiptLot.LotStatus == LotStatus.HoldOn ? 3
+                                                    : e.ReceiptLot.LotStatus == LotStatus.IsBlocked ? 4
+                                                    : 5)
+                                        .ThenByDescending(e => e.InventoryReceipt.ReceiptDate)
+                                        .ThenBy(e => e.InventoryReceiptEntryId);
+
+            var totalItems = await entriesQuery.CountAsync(cancellationToken);
+
+            if (request.PageNumber.HasValue && request.PageSize.HasValue)
+            {
+                var skip = (request.PageNumber.Value - 1) * request.PageSize.Value;
+                entriesQuery = entriesQuery.Skip(skip).Take(request.PageSize.Value);
+            }
+
+            var pagedEntries = await entriesQuery.ToListAsync(cancellationToken);
+
+            var inventoryReceiptEntriesDTOs = new List<InventoryReceiptEntryDTO>();
+            foreach (var inventoryReceiptEntry in pagedEntries)
+            {
+                var inventoryReceipt = inventoryReceiptEntry.InventoryReceipt;
 
                 var inventoryReceiptEntryDTO = _mapper.Map<InventoryReceiptEntryDTO>(inventoryReceiptEntry);
-                inventoryReceiptEntryDTO.ReceiptLot = _mapper.Map<ReceiptLotDTO>(receiptLot);
+                inventoryReceiptEntryDTO.ReceiptLot = _mapper.Map<ReceiptLotDTO>(inventoryReceiptEntry.ReceiptLot);
 
                 var material = await _materialRepository.GetMaterialByIdAsync(inventoryReceiptEntry.MaterialId)
                             ?? throw new EntityNotFoundException($"Material with Id {inventoryReceiptEntry.MaterialId} could not found");
@@ -63,19 +82,12 @@ namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryRece
                     inventoryReceiptEntryDTO.Unit = unitValue;
                 }
 
-
-                var warehouseName = await _warehouseRepository.GetWarehouseNameByIdAsync(inventoryReceipt.WarehouseId)
-                                 ?? throw new EntityNotFoundException($"Warehouse Name with Id {inventoryReceipt.WarehouseId} could not found");
-
-                var employeeName = await _employeeRepository.GetEmployeeNameByIdAsync(inventoryReceipt.EmployeeId)
-                                ?? throw new EntityNotFoundException($"Employee Name with Id {inventoryReceipt.EmployeeId} could not found");
-
-                inventoryReceiptEntryDTO.MapName(material.MaterialName, warehouseName: warehouseName, personName: employeeName);
+                inventoryReceiptEntryDTO.MapName(material.MaterialName, warehouseName: inventoryReceipt.Warehouse.WarehouseName, personName: inventoryReceipt.Employee.EmployeeName);
                 inventoryReceiptEntryDTO.ReceiptDate = inventoryReceipt.ReceiptDate;
                 inventoryReceiptEntriesDTOs.Add(inventoryReceiptEntryDTO);
             }
 
-            return inventoryReceiptEntriesDTOs;
+            return new QueryResult<InventoryReceiptEntryDTO>(results: inventoryReceiptEntriesDTOs, totalItems: totalItems);
         }
     }
 }

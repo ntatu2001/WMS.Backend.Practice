@@ -11,9 +11,22 @@
         // API for InventoryReceiptEntry
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet("GetReceiptEntriesByDate")]
-        public async Task<IActionResult> GetReceiptEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null)
+        public async Task<IActionResult> GetReceiptEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
+                                                                   int? pageNumber = null, int? pageSize = null)
         {
-            var query = new GetInventoryReceiptEntriesQuery(fromDate, toDate, warehouseName);
+            var query = new GetInventoryReceiptEntriesQuery(fromDate: fromDate, toDate: toDate, warehouseName: warehouseName,
+                                                              pageNumber: pageNumber, pageSize: pageSize);
+
+            return await RequestAsync(query);
+        }
+
+        [Authorize(Roles = "Manager,Admin")]
+        [HttpGet("GetReceiptEntriesByLotNumber")]
+        public async Task<IActionResult> GetReceiptEntriesByLotNumber(string? lotNumber = null, string? materialName = null, string? warehouseName = null,
+                                                                        int? pageNumber = null, int? pageSize = null)
+        {
+            var query = new GetInventoryReceiptEntriesQuery(warehouseName: warehouseName, lotNumber: lotNumber, materialName: materialName,
+                                                              pageNumber: pageNumber, pageSize: pageSize);
 
             return await RequestAsync(query);
         }

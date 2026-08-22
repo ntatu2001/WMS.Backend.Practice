@@ -1,16 +1,25 @@
 namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueEntries
 {
-    public class GetInventoryIssueEntriesQuery : IRequest<IEnumerable<InventoryIssueEntryDTO>>
+    public class GetInventoryIssueEntriesQuery : IRequest<QueryResult<InventoryIssueEntryDTO>>
     {
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public string? WarehouseName { get; set; }
+        public string? LotNumber { get; set; }
+        public string? MaterialName { get; set; }
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
 
-        public GetInventoryIssueEntriesQuery(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null)
+        public GetInventoryIssueEntriesQuery(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
+                                              string? lotNumber = null, string? materialName = null, int? pageNumber = null, int? pageSize = null)
         {
             FromDate = fromDate;
             ToDate = toDate;
             WarehouseName = warehouseName;
+            LotNumber = lotNumber;
+            MaterialName = materialName;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
         }
     }
 }

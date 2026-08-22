@@ -1,72 +1,91 @@
 namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueEntries
 {
-    public class GetInventoryIssueEntriesQueryHandler : IRequestHandler<GetInventoryIssueEntriesQuery, IEnumerable<InventoryIssueEntryDTO>>
+    public class GetInventoryIssueEntriesQueryHandler : IRequestHandler<GetInventoryIssueEntriesQuery, QueryResult<InventoryIssueEntryDTO>>
     {
-        private readonly IInventoryIssueRepository _inventoryIssueRepository;
         private readonly IInventoryIssueEntryRepository _inventoryIssueEntryRepository;
         private readonly IMaterialRepository _materialRepository;
         private readonly IWarehouseRepository _warehouseRepository;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public GetInventoryIssueEntriesQueryHandler(IInventoryIssueRepository inventoryIssueRepository, IInventoryIssueEntryRepository inventoryIssueEntryRepository, IMaterialRepository materialRepository,
-                                                       IWarehouseRepository warehouseRepository, IEmployeeRepository employeeRepository, IMapper mapper)
+        public GetInventoryIssueEntriesQueryHandler(IInventoryIssueEntryRepository inventoryIssueEntryRepository, IMaterialRepository materialRepository,
+                                                       IWarehouseRepository warehouseRepository, IMapper mapper)
         {
-            _inventoryIssueRepository = inventoryIssueRepository;
             _inventoryIssueEntryRepository = inventoryIssueEntryRepository;
             _materialRepository = materialRepository;
             _warehouseRepository = warehouseRepository;
-            _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<InventoryIssueEntryDTO>> Handle(GetInventoryIssueEntriesQuery request, CancellationToken cancellationToken)
+        public async Task<QueryResult<InventoryIssueEntryDTO>> Handle(GetInventoryIssueEntriesQuery request, CancellationToken cancellationToken)
         {
-            var inventoryIssueEntries = await _inventoryIssueEntryRepository.GetAllInventoryIssueEntriesAsync()
-                                     ?? throw new EntityNotFoundException($"Inventory Issue Entries could not found");
+            var entriesQuery = _inventoryIssueEntryRepository.QueryInventoryIssueEntries();
 
-            List<string>? matchingWarehouseIds = null;
-            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            if (request.FromDate.HasValue)
             {
-                matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+                entriesQuery = entriesQuery.Where(e => e.InventoryIssue.IssueDate.Date >= request.FromDate.Value.Date);
             }
 
-            var inventoryIssueEntryDTOs = new List<InventoryIssueEntryDTO>();
-            foreach (var inventoryIssueEntry in inventoryIssueEntries)
+            if (request.ToDate.HasValue)
             {
-                var inventoryIssue = await _inventoryIssueRepository.GetInventoryIssueByIdAsync(inventoryIssueEntry.InventoryIssueId)
-                                  ?? throw new EntityNotFoundException($"Inventory Issue with Id {inventoryIssueEntry.InventoryIssueId} could not found");
+                entriesQuery = entriesQuery.Where(e => e.InventoryIssue.IssueDate.Date <= request.ToDate.Value.Date);
+            }
 
-                if (request.FromDate.HasValue && inventoryIssue.IssueDate.Date < request.FromDate.Value.Date)
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.WarehouseName))
+            {
+                var matchingWarehouseIds = await _warehouseRepository.GetWarehouseIdByWarehouseNameAsync(request.WarehouseName);
+                entriesQuery = entriesQuery.Where(e => matchingWarehouseIds.Contains(e.InventoryIssue.WarehouseId));
+            }
 
-                if (request.ToDate.HasValue && inventoryIssue.IssueDate.Date > request.ToDate.Value.Date)
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.LotNumber))
+            {
+                entriesQuery = entriesQuery.Where(e => e.IssueLot.MaterialLotId.Contains(request.LotNumber));
+            }
 
-                if (matchingWarehouseIds is not null && !matchingWarehouseIds.Contains(inventoryIssue.WarehouseId))
-                    continue;
+            if (!string.IsNullOrWhiteSpace(request.MaterialName))
+            {
+                entriesQuery = entriesQuery.Where(e => e.MaterialName.Contains(request.MaterialName));
+            }
+
+            // Progress order: InProgress - Pending - Done - HoldOn - IsBlocked - Cancelled
+            entriesQuery = entriesQuery.OrderBy(e => e.IssueLot.LotStatus == LotStatus.InProgress ? 0
+                                                    : e.IssueLot.LotStatus == LotStatus.Pending ? 1
+                                                    : e.IssueLot.LotStatus == LotStatus.Done ? 2
+                                                    : e.IssueLot.LotStatus == LotStatus.HoldOn ? 3
+                                                    : e.IssueLot.LotStatus == LotStatus.IsBlocked ? 4
+                                                    : 5)
+                                        .ThenByDescending(e => e.InventoryIssue.IssueDate)
+                                        .ThenBy(e => e.InventoryIssueEntryId);
+
+            var totalItems = await entriesQuery.CountAsync(cancellationToken);
+
+            if (request.PageNumber.HasValue && request.PageSize.HasValue)
+            {
+                var skip = (request.PageNumber.Value - 1) * request.PageSize.Value;
+                entriesQuery = entriesQuery.Skip(skip).Take(request.PageSize.Value);
+            }
+
+            var pagedEntries = await entriesQuery.ToListAsync(cancellationToken);
+
+            var inventoryIssueEntryDTOs = new List<InventoryIssueEntryDTO>();
+            foreach (var inventoryIssueEntry in pagedEntries)
+            {
+                var inventoryIssue = inventoryIssueEntry.InventoryIssue;
 
                 var inventoryIssueEntryDTO = _mapper.Map<InventoryIssueEntryDTO>(inventoryIssueEntry);
-
-                var employee = await _employeeRepository.GetEmployeeByIdAsync(inventoryIssue.EmployeeId)
-                            ?? throw new EntityNotFoundException($"Employee with Id {inventoryIssue.EmployeeId} could not found");
-
-                var warehouse = await _warehouseRepository.GetWarehouseByIdAsync(inventoryIssue.WarehouseId)
-                             ?? throw new EntityNotFoundException($"Warehouse Name with Id {inventoryIssue.WarehouseId} could not found");
 
                 var material = await _materialRepository.GetMaterialByIdAsync(inventoryIssueEntry.MaterialId)
                             ?? throw new EntityNotFoundException($"Material with Id {inventoryIssueEntry.MaterialId} could not found");
 
-                inventoryIssueEntryDTO.PersonId = employee.EmployeeId;
-                inventoryIssueEntryDTO.WarehouseId = warehouse.WarehouseId;
+                inventoryIssueEntryDTO.PersonId = inventoryIssue.Employee.EmployeeId;
+                inventoryIssueEntryDTO.WarehouseId = inventoryIssue.Warehouse.WarehouseId;
                 if (material.TryGetUnitOfMeasure(out var unitValue))
                 {
                     inventoryIssueEntryDTO.Unit = unitValue;
                 }
 
                 inventoryIssueEntryDTO.MapName(materialName: material.MaterialName,
-                                               personName: employee.EmployeeName,
-                                               warehouseName: warehouse.WarehouseName,
+                                               personName: inventoryIssue.Employee.EmployeeName,
+                                               warehouseName: inventoryIssue.Warehouse.WarehouseName,
                                                lotNumber: inventoryIssueEntry.IssueLot.MaterialLotId,
                                                issueDate: inventoryIssue.IssueDate,
                                                unit: unitValue);
@@ -74,7 +93,7 @@ namespace WMS.Practice.Application.Queries.InventoryIssueQueries.InventoryIssueE
                 inventoryIssueEntryDTOs.Add(inventoryIssueEntryDTO);
             }
 
-            return inventoryIssueEntryDTOs;
+            return new QueryResult<InventoryIssueEntryDTO>(results: inventoryIssueEntryDTOs, totalItems: totalItems);
         }
     }
 }
