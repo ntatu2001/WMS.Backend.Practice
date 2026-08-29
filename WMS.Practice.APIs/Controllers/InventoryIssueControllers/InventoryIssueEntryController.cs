@@ -12,8 +12,8 @@
         // API for InventoryIssueEntry
 
         [Authorize(Roles = "Manager,Admin")]
-        [HttpGet("GetIssueEntriesByDate")]
-        public async Task<IActionResult> GetIssueEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
+        [HttpGet("GetIssueEntriesNotPendingByDate")]
+        public async Task<IActionResult> GetIssueEntriesNotPendingByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
                                                                  int? pageNumber = null, int? pageSize = null)
         {
             var query = new GetInventoryIssueEntriesQuery(fromDate: fromDate, toDate: toDate, warehouseName: warehouseName,

@@ -46,13 +46,15 @@ namespace WMS.Practice.Application.Queries.InventoryReceiptQueries.InventoryRece
                 entriesQuery = entriesQuery.Where(e => e.MaterialName.Contains(request.MaterialName));
             }
 
-            // Progress order: InProgress - Pending - Done - HoldOn - IsBlocked - Cancelled
+            // Exclude lots that are still Pending (chưa xử lý)
+            entriesQuery = entriesQuery.Where(e => e.ReceiptLot.LotStatus != LotStatus.Pending);
+
+            // Progress order: InProgress - Done - HoldOn - IsBlocked - Cancelled
             entriesQuery = entriesQuery.OrderBy(e => e.ReceiptLot.LotStatus == LotStatus.InProgress ? 0
-                                                    : e.ReceiptLot.LotStatus == LotStatus.Pending ? 1
-                                                    : e.ReceiptLot.LotStatus == LotStatus.Done ? 2
-                                                    : e.ReceiptLot.LotStatus == LotStatus.HoldOn ? 3
-                                                    : e.ReceiptLot.LotStatus == LotStatus.IsBlocked ? 4
-                                                    : 5)
+                                                    : e.ReceiptLot.LotStatus == LotStatus.Done ? 1
+                                                    : e.ReceiptLot.LotStatus == LotStatus.HoldOn ? 2
+                                                    : e.ReceiptLot.LotStatus == LotStatus.IsBlocked ? 3
+                                                    : 4)
                                         .ThenByDescending(e => e.InventoryReceipt.ReceiptDate)
                                         .ThenBy(e => e.InventoryReceiptEntryId);
 

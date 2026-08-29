@@ -10,8 +10,8 @@
 
         // API for InventoryReceiptEntry
         [Authorize(Roles = "Manager,Admin")]
-        [HttpGet("GetReceiptEntriesByDate")]
-        public async Task<IActionResult> GetReceiptEntriesByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
+        [HttpGet("GetReceiptEntriesNotPendingByDate")]
+        public async Task<IActionResult> GetReceiptEntriesNotPendingByDate(DateTime? fromDate = null, DateTime? toDate = null, string? warehouseName = null,
                                                                    int? pageNumber = null, int? pageSize = null)
         {
             var query = new GetInventoryReceiptEntriesQuery(fromDate: fromDate, toDate: toDate, warehouseName: warehouseName,
