@@ -78,3 +78,6 @@ global using WMS.Practice.Infrastructure.Repositories.StorageRepositories;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryIssues;
 global using WMS.Practice.Application.Services.InventoryLogs.InventoryReceipts;
 global using WMS.Practice.Application.Services.Locations;
+global using Microsoft.AspNetCore.SignalR;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using WMS.Practice.APIs.Realtime;
