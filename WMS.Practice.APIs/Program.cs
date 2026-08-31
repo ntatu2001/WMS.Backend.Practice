@@ -9,9 +9,15 @@ namespace WMS.Practice.APIs
             // Retrieve the connection string from the configuration
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            // Add the DbContext to the service container with the connection string
-            builder.Services.AddDbContext<WMSDbContext>(options =>
-                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WMS.Practice.APIs")));
+            // Realtime (SignalR) infrastructure for the Overview/Dashboard screen
+            builder.Services.AddSingleton<OverviewChangeInterceptor>();
+
+            // Add the DbContext to the service container with the connection string.
+            // The (sp, options) overload receives the application root provider, so the
+            // interceptor and everything it depends on must be singletons.
+            builder.Services.AddDbContext<WMSDbContext>((sp, options) =>
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WMS.Practice.APIs"))
+                       .AddInterceptors(sp.GetRequiredService<OverviewChangeInterceptor>()));
 
             // Add JWT settings and ASP.NET Core Identity backed by WMSDbContext
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
@@ -46,6 +52,25 @@ namespace WMS.Practice.APIs
                         ValidAudience = jwtSettings.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SigningKey)),
                         ClockSkew = TimeSpan.Zero
+                    };
+
+                    // Browsers cannot set the Authorization header on a WebSocket handshake,
+                    // so SignalR passes the JWT via the query string. Only honour it for hub paths.
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                path.StartsWithSegments("/WarehouseAPI/hubs"))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -105,6 +130,16 @@ namespace WMS.Practice.APIs
             builder.Services.AddScoped<ILocationCapacityService, LocationCapacityService>();
             builder.Services.AddScoped<IOverviewService, OverviewService>();
 
+            builder.Services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = builder.Environment.IsDevelopment();
+                options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+                options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+            });
+
+            builder.Services.AddSingleton<IOverviewChangeDebouncer, OverviewChangeDebouncer>();
+            builder.Services.AddScoped<IOverviewNotifier, OverviewNotifier>();
+
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -139,6 +174,20 @@ namespace WMS.Practice.APIs
                 {
                     policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                 });
+
+                // SignalR with withCredentials (JS client default) rejects AllowAnyOrigin,
+                // so the hub needs an explicit-origin policy with AllowCredentials.
+                options.AddPolicy("WmsCors", policy =>
+                {
+                    policy.WithOrigins(
+                              "http://localhost:5173",   // Vite dev
+                              "http://localhost:4173"    // Vite preview
+                              // + production origin(s) on deploy
+                          )
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
             });
 
             var app = builder.Build();
@@ -157,13 +206,19 @@ namespace WMS.Practice.APIs
 
             app.UseCors("AllowAll");
 
-            app.UseHttpsRedirection();
+            // Keep the SignalR handshake on plain HTTP (FE connects to http://localhost:5037);
+            // a 307 redirect on the negotiate/upgrade request breaks some client/proxy combos.
+            app.UseWhen(
+                ctx => !ctx.Request.Path.StartsWithSegments("/WarehouseAPI/hubs"),
+                branch => branch.UseHttpsRedirection());
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.MapHub<OverviewHub>("/WarehouseAPI/hubs/overview").RequireCors("WmsCors");
 
             await app.RunAsync();
         }
