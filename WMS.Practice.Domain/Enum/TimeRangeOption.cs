@@ -4,6 +4,7 @@ namespace WMS.Practice.Domain.Enums
     {
         Today,
         ThisWeek,
-        ThisMonth
+        ThisMonth,
+        ThisYear
     }
 }

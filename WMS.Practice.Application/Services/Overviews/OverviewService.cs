@@ -27,6 +27,11 @@ namespace WMS.Practice.Application.Services.Overviews
                 startDate = new DateTime(now.Year, now.Month, 1);
                 endDate = startDate.AddMonths(1).AddTicks(-1);
             }
+            else if (option == TimeRangeOption.ThisYear)
+            {
+                startDate = new DateTime(now.Year, 1, 1);
+                endDate = startDate.AddYears(1).AddTicks(-1);
+            }
             else
             {
                 throw new ArgumentOutOfRangeException(nameof(option), "Unknown time range option");
